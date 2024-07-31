@@ -1,0 +1,72 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/17 00:30:07 by rmatsuba          #+#    #+#             */
+/*   Updated: 2024/07/26 23:28:39 by rmatsuba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+# include "includes/minirt.h"
+# include "includes/init_data.h"
+# include "includes/check_file.h"
+# include "includes/utils.h"
+# include "includes/hook.h"
+
+void	my_mlx_pixel_put(t_rt *rt, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = rt->addr + (y * rt->line_len + x * (rt->bpp / 8));
+	*(unsigned int *)dst = color;
+}
+
+int	main(int argc, char **argv)
+{
+	t_rt	*rt;
+	t_scene	*scene;
+
+	if (argc != 2 || !check_file(argv[1]))
+	{
+		ft_printf("Invalid file or argument number is invalid.\n");
+		return (1);
+	}
+	rt = make_data_structure();
+	scene = init_scene();
+	rt->scene = scene;
+	scene = parse_file(argv[1], scene);
+	/* print_scene(scene); */
+	/* t_vec3	camera_vec; */
+	/* t_vec3	sphere_vec; */
+	/* camera_vec = vec3_init(0, 0, -5); */
+	/* sphere_vec = vec3_init(0, 0, 5); */
+	/* double	sphere_r = 1; */
+
+	for (double y = 0;  y < rt->height; ++y)
+	{
+		for (double x = 0; x < rt->width; ++x)
+		{
+			t_vec3	screen_vec;
+			t_vec3	dir_vec;
+			t_vec3	camera2sphere_vec;
+			screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
+			dir_vec = vec3_norm(vec3_sub(screen_vec, *scene->camera->view_point));
+			camera2sphere_vec = vec3_sub(*scene->camera->view_point, *scene->sphere->center);
+			double a = vec3_mag(dir_vec) * vec3_mag(dir_vec);
+			double b = 2 * vec3_dot(camera2sphere_vec, dir_vec);
+			double c = vec3_dot(camera2sphere_vec, camera2sphere_vec) - scene->sphere->diameter * scene->sphere->diameter;
+			double d = b * b - 4 * a * c;
+			if (d >= 0)
+				my_mlx_pixel_put(rt, x, y, 0x00FF0000);
+			else
+				my_mlx_pixel_put(rt, x, y, 0x00000000);
+		}
+	}	
+	mlx_put_image_to_window(rt->mlx, rt->mlx_win, rt->img, 0, 0);
+	hook_event(rt);
+	mlx_loop(rt->mlx);
+	return (0);
+}
