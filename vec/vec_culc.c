@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vec_culc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:29:27 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/07/24 19:12:02 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/01 16:03:17 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ double	vec3_mag(t_vec3 a)
 t_vec3	vec3_norm(t_vec3 a)
 {
 	double	mag;
-
+    //0除算を防ぐ処理必要
 	mag = 1 / vec3_mag(a);
 	return (vec3_mul(a, mag));
 }

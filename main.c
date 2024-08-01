@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 00:30:07 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/01 15:20:33 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/01 19:38:45 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,10 @@ t_vec3 vec3_reflect(t_vec3 v, t_vec3 n) {
 void	print_sphere(t_rt *rt)
 {
 	t_scene	*scene = rt->scene;
-    double diffuse_strength = 0.8;
-    double specular_strength = 0.5;
-     int shininess = 32;
+    double ka=1.0;
+    double kd=0.8;
+    double ks=0.8;
+     int shininess = 30;
 	for (double y = 0;  y < rt->height; ++y)
 	{
 		for (double x = 0; x < rt->width; ++x)
@@ -44,6 +45,7 @@ void	print_sphere(t_rt *rt)
 			t_vec3	screen_vec;
 			t_vec3	dir_vec;
 			t_vec3	camera2sphere_vec;
+            //交差の計算
 			screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
 			dir_vec = vec3_norm(vec3_sub(screen_vec, *scene->camera->view_point));
 			camera2sphere_vec = vec3_sub(*scene->camera->view_point, *scene->sphere->center);
@@ -51,20 +53,25 @@ void	print_sphere(t_rt *rt)
 			double b = 2 * vec3_dot(camera2sphere_vec, dir_vec);
 			double c = vec3_dot(camera2sphere_vec, camera2sphere_vec) - scene->sphere->diameter * scene->sphere->diameter;
 			double d = b * b - 4 * a * c;
+            //交差してる時
 			if (d >= 0)
             {
+                //phong shading
                 double t = (-b + sqrt(d)) / (2.0 * a);
                 t_vec3 intersection = vec3_add(*scene->camera->view_point, vec3_scale(dir_vec, t));
+                //正規化による方向ベクトルの算出
                 t_vec3 normal = vec3_norm(vec3_sub(intersection, *scene->sphere->center));
                 t_vec3 light_vec = vec3_norm(vec3_sub(*scene->light->light_point, intersection));
                 t_vec3 view_vec = vec3_norm(vec3_sub(*scene->camera->view_point, intersection));
                 t_vec3 reflect_vec = vec3_reflect(vec3_scale(light_vec, -1), normal);
 
-                double diff = fmax(vec3_dot(normal, light_vec), 0.0) * diffuse_strength;
+                double amb = scene->ambi_light->ratio*ka ;
+    
+                double diff = fmax(vec3_dot(normal, light_vec), 0.0) * scene->light->bright_ratio*kd;
 
-                double spec = pow(fmax(vec3_dot(view_vec, reflect_vec), 0.0), shininess) * specular_strength;
+                double spec = pow(fmax(vec3_dot(view_vec, reflect_vec), 0.0), shininess) * scene->light->bright_ratio*ks;
 
-                double brightness = scene->ambi_light->ratio + diff + spec;
+                double brightness = amb + diff + spec; 
                 int r = (int)(fmin(scene->sphere->rgb->r * brightness , 1.0) * 255);
                 int g = (int)(fmin(scene->sphere->rgb->g * brightness , 1.0) * 255);
                 int b = (int)(fmin(scene->sphere->rgb->b * brightness , 1.0) * 255);
