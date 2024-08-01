@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 00:30:07 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/01 19:45:22 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/01 23:40:45 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,13 @@ void	my_mlx_pixel_put(t_rt *rt, int x, int y, int color)
 	dst = rt->addr + (y * rt->line_len + x * (rt->bpp / 8));
 	*(unsigned int *)dst = color;
 }
-t_vec3 vec3_scale(t_vec3 v, double s) {
-    return vec3_init(v.x * s, v.y * s, v.z * s);
-}
 
-t_vec3 vec3_reflect(t_vec3 v, t_vec3 n) {
-    double dot = vec3_dot(v, n);
-    return vec3_sub(vec3_scale(n, 2 * dot), v);
-}
+
+
 void	print_sphere(t_rt *rt)
 {
 	t_scene	*scene = rt->scene;
-    double ka=1.0;
-    double kd=0.8;
-    double ks=0.8;
-     int shininess = 30;
+
 	for (double y = 0;  y < rt->height; ++y)
 	{
 		for (double x = 0; x < rt->width; ++x)
@@ -57,26 +49,7 @@ void	print_sphere(t_rt *rt)
 			if (d >= 0)
             {
                 //phong shading
-                double t = (-b + sqrt(d)) / (2.0 * a);
-                t_vec3 intersection = vec3_add(*scene->camera->view_point, vec3_mul(dir_vec, t));
-                //正規化による方向ベクトルの算出
-                t_vec3 normal = vec3_norm(vec3_sub(intersection, *scene->sphere->center));
-                t_vec3 light_vec = vec3_norm(vec3_sub(*scene->light->light_point, intersection));
-                t_vec3 view_vec = vec3_norm(vec3_sub(*scene->camera->view_point, intersection));
-                t_vec3 reflect_vec = vec3_reflect(vec3_scale(light_vec, -1), normal);
-
-                double amb = scene->ambi_light->ratio*ka ;
-    
-                double diff = fmax(vec3_dot(normal, light_vec), 0.0) * scene->light->bright_ratio*kd;
-
-                double spec = pow(fmax(vec3_dot(view_vec, reflect_vec), 0.0), shininess) * scene->light->bright_ratio*ks;
-
-                double brightness = amb + diff + spec; 
-                int r = (int)(fmin(scene->sphere->rgb->r * brightness , 1.0) * 255);
-                int g = (int)(fmin(scene->sphere->rgb->g * brightness , 1.0) * 255);
-                int b = (int)(fmin(scene->sphere->rgb->b * brightness , 1.0) * 255);
-
-                int color = (r << 16) | (g << 8) | b;
+                int color = phong_calc(scene, a, b, d, dir_vec);
                 my_mlx_pixel_put(rt, x, y, color);
             }
 			else

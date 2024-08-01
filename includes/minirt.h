@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 23:43:13 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/07/26 23:28:28 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/01 23:41:22 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ double	vec3_mag(t_vec3 a);
 t_vec3	vec3_norm(t_vec3 a);
 void	set_vec3(char *str, t_vec3 *vec);
 
+int phong_calc(t_scene *scene, double a, double b, double d, t_vec3 dir_vec);
 //It is definition of helper.c
 
 #endif

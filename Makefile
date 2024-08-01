@@ -3,7 +3,7 @@ CFLAG = -Wall -Wextra -Werror -fsanitize=address
 DEBUG_CFLAG = -Wall -Wextra -Werror -fsanitize=address -g
 NAME = minirt 
 DEBUG_NAME = minirt_debug
-SRC = main.c check_file.c color.c hook.c init_data.c utils.c vec_culc.c
+SRC = main.c check_file.c color.c hook.c init_data.c utils.c vec_culc.c phong.c
 OBJDIR = objs
 DEBUG_OBJDIR = debug_objs
 OBJ = $(SRC:%.c=$(OBJDIR)/%.o)
@@ -15,7 +15,7 @@ MLX = mlx
 INCLUDE = -I $(LIBFT_DIR) -I $(MLX_DIR) -I includes -I /usr/X11R6/include
 LIBRARY = -L$(LIBFT_DIR) -l$(LIBFT) -L$(MLX_DIR) -l$(MLX) -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit
 
-vpath %.c check_file color hook init utils vec
+vpath %.c check_file color hook init utils vec shadow
 
 all: $(NAME)
 
