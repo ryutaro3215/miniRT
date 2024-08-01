@@ -6,7 +6,7 @@
 /*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:16:35 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/07/24 19:06:05 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/01 20:53:01 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,6 @@
 bool			check_color(int	color);
 unsigned int	get_color(char *str);
 void			set_rgb(char *str, t_rgb *rgb);
+unsigned int	int_to_hex_color(t_rgb *rgb);
 
 #endif
