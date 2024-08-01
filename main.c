@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 00:30:07 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/01 19:38:45 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/01 19:45:22 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	print_sphere(t_rt *rt)
             {
                 //phong shading
                 double t = (-b + sqrt(d)) / (2.0 * a);
-                t_vec3 intersection = vec3_add(*scene->camera->view_point, vec3_scale(dir_vec, t));
+                t_vec3 intersection = vec3_add(*scene->camera->view_point, vec3_mul(dir_vec, t));
                 //正規化による方向ベクトルの算出
                 t_vec3 normal = vec3_norm(vec3_sub(intersection, *scene->sphere->center));
                 t_vec3 light_vec = vec3_norm(vec3_sub(*scene->light->light_point, intersection));
