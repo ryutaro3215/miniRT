@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 00:30:07 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/01 23:40:45 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/02 00:31:02 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ void	print_sphere(t_rt *rt)
                 my_mlx_pixel_put(rt, x, y, color);
             }
 			else
-				my_mlx_pixel_put(rt, x, y, 0x00000000);
+            {
+                // 影の処理？
+				my_mlx_pixel_put(rt, x, y, 0x808080);
+            }
 		}
 	}
 }
