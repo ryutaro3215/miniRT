@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 00:30:07 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/02 00:31:02 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/03 13:33:31 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	print_sphere(t_rt *rt)
 			double b = 2 * vec3_dot(camera2sphere_vec, dir_vec);
 			double c = vec3_dot(camera2sphere_vec, camera2sphere_vec) - scene->sphere->diameter * scene->sphere->diameter;
 			double d = b * b - 4 * a * c;
+            double t = (-b + sqrt(d)) / (2.0 * a);
             //交差してる時
 			if (d >= 0)
             {
@@ -55,6 +56,7 @@ void	print_sphere(t_rt *rt)
 			else
             {
                 // 影の処理？
+                
 				my_mlx_pixel_put(rt, x, y, 0x808080);
             }
 		}
