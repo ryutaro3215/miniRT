@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 23:43:13 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/01 15:21:53 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:50:39 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,9 @@ double	vec3_mag(t_vec3 a);
 t_vec3	vec3_norm(t_vec3 a);
 void	set_vec3(char *str, t_vec3 *vec);
 
+int phong_calc(t_scene *scene, t_vec3 dir_vec);
 //It is definition of drawing
 void	my_mlx_pixel_put(t_rt *rt, int x, int y, int color);
-
+double calc_t(t_scene *scene, t_vec3 screen_vec);
 
 #endif

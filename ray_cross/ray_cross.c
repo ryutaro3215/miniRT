@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_cross.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/08 18:05:35 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:39:41 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,20 @@ double	discriminant(t_rt *rt, t_vec3 screen_vec)
 	c = vec3_dot(cam2sph, cam2sph) - (rt->scene->sphere->diameter * rt->scene->sphere->diameter);
 	return (b * b - 4 * a * c);
 }
-
+double calc_t(t_scene *scene, t_vec3 screen_vec)
+{
+    t_vec3	dir;
+    t_vec3	cam2sph;
+    double	a;
+    double	b;
+    double	c;
+    dir = vec3_norm(vec3_sub(screen_vec, *scene->camera->view_point));
+    cam2sph = vec3_sub(*scene->camera->view_point, *scene->sphere->center);
+    a = vec3_dot(dir, dir);
+    b = 2 * vec3_dot(cam2sph, dir);
+    c = vec3_dot(cam2sph, cam2sph) - (scene->sphere->diameter * scene->sphere->diameter);
+    return ((-b+sqrt(b * b - 4 * a * c))/(2.0 * a));
+}
 void	draw_sphere(t_rt *rt)
 {
 	t_vec3	screen_vec;
@@ -46,7 +59,10 @@ void	draw_sphere(t_rt *rt)
 			screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
 			d = discriminant(rt, screen_vec);
 			if (d >= 0)
-				my_mlx_pixel_put(rt, x, y, int_to_hex_color(rt->scene->sphere->rgb));
+            {
+				// my_mlx_pixel_put(rt, x, y, int_to_hex_color(rt->scene->sphere->rgb));
+				my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec));
+            }
 			else
 				my_mlx_pixel_put(rt, x, y, 0x000000);
 			x++;
@@ -184,7 +200,8 @@ void	draw_cylinder(t_rt *rt)
 			screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
 			is_drawable = discriminant_cylinder(rt, screen_vec);
 			if (is_drawable == true)
-				my_mlx_pixel_put(rt, x, y, int_to_hex_color(rt->scene->cylinder->rgb));
+				my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec));
+				// my_mlx_pixel_put(rt, x, y, int_to_hex_color(rt->scene->cylinder->rgb));
 			else
 				my_mlx_pixel_put(rt, x, y, 0x000000);
 			x++;
