@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 23:43:13 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/01 23:41:22 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/08 16:56:38 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ t_vec3	vec3_norm(t_vec3 a);
 void	set_vec3(char *str, t_vec3 *vec);
 
 int phong_calc(t_scene *scene, double a, double b, double d, t_vec3 dir_vec);
-//It is definition of helper.c
+//It is definition of drawing
+void	my_mlx_pixel_put(t_rt *rt, int x, int y, int color);
+
 
 #endif
