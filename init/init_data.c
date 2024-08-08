@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:28:27 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/07/26 23:30:03 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/08 23:33:00 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "../includes/color.h"
 #include <stdlib.h>
 
-t_ambi_light *get_ambi_light(char **splited_line)
+void get_ambi_light(char **splited_line, t_scene *scene)
 {
 	t_ambi_light *ambi_light;
 	
@@ -24,10 +24,11 @@ t_ambi_light *get_ambi_light(char **splited_line)
 	ambi_light->ratio = ft_atof(splited_line[1]);
 	ambi_light->rgb = (t_rgb *)malloc(sizeof(t_rgb));
 	set_rgb(splited_line[2], ambi_light->rgb);
-	return (ambi_light);
+    scene->ambi_light = ambi_light;
+    scene->type = AMBIENT_LIGHT;
 }
 
-t_camera	*get_camera(char **splited_line)
+void	get_camera(char **splited_line, t_scene *scene)
 {
 	t_camera	*camera;
 
@@ -37,10 +38,11 @@ t_camera	*get_camera(char **splited_line)
 	set_vec3(splited_line[1], camera->view_point);
 	set_vec3(splited_line[2], camera->nr_vec);
 	camera->view_degree = ft_atoi(splited_line[3]);
-	return (camera);
+    scene->camera = camera;
+    scene->type = CAMERA;
 }
 
-t_light	*get_light(char **splited_line)
+void	get_light(char **splited_line, t_scene *scene)
 {
 	t_light *light;
 
@@ -50,10 +52,11 @@ t_light	*get_light(char **splited_line)
 	set_vec3(splited_line[1], light->light_point);
 	set_rgb(splited_line[3], light->rgb);
 	light->bright_ratio = ft_atof(splited_line[2]);
-	return (light);
+    scene->light = light;
+    scene->type = LIGHT;
 }
 
-t_sphere	*get_sphere(char **splited_line)
+void	get_sphere(char **splited_line, t_scene *scene)
 {
 	t_sphere	*sphere;
 
@@ -63,10 +66,11 @@ t_sphere	*get_sphere(char **splited_line)
 	set_vec3(splited_line[1], sphere->center);
 	set_rgb(splited_line[3], sphere->rgb);
 	sphere->diameter = ft_atof(splited_line[2]);
-	return (sphere);
+    scene->sphere = sphere;
+    scene->type = SPHERE;
 }
 
-t_plane	*get_plane(char **splited_line)
+void	get_plane(char **splited_line, t_scene *scene)
 {
 	t_plane	*plane;
 
@@ -77,10 +81,11 @@ t_plane	*get_plane(char **splited_line)
 	set_vec3(splited_line[1], plane->p_in_the_plane);
 	set_vec3(splited_line[2], plane->normal_vec);
 	set_rgb(splited_line[3], plane->rgb);
-	return (plane);
+    scene->plane = plane;
+    scene->type = PLANE;
 }
 
-t_cylinder	*get_cylinder(char **splited_line)
+void	get_cylinder(char **splited_line, t_scene *scene)
 {
 	t_cylinder	*cylinder;
 
@@ -93,7 +98,8 @@ t_cylinder	*get_cylinder(char **splited_line)
 	set_vec3(splited_line[1], cylinder->cylinder_center);
 	set_vec3(splited_line[2], cylinder->axic_vec);
 	set_rgb(splited_line[5], cylinder->rgb);
-	return (cylinder);
+    scene->cylinder = cylinder;
+    scene->type = CYLINDER;
 }
 
 bool	get_object(char *line, t_scene *scene)
@@ -104,17 +110,17 @@ bool	get_object(char *line, t_scene *scene)
 	splited_line = ft_split(line, ' ');
 	attr = splited_line[0];
 	if (ft_strncmp(attr, "A",ft_strlen(attr)) == 0)
-		scene->ambi_light = get_ambi_light(splited_line);
+		get_ambi_light(splited_line,scene);
 	else if (ft_strncmp(attr, "C", ft_strlen(attr)) == 0)
-		scene->camera = get_camera(splited_line);
+		 get_camera(splited_line,scene);
 	else if (ft_strncmp(attr, "L", ft_strlen(attr)) == 0)
-		scene->light = get_light(splited_line);
+		get_light(splited_line,scene);
 	else if (ft_strncmp(attr, "sp", ft_strlen(attr)) ==0)
-		scene->sphere = get_sphere(splited_line);
+		 get_sphere(splited_line,scene);
 	else if (ft_strncmp(attr, "pl", ft_strlen(attr)) == 0)
-		scene->plane = get_plane(splited_line);
+		get_plane(splited_line,scene);
 	else if (ft_strncmp(attr, "cy", ft_strlen(attr)) == 0)
-		scene->cylinder = get_cylinder(splited_line);
+		 get_cylinder(splited_line,scene);
 	else
 	{
 		ft_free_2d_array(splited_line);

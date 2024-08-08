@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/08 19:37:19 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/08 20:49:40 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,34 +42,24 @@ double calc_t(t_scene *scene, t_vec3 screen_vec)
     c = vec3_dot(cam2sph, cam2sph) - (scene->sphere->diameter * scene->sphere->diameter);
     return ((-b+sqrt(b * b - 4 * a * c))/(2.0 * a));
 }
-void	draw_sphere(t_rt *rt)
+void	draw_sphere(t_rt *rt, double x, double y)
 {
 	t_vec3	screen_vec;
-	double	x;
-	double	y;
 	double	d;
 
-	x = 0;
-	y = 0;
 	d = 0;
-	while (y < rt->height)
-	{
-		while (x < rt->width)
-		{
-			screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
-			d = discriminant(rt, screen_vec);
-			if (d >= 0)
-            {
-				// my_mlx_pixel_put(rt, x, y, int_to_hex_color(rt->scene->sphere->rgb));
-				my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec));
-            }
-			else
-				my_mlx_pixel_put(rt, x, y, 0x000000);
-			x++;
-		}
-		x = 0;
-		y++;
-	}
+
+    screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
+    d = discriminant(rt, screen_vec);
+    if (d >= 0)
+    {
+        // my_mlx_pixel_put(rt, x, y, int_to_hex_color(rt->scene->sphere->rgb));
+        my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec));
+    }
+    else
+        my_mlx_pixel_put(rt, x, y, 0x000000);
+	
+	
 }
 
 double	cross_ray_plane(t_rt *rt, t_vec3 screen_vec)
@@ -88,31 +78,18 @@ double	cross_ray_plane(t_rt *rt, t_vec3 screen_vec)
 	return (molecule / denominator);
 }
 
-void	draw_plane(t_rt *rt)
+void	draw_plane(t_rt *rt, double x,double y)
 {
 	t_vec3	screen_vec;
-	double	x;
-	double	y;
 	double	t;
 
-	x = 0;
-	y = 0;
 	t = 0;
-	while (y < rt->height)
-	{
-		while (x < rt->width)
-		{
-			screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
-			t = cross_ray_plane(rt, screen_vec);
-			if (t > 0)
-				my_mlx_pixel_put(rt, x, y, int_to_hex_color(rt->scene->plane->rgb));
-			else
-				my_mlx_pixel_put(rt, x, y, 0x000000);
-			x++;
-		}
-		x = 0;
-		y++;
-	}
+    screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
+    t = cross_ray_plane(rt, screen_vec);
+    if (t > 0)
+        my_mlx_pixel_put(rt, x, y, int_to_hex_color(rt->scene->plane->rgb));
+    else
+        my_mlx_pixel_put(rt, x, y, 0x000000);
 }
 
 t_vec3	*get_intersections(t_rt *rt, t_vec3 dir, t_vec3 cam2cyl)
@@ -210,3 +187,24 @@ void	draw_cylinder(t_rt *rt)
 	}
 }
 
+void draw_object(t_rt *rt)
+{
+    double	x;
+	double	y;
+
+    x = 0;
+    y = 0;
+
+    while(y < rt->height)
+    {
+        while(x < rt->width)
+        {
+            draw_sphere(rt,x,y);
+            // draw_plane(rt,x,y);
+            x++;
+        }
+        x = 0;
+        y++;
+    }
+    // draw_cylinder(rt);
+}

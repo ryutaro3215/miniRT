@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_cross.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:24:39 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/08 17:59:16 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/08 20:34:53 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,10 @@
 # include <math.h>
 # include <stdbool.h>
 
-void	draw_sphere(t_rt *rt);
+void	draw_sphere(t_rt *rt,double x, double y);
 double	discriminant(t_rt *rt, t_vec3 screen_vec);
-void	draw_plane(t_rt *rt);
+void	draw_plane(t_rt *rt, double x, double y);
+void   draw_object(t_rt *rt);
 double	cross_ray_plane(t_rt *rt, t_vec3 screen_vec);
 t_vec3	*get_intersections(t_rt *rt, t_vec3 dir, t_vec3 cam2cyl);
 bool	is_height_range(t_rt *rt, t_vec3 *intersections);

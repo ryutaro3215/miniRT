@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 23:43:13 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/08 17:50:39 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/08 23:32:26 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ typedef struct	s_scene
 	t_sphere		*sphere;
 	t_plane			*plane;
 	t_cylinder		*cylinder;
+    // t_scene            *next;
+    int             type;
 }		t_scene;
 
 typedef	struct s_rt
@@ -102,6 +104,9 @@ typedef	struct s_rt
 	int		height;
 	t_scene	*scene;
 }		t_rt;
+
+
+
 
 // It is definition of culculation of 3D vector.
 t_vec3	vec3_init(double x, double y, double z);
