@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/03 10:30:33 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/08 18:05:23 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,15 @@ t_vec3 vec3_reflect(t_vec3 v, t_vec3 n) {
     return vec3_sub(vec3_mul(n, 2 * dot), v);
 }
 
-int phong_calc(t_scene *scene, double a, double b, double d, t_vec3 dir_vec)
+int phong_calc(t_scene *scene, t_vec3 screen_vec)
 {
     //ここの係数関係どうすれば、、？
     double ka=1.0;
     double kd=0.8;
     double ks=0.8;
     int shininess = 10;
-    double t = (-b + sqrt(d)) / (2.0 * a);
+    double t = calc_t(scene, screen_vec);
+    t_vec3 dir_vec = vec3_norm(vec3_sub(screen_vec, *scene->camera->view_point));
     t_vec3 intersection = vec3_add(*scene->camera->view_point, vec3_mul(dir_vec, t));
     //正規化による方向ベクトルの算出
     t_vec3 normal = vec3_norm(vec3_sub(intersection, *scene->sphere->center));
