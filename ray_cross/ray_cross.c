@@ -6,7 +6,7 @@
 /*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/01 22:27:46 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/08 00:20:10 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,52 @@ void	draw_plane(t_rt *rt)
 			t = cross_ray_plane(rt, screen_vec);
 			if (t > 0)
 				my_mlx_pixel_put(rt, x, y, int_to_hex_color(rt->scene->plane->rgb));
+			else
+				my_mlx_pixel_put(rt, x, y, 0x000000);
+			x++;
+		}
+		x = 0;
+		y++;
+	}
+}
+
+double	discriminant_cylinder(t_rt *rt, t_vec3 screen_vec) 
+{
+	t_vec3	dir;
+	t_vec3	cam2cyl;
+	double	a;
+	double	b;
+	double	c;
+
+	dir = vec3_norm(vec3_sub(screen_vec, *rt->scene->camera->view_point));
+	cam2cyl = vec3_sub(*rt->scene->camera->view_point, *rt->scene->cylinder->cylinder_center);
+	a = vec3_dot(dir, dir) - pow(vec3_dot(dir, *rt->scene->cylinder->axic_vec), 2);
+	b = 2 * (vec3_dot(dir, cam2cyl) - vec3_dot(dir, *rt->scene->cylinder->axic_vec)
+			* vec3_dot(*rt->scene->cylinder->axic_vec, cam2cyl));
+	c = vec3_dot(cam2cyl, cam2cyl) - pow(vec3_dot(*rt->scene->cylinder->axic_vec, cam2cyl), 2)
+		- rt->scene->cylinder->diameter / 2 * rt->scene->cylinder->diameter / 2;
+	return (b * b - 4 * a * c);
+}
+
+
+void	draw_cylinder(t_rt *rt)
+{
+	t_vec3	screen_vec;
+	double	x;
+	double	y;
+	double	d;
+
+	x = 0;
+	y = 0;
+	d = 0;
+	while (y < rt->height)
+	{
+		while (x < rt->width)
+		{
+			screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
+			d = discriminant_cylinder(rt, screen_vec);
+			if (d >= 0)
+				my_mlx_pixel_put(rt, x, y, int_to_hex_color(rt->scene->cylinder->rgb));
 			else
 				my_mlx_pixel_put(rt, x, y, 0x000000);
 			x++;
