@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 00:30:07 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/08 17:38:31 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/08 18:29:47 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ int	main(int argc, char **argv)
 	scene = parse_file(argv[1], scene);
 	rt->scene = scene;
 	//  draw_plane(rt); 
-	// draw_cylinder(rt);
-	 draw_sphere(rt); 
+	draw_cylinder(rt);
+	//  draw_sphere(rt); 
 	mlx_put_image_to_window(rt->mlx, rt->mlx_win, rt->img, 0, 0);
 	hook_event(rt);
 	mlx_loop(rt->mlx);
