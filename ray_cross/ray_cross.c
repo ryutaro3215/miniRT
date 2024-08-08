@@ -6,7 +6,7 @@
 /*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/08 00:20:10 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:05:35 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,42 +99,91 @@ void	draw_plane(t_rt *rt)
 	}
 }
 
-double	discriminant_cylinder(t_rt *rt, t_vec3 screen_vec) 
+t_vec3	*get_intersections(t_rt *rt, t_vec3 dir, t_vec3 cam2cyl)
 {
-	t_vec3	dir;
-	t_vec3	cam2cyl;
 	double	a;
 	double	b;
 	double	c;
+	double	d;
+	t_vec3	*intersections;
 
-	dir = vec3_norm(vec3_sub(screen_vec, *rt->scene->camera->view_point));
-	cam2cyl = vec3_sub(*rt->scene->camera->view_point, *rt->scene->cylinder->cylinder_center);
 	a = vec3_dot(dir, dir) - pow(vec3_dot(dir, *rt->scene->cylinder->axic_vec), 2);
 	b = 2 * (vec3_dot(dir, cam2cyl) - vec3_dot(dir, *rt->scene->cylinder->axic_vec)
 			* vec3_dot(*rt->scene->cylinder->axic_vec, cam2cyl));
 	c = vec3_dot(cam2cyl, cam2cyl) - pow(vec3_dot(*rt->scene->cylinder->axic_vec, cam2cyl), 2)
 		- rt->scene->cylinder->diameter / 2 * rt->scene->cylinder->diameter / 2;
-	return (b * b - 4 * a * c);
+	d = b * b - 4 * a * c;
+	if (d < 0)
+		return (NULL);
+	intersections = (t_vec3 *)malloc(sizeof(t_vec3) * 2);
+	if (intersections == NULL)
+		return (NULL);
+	intersections[0] = vec3_add(*rt->scene->camera->view_point, 
+			vec3_mul(dir, ((-b - sqrt(d)) / (2 * a))));
+	intersections[1] = vec3_add(*rt->scene->camera->view_point,
+			vec3_mul(dir, ((-b + sqrt(d)) / (2 * a))));
+	return (intersections);
 }
 
+bool	is_height_range(t_rt *rt, t_vec3 *intersections)
+{
+	bool	is_intersect_p1;
+	bool	is_intersect_p2;
+	t_vec3	axic;
+	t_vec3	cyl_top;
+	t_vec3	cyl_bottom;
+
+	cyl_top = vec3_add(*rt->scene->camera->view_point, 
+			vec3_mul(*rt->scene->cylinder->axic_vec, rt->scene->cylinder->height / 2));
+	cyl_bottom = vec3_sub(*rt->scene->camera->view_point, 
+			vec3_mul(*rt->scene->cylinder->axic_vec, rt->scene->cylinder->height / 2));
+	axic = *rt->scene->cylinder->axic_vec;
+	is_intersect_p1 = vec3_dot(vec3_sub(intersections[0], cyl_bottom), axic) >= 0 &&
+		vec3_dot(vec3_sub(intersections[0], cyl_top), axic) <= 0;
+	is_intersect_p2 = vec3_dot(vec3_sub(intersections[1], cyl_bottom), axic) >= 0 &&
+		vec3_dot(vec3_sub(intersections[1], cyl_top), axic) <= 0;
+	if (is_intersect_p1 || is_intersect_p2)
+		return (true);
+	else
+		return (false);
+}
+
+bool	discriminant_cylinder(t_rt *rt, t_vec3 screen_vec)
+{
+	t_vec3	dir;
+	t_vec3	cam2cyl;
+	t_vec3	*intersections;
+	bool	flag;
+	
+	dir = vec3_norm(vec3_sub(screen_vec, *rt->scene->camera->view_point));
+	cam2cyl = vec3_sub(*rt->scene->camera->view_point, *rt->scene->cylinder->cylinder_center);
+	intersections = get_intersections(rt, dir, cam2cyl);
+	if (intersections == NULL)
+		return (false);
+	flag = is_height_range(rt, intersections);
+	free(intersections);
+	if (flag == true)
+		return (true);
+	else
+		return (false);
+}
 
 void	draw_cylinder(t_rt *rt)
 {
 	t_vec3	screen_vec;
 	double	x;
 	double	y;
-	double	d;
+	bool	is_drawable;
 
 	x = 0;
 	y = 0;
-	d = 0;
 	while (y < rt->height)
 	{
 		while (x < rt->width)
 		{
 			screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
-			d = discriminant_cylinder(rt, screen_vec);
-			if (d >= 0)
+			is_drawable = discriminant_cylinder(rt, screen_vec);
+			if (is_drawable == true)
 				my_mlx_pixel_put(rt, x, y, int_to_hex_color(rt->scene->cylinder->rgb));
 			else
 				my_mlx_pixel_put(rt, x, y, 0x000000);
@@ -144,3 +193,4 @@ void	draw_cylinder(t_rt *rt)
 		y++;
 	}
 }
+
