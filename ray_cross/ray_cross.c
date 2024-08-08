@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/08 18:39:41 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/08 19:37:19 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,8 +200,7 @@ void	draw_cylinder(t_rt *rt)
 			screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
 			is_drawable = discriminant_cylinder(rt, screen_vec);
 			if (is_drawable == true)
-				my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec));
-				// my_mlx_pixel_put(rt, x, y, int_to_hex_color(rt->scene->cylinder->rgb));
+				my_mlx_pixel_put(rt, x, y, int_to_hex_color(rt->scene->cylinder->rgb));
 			else
 				my_mlx_pixel_put(rt, x, y, 0x000000);
 			x++;
