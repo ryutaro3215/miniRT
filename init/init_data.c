@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:28:27 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 22:22:36 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/10 22:33:32 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,15 +140,10 @@ bool	check_sphere_param(char **splited_line)
 	if (is_vec3(splited_line[1]) == false)
 		flag = false;
 	if (is_point_num(splited_line[2]) == false || ft_atof(splited_line[2]) <= 0)
-	{
 		flag = false;
-		printf("Invalid diameter\n");
-	}
+	printf("splited_line[3]: %s\n", splited_line[3]);
 	if (check_color_range(splited_line[3]) == false)
-	{
 		flag = false;
-		printf("Invalid color\n");
-	}
 	return (flag);
 }
 
@@ -311,7 +306,11 @@ char	*trim_newline(char *line)
 		return (NULL);
 	if (line[0] == '\n' && ft_strlen(line) == 1)
 		return (line);
+	if (ft_strchr(line, '\n') == NULL)
+		return (line);
 	new_line = ft_strndup(line, ft_strlen(line) - 1);
+	if (new_line == NULL)
+		return (NULL);
 	free(line);
 	return (new_line);
 }
