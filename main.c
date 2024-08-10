@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 00:30:07 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 21:47:23 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/10 23:56:45 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,17 @@ int	main(int argc, char **argv)
 	scene = init_scene();
 	scene = parse_file(argv[1], scene);
 	rt->scene = scene;
-	if (rt->scene == NULL)
-		printf("Error\n");
-	else
-		print_scene(rt->scene);
+	// if (rt->scene == NULL)
+	// 	printf("Error\n");
+	// else
+	// 	print_scene(rt->scene);
 	/* draw_plane(rt); */ 
-	/* draw_object(rt); */
+	 draw_object(rt); 
 	/* draw_cylinder(rt); */
 	/* draw_sphere(rt); */ 
-	/* mlx_put_image_to_window(rt->mlx, rt->mlx_win, rt->img, 0, 0); */
-	/* hook_event(rt); */
-	/* mlx_loop(rt->mlx); */
-	/* system("leaks minirt"); */
+	 mlx_put_image_to_window(rt->mlx, rt->mlx_win, rt->img, 0, 0); 
+	 hook_event(rt); 
+	 mlx_loop(rt->mlx); 
+	system("leaks minirt"); 
 	return (0);
 }

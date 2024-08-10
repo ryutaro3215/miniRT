@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 11:20:13 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/10 23:56:55 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ double	discriminant(t_rt *rt, t_vec3 screen_vec)
 	double	a;
 	double	b;
 	double	c;
-
 	dir = vec3_norm(vec3_sub(screen_vec, *rt->scene->camera->view_point));
 	cam2sph = vec3_sub(*rt->scene->camera->view_point, *rt->scene->object->center);
 	a = vec3_dot(dir, dir);
