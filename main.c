@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 00:30:07 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 20:10:05 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/10 20:15:54 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	main(int argc, char **argv)
 		printf("Error\n");
 	else
 		print_scene(rt->scene);
-	draw_plane(rt); 
+	/* draw_plane(rt); */ 
 	/* draw_object(rt); */
 	/* draw_cylinder(rt); */
 	/* draw_sphere(rt); */ 

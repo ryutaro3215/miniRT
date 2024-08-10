@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:16:29 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 19:57:06 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/10 20:25:38 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,20 +97,35 @@ void	free_cylinder(t_object *cylinder)
 	free(cylinder);
 }
 
+void	free_object(t_object *object)
+{
+	t_object	*tmp;
+
+	while (object != NULL)
+	{
+		tmp = object->next;
+		if (object->type == SPHERE)
+			free_sphere(object);
+		else if (object->type == PLANE)
+			free_plane(object);
+		else if (object->type == CYLINDER)
+			free_cylinder(object);
+		else
+			;
+		object = tmp;
+	}
+}
+
 void	free_scene(t_scene *scene)
 {
-	if (scene->ambi_light)
+	if (scene->ambi_light != NULL)
 		free_ambi_light(scene->ambi_light);
-	if (scene->camera)
+	if (scene->camera != NULL)
 		free_camera(scene->camera);
-	if (scene->light)
+	if (scene->light != NULL)
 		free_light(scene->light);
-	if (scene->object->type == SPHERE)
-		free_sphere(scene->object);
-	if (scene->object->type == PLANE)
-		free_plane(scene->object);
-	if (scene->object->type == CYLINDER)
-		free_cylinder(scene->object);
+	if (scene->object != NULL)
+		free_object(scene->object);
 	free(scene);
 }
 
