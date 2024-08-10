@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:28:27 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 20:07:56 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/10 22:13:20 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,13 +265,25 @@ bool	get_object(char **splited_line, t_scene *scene)
 	return (flag);
 }
 
+char	**get_splited_line(char *line)
+{
+	char	**splited_line;
+
+	if (line == NULL || ft_strlen(line) == 0)
+		return (NULL);
+	splited_line = ft_split(line, ' ');
+	return (splited_line);
+}
+
 bool	get_env(char *line, t_scene *scene)
 {
 	char	**splited_line;
 	char	*attr;
 	bool	flag;
 
-	splited_line = ft_split(line, ' ');
+	splited_line = get_splited_line(line);
+	if (splited_line == NULL)
+		return (false);
 	attr = splited_line[0];
 	flag = true;
 	if (ft_strncmp(attr, "A",ft_strlen(attr)) == 0)
@@ -293,18 +305,15 @@ bool	get_env(char *line, t_scene *scene)
 
 char	*trim_newline(char *line)
 {
-	int	i;
+	char	*new_line;
 
-	i = 0;
-	if (line == NULL || ft_strlen(line) == 0)
+	if (line == NULL)
 		return (NULL);
-	while (line[i] != '\0')
-	{
-		if (line[i] == '\n')
-			line[i] = '\0';
-		i++;
-	}
-	return (line);
+	if (line[0] == '\n' && ft_strlen(line) == 1)
+		return (line);
+	new_line = ft_strndup(line, ft_strlen(line) - 1);
+	free(line);
+	return (new_line);
 }
 
 t_scene	*parse_file(char *file_name, t_scene *scene)
@@ -315,13 +324,19 @@ t_scene	*parse_file(char *file_name, t_scene *scene)
 	fd = open(file_name, O_RDONLY);
 	if (fd < 0)
 		return (NULL);
-	line = trim_newline(get_next_line(fd));
-	while (line != NULL)
+	while (true)
 	{
-		if (get_env(line, scene) == false)
-			return (NULL);
-		free(line);
 		line = trim_newline(get_next_line(fd));
+		if (line == NULL)
+			break ;
+		else if (ft_strncmp(line, "\n", 1) == 0 && ft_strlen(line) == 1)
+			continue ;
+		else if  (get_env(line, scene) == false)
+		{
+			free(line);
+			return (NULL);
+		}
+		free(line);
 	}
 	return (scene);
 }

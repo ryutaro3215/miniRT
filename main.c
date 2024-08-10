@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 00:30:07 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 20:15:54 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/10 21:47:23 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ int	main(int argc, char **argv)
 	/* draw_object(rt); */
 	/* draw_cylinder(rt); */
 	/* draw_sphere(rt); */ 
-	mlx_put_image_to_window(rt->mlx, rt->mlx_win, rt->img, 0, 0);
-	hook_event(rt);
-	mlx_loop(rt->mlx);
-	system("leaks minirt");
+	/* mlx_put_image_to_window(rt->mlx, rt->mlx_win, rt->img, 0, 0); */
+	/* hook_event(rt); */
+	/* mlx_loop(rt->mlx); */
+	/* system("leaks minirt"); */
 	return (0);
 }

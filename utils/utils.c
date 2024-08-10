@@ -6,12 +6,30 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:16:29 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 20:25:38 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/10 22:15:05 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/utils.h"
 #include "../includes/minirt.h"
+
+char	*ft_strndup(char *line, size_t n)
+{
+	char	*new_line;
+	size_t		i;
+
+	i = 0;
+	new_line = (char *)malloc(sizeof(char) * (n + 1));
+	if (new_line == NULL)
+		return (NULL);
+	while (i < n)
+	{
+		new_line[i] = line[i];
+		i++;
+	}
+	new_line[i] = '\0';
+	return (new_line);
+}
 
 bool	is_num(char *str)
 {
@@ -160,8 +178,8 @@ void	print_scene(t_scene *scene)
 	printf("ratio: %f\n", scene->ambi_light->ratio);
 	printf("rgb: %d %d %d\n", scene->ambi_light->rgb->r, 
 			scene->ambi_light->rgb->g, scene->ambi_light->rgb->b);
-	}
 	printf("-----------------------------\n");
+	}
 	if (scene->camera != NULL)
 	{
 		printf("camera\n");
@@ -170,8 +188,8 @@ void	print_scene(t_scene *scene)
 		printf("nr_vec: %f %f %f\n", scene->camera->nr_vec->x,
 				scene->camera->nr_vec->y, scene->camera->nr_vec->z);
 		printf("view_degree: %d\n", scene->camera->view_degree);
-	}
 	printf("-----------------------------\n");
+	}
 	if (scene->light != NULL)
 	{
 		printf("light\n");
@@ -180,6 +198,7 @@ void	print_scene(t_scene *scene)
 		printf("bright_ratio: %f\n", scene->light->bright_ratio);
 		printf("rgb: %d %d %d\n", scene->light->rgb->r, scene->light->rgb->g,
 				scene->light->rgb->b);
+		printf("-----------------------------\n");
 	}
 	while (scene->object != NULL)
 	{

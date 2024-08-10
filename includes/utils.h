@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:15:21 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 16:44:40 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/10 22:14:07 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include "../libft/includes/libft.h"
 # include "minirt.h"
 
+char	*ft_strndup(char *line, size_t n);
 bool	is_num(char *str);
 bool	is_point_num(char *str);
 void	free_ambi_light(t_ambi_light *ambi_light);
