@@ -6,7 +6,7 @@
 /*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:16:35 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/01 20:53:01 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/10 16:41:36 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include "minirt.h"
 
+bool		check_color_range(char *rgb);
 bool			check_color(int	color);
 unsigned int	get_color(char *str);
 void			set_rgb(char *str, t_rgb *rgb);

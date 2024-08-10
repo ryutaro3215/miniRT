@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:29:27 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/01 16:03:17 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/10 17:08:05 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,38 @@ void	set_vec3(char *str, t_vec3 *vec)
 	vec->y = ft_atof(splited_line[1]);
 	vec->z = ft_atof(splited_line[2]);
 	ft_free_2d_array(splited_line);
+}
+
+bool	is_vec3(char *str)
+{
+	char	**splited_line;
+	bool	flag;
+
+	flag = true;
+	splited_line = ft_split(str, ',');
+	if (ft_2d_array_len(splited_line) != 3)
+		flag = false;
+	if (is_point_num(splited_line[0]) == false)
+		flag = false;
+	if (is_point_num(splited_line[1]) == false)
+		flag = false;
+	if (is_point_num(splited_line[2]) == false)
+		flag = false;
+	ft_free_2d_array(splited_line);
+	return (flag);
+}
+
+bool	is_normal_vec3(char *str)
+{
+	char	**splited_line;
+	bool	flag;
+	t_vec3	vec;
+
+	flag = true;
+	splited_line = ft_split(str, ',');
+	set_vec3(str, &vec);
+	if (vec3_mag(vec) != 1.0f)
+		flag = false;
+	ft_free_2d_array(splited_line);
+	return (flag);
 }

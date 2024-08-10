@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:18:31 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 11:22:46 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/10 16:14:42 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,20 @@
 
 
 
-
-t_rt			*make_data_structure();
-t_scene			*parse_file(char *file_name, t_scene *scene);
-t_scene			*init_scene();
-bool			get_object(char *line, t_scene *scene);
-void get_ambi_light(char **splited_line,t_scene *scene);
-void 	get_camera(char **splited_line,t_scene *scene);
-void 	get_light(char **splited_line,t_scene *scene);
-void 	get_sphere(char **splited_line,t_scene *scene);
-void 	get_plane(char **splited_line,t_scene *scene);
-void 	get_cylinder(char **splited_line,t_scene *scene);
+int	count_2d_array(char **array);
+t_rt	*make_data_structure();
+t_scene	*parse_file(char *file_name, t_scene *scene);
+t_scene	*init_scene();
+t_object	*init_object();
+bool	get_env(char *line, t_scene *scene);
+bool	get_object(char **splited_line, t_scene *scene);
+t_object	*get_last_object(t_object *object);
+bool	check_ambi_param(char **splited_line);
+bool	get_ambi_light(char **splited_line,t_scene *scene);
+bool	get_camera(char **splited_line,t_scene *scene);
+bool	get_light(char **splited_line,t_scene *scene);
+bool	get_sphere(char **splited_line,t_scene *scene);
+bool	get_plane(char **splited_line,t_scene *scene);
+bool	get_cylinder(char **splited_line,t_scene *scene);
 
 #endif
