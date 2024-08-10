@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:16:29 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/07/26 00:57:48 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/10 11:25:44 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ void	free_light(t_light *light)
 	free(light);
 }
 
-void	free_sphere(t_sphere *sphere)
+void	free_sphere(t_object *sphere)
 {
 	free(sphere->center);
 	free(sphere->rgb);
 	free(sphere);
 }
 
-void	free_plane(t_plane *plane)
+void	free_plane(t_object *plane)
 {
 	free(plane->p_in_the_plane);
 	free(plane->normal_vec);
@@ -48,9 +48,9 @@ void	free_plane(t_plane *plane)
 	free(plane);
 }
 
-void	free_cylinder(t_cylinder *cylinder)
+void	free_cylinder(t_object *cylinder)
 {
-	free(cylinder->cylinder_center);
+	free(cylinder->center);
 	free(cylinder->axic_vec);
 	free(cylinder->rgb);
 	free(cylinder);
@@ -64,12 +64,12 @@ void	free_scene(t_scene *scene)
 		free_camera(scene->camera);
 	if (scene->light)
 		free_light(scene->light);
-	if (scene->sphere)
-		free_sphere(scene->sphere);
-	if (scene->plane)
-		free_plane(scene->plane);
-	if (scene->cylinder)
-		free_cylinder(scene->cylinder);
+	if (scene->object->type == SPHERE)
+		free_sphere(scene->object);
+	if (scene->object->type == PLANE)
+		free_plane(scene->object);
+	if (scene->object->type == CYLINDER)
+		free_cylinder(scene->object);
 	free(scene);
 }
 
@@ -88,19 +88,19 @@ void	print_scene(t_scene *scene)
 	printf("bright_ratio: %f\n", scene->light->bright_ratio);
 	printf("rgb: %d %d %d\n", scene->light->rgb->r, scene->light->rgb->g, scene->light->rgb->b);
 	printf("sphere\n");
-	printf("center: %f %f %f\n", scene->sphere->center->x, scene->sphere->center->y, scene->sphere->center->z);
-	printf("diameter: %f\n", scene->sphere->diameter);
-	printf("rgb: %d %d %d\n", scene->sphere->rgb->r, scene->sphere->rgb->g, scene->sphere->rgb->b);
+	printf("center: %f %f %f\n", scene->object->center->x, scene->object->center->y, scene->object->center->z);
+	printf("diameter: %f\n", scene->object->diameter);
+	printf("rgb: %d %d %d\n", scene->object->rgb->r, scene->object->rgb->g, scene->object->rgb->b);
 	printf("plane\n");
-	printf("p_in_the_plane: %f %f %f\n", scene->plane->p_in_the_plane->x, scene->plane->p_in_the_plane->y, scene->plane->p_in_the_plane->z);
-	printf("nr_vec: %f %f %f\n", scene->plane->normal_vec->x, scene->plane->normal_vec->y, scene->plane->normal_vec->z);
-	printf("rgb: %d %d %d\n", scene->plane->rgb->r, scene->plane->rgb->g, scene->plane->rgb->b);
+	printf("p_in_the_plane: %f %f %f\n", scene->object->p_in_the_plane->x, scene->object->p_in_the_plane->y, scene->object->p_in_the_plane->z);
+	printf("nr_vec: %f %f %f\n", scene->object->normal_vec->x, scene->object->normal_vec->y, scene->object->normal_vec->z);
+	printf("rgb: %d %d %d\n", scene->object->rgb->r, scene->object->rgb->g, scene->object->rgb->b);
 	printf("cylinder\n");
-	printf("cylinder_center: %f %f %f\n", scene->cylinder->cylinder_center->x, scene->cylinder->cylinder_center->y, scene->cylinder->cylinder_center->z);
-	printf("axis_vec: %f %f %f\n", scene->cylinder->axic_vec->x, scene->cylinder->axic_vec->y, scene->cylinder->axic_vec->z);
-	printf("rgb: %d %d %d\n", scene->cylinder->rgb->r, scene->cylinder->rgb->g, scene->cylinder->rgb->b);
-	printf("diameter: %f\n", scene->cylinder->diameter);
-	printf("height: %f\n", scene->cylinder->height);
+	printf("cylinder_center: %f %f %f\n", scene->object->center->x, scene->object->center->y, scene->object->center->z);
+	printf("axis_vec: %f %f %f\n", scene->object->axic_vec->x, scene->object->axic_vec->y, scene->object->axic_vec->z);
+	printf("rgb: %d %d %d\n", scene->object->rgb->r, scene->object->rgb->g, scene->object->rgb->b);
+	printf("diameter: %f\n", scene->object->diameter);
+	printf("height: %f\n", scene->object->height);
 }
 
 size_t	ft_2d_array_len(char **array)
