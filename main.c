@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 00:30:07 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 23:56:45 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/11 00:03:34 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,13 @@ int	main(int argc, char **argv)
 	scene = init_scene();
 	scene = parse_file(argv[1], scene);
 	rt->scene = scene;
-	// if (rt->scene == NULL)
-	// 	printf("Error\n");
-	// else
-	// 	print_scene(rt->scene);
+    t_object *head;
+    head = rt->scene->object;
+	if (rt->scene == NULL)
+		printf("Error\n");
+	else
+		print_scene(rt->scene);
+    rt->scene->object = head;
 	/* draw_plane(rt); */ 
 	 draw_object(rt); 
 	/* draw_cylinder(rt); */
