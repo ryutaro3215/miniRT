@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:15:21 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 11:26:18 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/10 16:44:40 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include "../libft/includes/libft.h"
 # include "minirt.h"
 
+bool	is_num(char *str);
+bool	is_point_num(char *str);
 void	free_ambi_light(t_ambi_light *ambi_light);
 void	free_camera(t_camera *camera);
 void	free_light(t_light *light);

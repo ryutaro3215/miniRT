@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 23:43:13 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 11:35:43 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/10 17:08:25 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,18 +78,28 @@ typedef struct	s_light
 // 	float	diameter;
 // 	float	height;
 // }		t_cylinder;
+
+enum object_type
+{
+	AMBIENT_LIGHT = 1,
+	CAMERA,
+	LIGHT,
+	SPHERE,
+	PLANE,
+	CYLINDER
+};
 typedef struct s_object t_object;
 typedef struct s_object
 {
-    int     type;
-    t_vec3	*center;
-    t_vec3	*p_in_the_plane;
-    t_vec3	*axic_vec;
-    t_vec3	*normal_vec;
-    float	diameter;
+	int     type;
+	t_vec3	*center;
+	t_vec3	*p_in_the_plane;
+	t_vec3	*axic_vec;
+	t_vec3	*normal_vec;
+	float	diameter;
 	float	height;
-    t_rgb	*rgb;
-    t_object    *next;
+	t_rgb	*rgb;
+	t_object    *next;
 }		t_object;
 
 typedef struct	s_scene
@@ -115,12 +125,12 @@ typedef	struct s_rt
 	t_scene	*scene;
 }		t_rt;
 
-#define AMBIENT_LIGHT 1
-#define CAMERA 2
-#define LIGHT 3
-#define SPHERE 4
-#define PLANE 5
-#define CYLINDER 6
+// #define AMBIENT_LIGHT 1
+// #define CAMERA 2
+// #define LIGHT 3
+// #define SPHERE 4
+// #define PLANE 5
+// #define CYLINDER 6
 
 
 // It is definition of culculation of 3D vector.
@@ -133,6 +143,8 @@ t_vec3	vec3_cross(t_vec3 a, t_vec3 b);
 double	vec3_mag(t_vec3 a);
 t_vec3	vec3_norm(t_vec3 a);
 void	set_vec3(char *str, t_vec3 *vec);
+bool	is_vec3(char *str);
+bool	is_normal_vec3(char *str);
 
 int phong_calc(t_scene *scene, t_vec3 dir_vec);
 //It is definition of drawing

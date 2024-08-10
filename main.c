@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 00:30:07 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 11:30:19 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/10 20:10:05 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,6 @@ void	my_mlx_pixel_put(t_rt *rt, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-void	print_plane(t_rt *rt)
-{
-	t_vec3	dir_vec = *rt->scene->camera->nr_vec;
-	t_vec3	n_vec = *rt->scene->object->normal_vec;
-	t_vec3	view_p = *rt->scene->camera->view_point;
-	t_vec3	p_vec = *rt->scene->object->p_in_the_plane;
-	double bunbo = -(vec3_dot(dir_vec, n_vec));
-	if (bunbo == 0)
-		my_mlx_pixel_put(rt, 0, 0, 0xffffff);
-	double bunshi = vec3_dot(vec3_sub(view_p, p_vec), n_vec);
-	double t = bunshi / bunbo;
-	if (t >= 0)
-		my_mlx_pixel_put(rt, 0, 0, 0x000000);
-	else
-		my_mlx_pixel_put(rt, 0, 0, 0xffffff);
-}
-
 int	main(int argc, char **argv)
 {
 	t_rt	*rt;
@@ -56,10 +39,14 @@ int	main(int argc, char **argv)
 	scene = init_scene();
 	scene = parse_file(argv[1], scene);
 	rt->scene = scene;
-	//  draw_plane(rt); 
-    draw_object(rt);
-	// draw_cylinder(rt);
-	//  draw_sphere(rt); 
+	if (rt->scene == NULL)
+		printf("Error\n");
+	else
+		print_scene(rt->scene);
+	draw_plane(rt); 
+	/* draw_object(rt); */
+	/* draw_cylinder(rt); */
+	/* draw_sphere(rt); */ 
 	mlx_put_image_to_window(rt->mlx, rt->mlx_win, rt->img, 0, 0);
 	hook_event(rt);
 	mlx_loop(rt->mlx);
