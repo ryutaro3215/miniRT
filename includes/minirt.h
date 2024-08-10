@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 23:43:13 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 11:22:48 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/10 11:35:43 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ typedef struct	s_light
 // 	float	diameter;
 // 	float	height;
 // }		t_cylinder;
-
+typedef struct s_object t_object;
 typedef struct s_object
 {
     int     type;
@@ -89,7 +89,7 @@ typedef struct s_object
     float	diameter;
 	float	height;
     t_rgb	*rgb;
-    // t_object    *next;
+    t_object    *next;
 }		t_object;
 
 typedef struct	s_scene
