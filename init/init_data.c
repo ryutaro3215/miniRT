@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:28:27 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/08 23:33:00 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/10 11:28:01 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void get_ambi_light(char **splited_line, t_scene *scene)
 	ambi_light->rgb = (t_rgb *)malloc(sizeof(t_rgb));
 	set_rgb(splited_line[2], ambi_light->rgb);
     scene->ambi_light = ambi_light;
-    scene->type = AMBIENT_LIGHT;
 }
 
 void	get_camera(char **splited_line, t_scene *scene)
@@ -39,7 +38,6 @@ void	get_camera(char **splited_line, t_scene *scene)
 	set_vec3(splited_line[2], camera->nr_vec);
 	camera->view_degree = ft_atoi(splited_line[3]);
     scene->camera = camera;
-    scene->type = CAMERA;
 }
 
 void	get_light(char **splited_line, t_scene *scene)
@@ -53,53 +51,53 @@ void	get_light(char **splited_line, t_scene *scene)
 	set_rgb(splited_line[3], light->rgb);
 	light->bright_ratio = ft_atof(splited_line[2]);
     scene->light = light;
-    scene->type = LIGHT;
 }
 
 void	get_sphere(char **splited_line, t_scene *scene)
 {
-	t_sphere	*sphere;
+	t_object	*sphere;
 
-	sphere = (t_sphere *)malloc(sizeof(t_sphere));
+	sphere = (t_object *)malloc(sizeof(t_object));
+    sphere->type = SPHERE;
 	sphere->center = (t_vec3 *)malloc(sizeof(t_vec3));
 	sphere->rgb = (t_rgb *)malloc(sizeof(t_rgb));
 	set_vec3(splited_line[1], sphere->center);
 	set_rgb(splited_line[3], sphere->rgb);
 	sphere->diameter = ft_atof(splited_line[2]);
-    scene->sphere = sphere;
-    scene->type = SPHERE;
+    scene->object = sphere;
 }
 
 void	get_plane(char **splited_line, t_scene *scene)
 {
-	t_plane	*plane;
+	t_object	*plane;
 
-	plane = (t_plane *)malloc(sizeof(t_plane));
+	plane = (t_object *)malloc(sizeof(t_object));
+    plane->type = PLANE;
 	plane->p_in_the_plane = (t_vec3 *)malloc(sizeof(t_vec3));
 	plane->normal_vec = (t_vec3 *)malloc(sizeof(t_vec3));
 	plane->rgb = (t_rgb *)malloc(sizeof(t_rgb));
 	set_vec3(splited_line[1], plane->p_in_the_plane);
 	set_vec3(splited_line[2], plane->normal_vec);
 	set_rgb(splited_line[3], plane->rgb);
-    scene->plane = plane;
-    scene->type = PLANE;
+    scene->object = plane;
 }
 
 void	get_cylinder(char **splited_line, t_scene *scene)
 {
-	t_cylinder	*cylinder;
-
-	cylinder = (t_cylinder *)malloc(sizeof(t_cylinder));
-	cylinder->cylinder_center = (t_vec3 *)malloc(sizeof(t_vec3));
+	// t_cylinder	*cylinder;
+    t_object    *cylinder;
+    
+	cylinder = (t_object *)malloc(sizeof(t_object));
+    cylinder->type = CYLINDER;
+	cylinder->center = (t_vec3 *)malloc(sizeof(t_vec3));
 	cylinder->axic_vec = (t_vec3 *)malloc(sizeof(t_vec3));
 	cylinder->rgb = (t_rgb *)malloc(sizeof(t_rgb));
 	cylinder->diameter = ft_atof(splited_line[3]);
 	cylinder->height = ft_atof(splited_line[4]);
-	set_vec3(splited_line[1], cylinder->cylinder_center);
+	set_vec3(splited_line[1], cylinder->center);
 	set_vec3(splited_line[2], cylinder->axic_vec);
 	set_rgb(splited_line[5], cylinder->rgb);
-    scene->cylinder = cylinder;
-    scene->type = CYLINDER;
+    scene->object = cylinder;
 }
 
 bool	get_object(char *line, t_scene *scene)
@@ -138,9 +136,7 @@ t_scene	*init_scene(void)
 	scene->ambi_light = NULL;
 	scene->camera = NULL;
 	scene->light = NULL;
-	scene->sphere = NULL;
-	scene->plane = NULL;
-	scene->cylinder = NULL;
+	scene->object = NULL;
 	return (scene);
 }
 

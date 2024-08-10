@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:18:31 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/08 23:32:32 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/10 11:22:46 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,7 @@
 # include "../libft/includes/libft.h"
 # include "../includes/minirt.h"
 
-#define AMBIENT_LIGHT 1
-#define CAMERA 2
-#define LIGHT 3
-#define SPHERE 4
-#define PLANE 5
-#define CYLINDER 6
+
 
 
 t_rt			*make_data_structure();

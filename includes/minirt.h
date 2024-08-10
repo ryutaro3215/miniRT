@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 23:43:13 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 11:13:31 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/10 11:22:48 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ typedef struct s_object
     float	diameter;
 	float	height;
     t_rgb	*rgb;
-    t_object    *next;
+    // t_object    *next;
 }		t_object;
 
 typedef struct	s_scene
@@ -115,7 +115,12 @@ typedef	struct s_rt
 	t_scene	*scene;
 }		t_rt;
 
-
+#define AMBIENT_LIGHT 1
+#define CAMERA 2
+#define LIGHT 3
+#define SPHERE 4
+#define PLANE 5
+#define CYLINDER 6
 
 
 // It is definition of culculation of 3D vector.

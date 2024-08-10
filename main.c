@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 00:30:07 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/08 20:34:27 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/10 11:30:19 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	my_mlx_pixel_put(t_rt *rt, int x, int y, int color)
 void	print_plane(t_rt *rt)
 {
 	t_vec3	dir_vec = *rt->scene->camera->nr_vec;
-	t_vec3	n_vec = *rt->scene->plane->normal_vec;
+	t_vec3	n_vec = *rt->scene->object->normal_vec;
 	t_vec3	view_p = *rt->scene->camera->view_point;
-	t_vec3	p_vec = *rt->scene->plane->p_in_the_plane;
+	t_vec3	p_vec = *rt->scene->object->p_in_the_plane;
 	double bunbo = -(vec3_dot(dir_vec, n_vec));
 	if (bunbo == 0)
 		my_mlx_pixel_put(rt, 0, 0, 0xffffff);
