@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:08:42 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/13 11:25:28 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/13 11:35:20 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,21 @@ double calc_sp_distance(t_object *object, t_vec3 screen_vec, t_camera *camera)
     return ((-b+sqrt(b * b - 4 * a * c))/(2.0 * a));
 }
 
+double calc_pl_distance(t_object *object, t_vec3 screen_vec, t_camera *camera)
+{
+    t_vec3	dir;
+	t_vec3	cam2pl;
+	double	denominator;
+	double	molecule;
+
+	dir = vec3_norm(vec3_sub(screen_vec, *camera->view_point)); 
+	cam2pl = vec3_sub(*camera->view_point, *object->p_in_the_plane);
+	denominator = -(vec3_dot(dir, *object->normal_vec));
+	if (denominator == 0)
+		return (-1);
+	molecule = vec3_dot(cam2pl, *object->normal_vec);
+	return (molecule / denominator);
+}
 
 static double calc_distance(t_object *obj, t_vec3 screen_vec, t_camera *camera)
 {
