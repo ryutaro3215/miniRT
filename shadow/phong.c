@@ -6,13 +6,13 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/13 17:02:08 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/13 20:01:50 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shadow.h"
 
-
+// TODO　centerを使わないやり方にリファクタする
 int phong_calc(t_scene *scene, t_vec3 screen_vec, t_object *nearest_obj)
 {
     //ここの係数関係どうすれば、、？
@@ -21,7 +21,6 @@ int phong_calc(t_scene *scene, t_vec3 screen_vec, t_object *nearest_obj)
     double ks=0.8;
     int shininess = 10;
     double t = calc_distance(nearest_obj, screen_vec, scene->camera);
-    // double t = calc_t(scene, screen_vec, nearest_obj);
     t_vec3 dir_vec = vec3_norm(vec3_sub(screen_vec, *scene->camera->view_point));
     t_vec3 intersection = vec3_add(*scene->camera->view_point, vec3_mul(dir_vec, t));
     //正規化による方向ベクトルの算出

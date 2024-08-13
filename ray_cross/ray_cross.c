@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/13 17:07:04 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/13 18:30:40 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,32 +61,33 @@ void	draw_sphere(t_rt *rt, double x, double y, t_object *nearest_obj)
 	
 }
 
-double	cross_ray_plane(t_rt *rt, t_vec3 screen_vec)
+double	cross_ray_plane(t_object *object, t_vec3 screen_vec, t_camera *camera)
 {
 	t_vec3	dir;
 	t_vec3	cam2pl;
 	double	denominator;
 	double	molecule;
 
-	dir = vec3_norm(vec3_sub(screen_vec, *rt->scene->camera->view_point)); 
-	cam2pl = vec3_sub(*rt->scene->camera->view_point, *rt->scene->object->p_in_the_plane);
-	denominator = -(vec3_dot(dir, *rt->scene->object->normal_vec));
+	dir = vec3_norm(vec3_sub(screen_vec, *camera->view_point)); 
+	cam2pl = vec3_sub(*camera->view_point, *object->p_in_the_plane);
+	denominator = -(vec3_dot(dir, *object->normal_vec));
 	if (denominator == 0)
 		return (-1);
-	molecule = vec3_dot(cam2pl, *rt->scene->object->normal_vec);
+	molecule = vec3_dot(cam2pl, *object->normal_vec);
 	return (molecule / denominator);
 }
 
-void	draw_plane(t_rt *rt, double x,double y)
+void	draw_plane(t_rt *rt, double x,double y, t_object *nearest_obj)
 {
 	t_vec3	screen_vec;
 	double	t;
 
 	t = 0;
     screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
-    t = cross_ray_plane(rt, screen_vec);
+    t = cross_ray_plane(nearest_obj, screen_vec,rt->scene->camera);
     if (t > 0)
-        my_mlx_pixel_put(rt, x, y, int_to_hex_color(rt->scene->object->rgb));
+        my_mlx_pixel_put(rt, x, y, int_to_hex_color(nearest_obj->rgb));
+        // my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj));
     else
         my_mlx_pixel_put(rt, x, y, 0x000000);
 }
@@ -134,7 +135,7 @@ bool	is_height_range(t_rt *rt, t_vec3 *intersections)
 		vec3_dot(vec3_sub(intersections[0], cyl_top), axic) <= 0;
 	is_intersect_p2 = vec3_dot(vec3_sub(intersections[1], cyl_bottom), axic) >= 0 &&
 		vec3_dot(vec3_sub(intersections[1], cyl_top), axic) <= 0;
-	if (is_intersect_p1 || is_intersect_p2)
+	if ( is_intersect_p1|| is_intersect_p2)
 		return (true);
 	else
 		return (false);
@@ -160,30 +161,17 @@ bool	discriminant_cylinder(t_rt *rt, t_vec3 screen_vec)
 		return (false);
 }
 
-void	draw_cylinder(t_rt *rt)
+void	draw_cylinder(t_rt *rt,double x, double y, t_object *nearest_obj)
 {
 	t_vec3	screen_vec;
-	double	x;
-	double	y;
 	bool	is_drawable;
 
-	x = 0;
-	y = 0;
-	while (y < rt->height)
-	{
-		while (x < rt->width)
-		{
-			screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
-			is_drawable = discriminant_cylinder(rt, screen_vec);
-			if (is_drawable == true)
-				my_mlx_pixel_put(rt, x, y, int_to_hex_color(rt->scene->object->rgb));
-			else
-				my_mlx_pixel_put(rt, x, y, 0x000000);
-			x++;
-		}
-		x = 0;
-		y++;
-	}
+    screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
+    is_drawable = discriminant_cylinder(rt, screen_vec);
+    if (is_drawable == true)
+        my_mlx_pixel_put(rt, x, y, int_to_hex_color(nearest_obj->rgb));
+    else
+        my_mlx_pixel_put(rt, x, y, 0x000000);
 }
 
 void draw_object(t_rt *rt)
@@ -202,11 +190,11 @@ void draw_object(t_rt *rt)
             nearest_obj = NULL;
             nearest_obj = seach_nearest_obj(rt, x, y);
             if(nearest_obj->type == SPHERE)
-            {
                 draw_sphere(rt,x,y,nearest_obj);
-                // draw_plane(rt,x,y,nearest_obj);
-                
-            }
+            else if(nearest_obj->type == PLANE)
+                draw_plane(rt,x,y,nearest_obj);
+            else if(nearest_obj->type == CYLINDER)
+                draw_cylinder(rt,x,y,nearest_obj);
             x++;
         }
         x = 0;

@@ -6,11 +6,11 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:08:42 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/13 16:41:09 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/13 20:09:34 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minirt.h"
+#include "../includes/ray_cross.h"
 
 double calc_sp_distance(t_object *object, t_vec3 screen_vec, t_camera *camera)
 {
@@ -28,7 +28,7 @@ double calc_sp_distance(t_object *object, t_vec3 screen_vec, t_camera *camera)
         return -1;
     return ((-b+sqrt(b * b - 4 * a * c))/(2.0 * a));
 }
-
+// TODO　うまく描画されない・・？
 double calc_pl_distance(t_object *object, t_vec3 screen_vec, t_camera *camera)
 {
     t_vec3	dir;
@@ -45,25 +45,28 @@ double calc_pl_distance(t_object *object, t_vec3 screen_vec, t_camera *camera)
 	return (molecule / denominator);
 }
 
-// double calc_cy_distance(t_object *object, t_vec3 screen_vec, t_camera *camera)
-// {
-//     	double	a;
-// 	double	b;
-// 	double	c;
-// 	double	d;
-// 	t_vec3	*intersections;
-//     t_vec3    dir;
-//     t_vec3    cam2cyl;
+double calc_cy_distance(t_object *object, t_vec3 screen_vec, t_camera *camera)
+{
+    	double	a;
+	double	b;
+	double	c;
+	double	d;
+	t_vec3	*intersections;
+    t_vec3    dir;
+    t_vec3    cam2cyl;
 
-//     dir = vec3_norm(vec3_sub(screen_vec, *camera->view_point));
-//     cam2cyl = vec3_sub(*camera->view_point, *object->center);
-// 	a = vec3_dot(dir, dir) - pow(vec3_dot(dir, *object->axic_vec), 2);
-// 	b = 2 * (vec3_dot(dir, cam2cyl) - vec3_dot(dir, *object->axic_vec)
-// 			* vec3_dot(*object->axic_vec, cam2cyl));
-// 	c = vec3_dot(cam2cyl, cam2cyl) - pow(vec3_dot(*object->axic_vec, cam2cyl), 2)
-// 		- object->diameter / 2 * object->diameter / 2;
-// 	d = b * b - 4 * a * c;
-// }
+    dir = vec3_norm(vec3_sub(screen_vec, *camera->view_point));
+    cam2cyl = vec3_sub(*camera->view_point, *object->center);
+	a = vec3_dot(dir, dir) - pow(vec3_dot(dir, *object->axic_vec), 2);
+	b = 2 * (vec3_dot(dir, cam2cyl) - vec3_dot(dir, *object->axic_vec)
+			* vec3_dot(*object->axic_vec, cam2cyl));
+	c = vec3_dot(cam2cyl, cam2cyl) - pow(vec3_dot(*object->axic_vec, cam2cyl), 2)
+		- object->diameter / 2 * object->diameter / 2;
+	d = b * b - 4 * a * c;
+    double outer = (-b - sqrt(d)) / (2 * a);
+    double inner = (-b + sqrt(d)) / (2 * a);
+    // TODO まだ未完成・・・
+}
 double calc_distance(t_object *obj, t_vec3 screen_vec, t_camera *camera)
 {
     if(obj->type == SPHERE)
@@ -83,14 +86,13 @@ t_object *seach_nearest_obj(t_rt *rt, double x, double y)
     double      distance;
     double      min_distance;
     
-    // TODO defineで定義するようにする
-    min_distance = 1000000000;
+    min_distance = DISTANCE_MAX;
     screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
     obj = rt->scene->object;
     nearest_obj = obj;
+    // 各オブジェクトについて距離を計算し、最小のものをnearest_objに格納しています
     while(obj)
     {
-        distance = 0;
         distance = calc_distance(obj, screen_vec, rt->scene->camera);   
         if(distance < 0)
         {
@@ -104,7 +106,6 @@ t_object *seach_nearest_obj(t_rt *rt, double x, double y)
         }
         obj = obj->next;
     }
-    // printf("obj type %d\n", nearest_obj->type);
 
     return (nearest_obj);
 }

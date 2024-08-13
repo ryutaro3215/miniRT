@@ -6,12 +6,13 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 12:36:45 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/06 13:25:37 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/13 20:01:17 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minirt.h"
 
+// TODO なぜか関数が消えていたので再度実装する必要あり
 bool is_shadow(t_scene *scene ,double t, t_vec3 dir_vec)
 {
     t_vec3 p = vec3_add(*scene->camera->view_point, vec3_mul(dir_vec, t));
