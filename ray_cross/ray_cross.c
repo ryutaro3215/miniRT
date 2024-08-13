@@ -6,14 +6,14 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/13 11:46:35 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/13 13:27:34 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ray_cross.h"
 #include "../includes/color.h"
 
-double	discriminant(t_rt *rt, t_vec3 screen_vec)
+double	discriminant(t_rt *rt, t_vec3 screen_vec, t_object *object)
 {
 	t_vec3	dir;
 	t_vec3	cam2sph;
@@ -21,13 +21,13 @@ double	discriminant(t_rt *rt, t_vec3 screen_vec)
 	double	b;
 	double	c;
 	dir = vec3_norm(vec3_sub(screen_vec, *rt->scene->camera->view_point));
-	cam2sph = vec3_sub(*rt->scene->camera->view_point, *rt->scene->object->center);
+	cam2sph = vec3_sub(*rt->scene->camera->view_point, *object->center);
 	a = vec3_dot(dir, dir);
 	b = 2 * vec3_dot(cam2sph, dir);
-	c = vec3_dot(cam2sph, cam2sph) - (rt->scene->object->diameter * rt->scene->object->diameter);
+	c = vec3_dot(cam2sph, cam2sph) - (object->diameter * object->diameter);
 	return (b * b - 4 * a * c);
 }
-double calc_t(t_scene *scene, t_vec3 screen_vec)
+double calc_t(t_scene *scene, t_vec3 screen_vec, t_object *nearest_obj)
 {
     t_vec3	dir;
     t_vec3	cam2sph;
@@ -35,13 +35,13 @@ double calc_t(t_scene *scene, t_vec3 screen_vec)
     double	b;
     double	c;
     dir = vec3_norm(vec3_sub(screen_vec, *scene->camera->view_point));
-    cam2sph = vec3_sub(*scene->camera->view_point, *scene->object->center);
+    cam2sph = vec3_sub(*scene->camera->view_point, *nearest_obj->center);
     a = vec3_dot(dir, dir);
     b = 2 * vec3_dot(cam2sph, dir);
-    c = vec3_dot(cam2sph, cam2sph) - (scene->object->diameter * scene->object->diameter);
+    c = vec3_dot(cam2sph, cam2sph) - (nearest_obj->diameter * nearest_obj->diameter);
     return ((-b+sqrt(b * b - 4 * a * c))/(2.0 * a));
 }
-void	draw_sphere(t_rt *rt, double x, double y)
+void	draw_sphere(t_rt *rt, double x, double y, t_object *nearest_obj)
 {
 	t_vec3	screen_vec;
 	double	d;
@@ -49,11 +49,11 @@ void	draw_sphere(t_rt *rt, double x, double y)
 	d = 0;
 
     screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
-    d = discriminant(rt, screen_vec);
+    d = discriminant(rt, screen_vec,nearest_obj);
     if (d >= 0)
     {
         // my_mlx_pixel_put(rt, x, y, int_to_hex_color(rt->scene->sphere->rgb));
-        my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec));
+        my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj));
     }
     else
         my_mlx_pixel_put(rt, x, y, 0x000000);
@@ -203,7 +203,7 @@ void draw_object(t_rt *rt)
             nearest_obj = seach_nearest_obj(rt, x, y);
             if(nearest_obj->type == SPHERE)
             {
-                draw_sphere(rt,x,y);
+                draw_sphere(rt,x,y,nearest_obj);
                 
             }
             // draw_plane(rt,x,y);

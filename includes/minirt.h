@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 23:43:13 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 17:08:25 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/13 13:27:12 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,9 +146,9 @@ void	set_vec3(char *str, t_vec3 *vec);
 bool	is_vec3(char *str);
 bool	is_normal_vec3(char *str);
 
-int phong_calc(t_scene *scene, t_vec3 dir_vec);
+int phong_calc(t_scene *scene, t_vec3 dir_vec,t_object *nearest_obj);
 //It is definition of drawing
 void	my_mlx_pixel_put(t_rt *rt, int x, int y, int color);
-double calc_t(t_scene *scene, t_vec3 screen_vec);
+double calc_t(t_scene *scene, t_vec3 screen_vec, t_object *nearest_obj);
 
 #endif

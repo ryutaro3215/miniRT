@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:24:39 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/13 11:42:32 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/13 12:59:17 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include <math.h>
 # include <stdbool.h>
 
-void	draw_sphere(t_rt *rt,double x, double y);
-double	discriminant(t_rt *rt, t_vec3 screen_vec);
+void	draw_sphere(t_rt *rt,double x, double y, t_object *nearest_obj);
+double	discriminant(t_rt *rt, t_vec3 screen_vec, t_object *object);
 void	draw_plane(t_rt *rt, double x, double y);
 void   draw_object(t_rt *rt);
 double	cross_ray_plane(t_rt *rt, t_vec3 screen_vec);
