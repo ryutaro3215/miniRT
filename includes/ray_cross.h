@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:24:39 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/08 20:34:53 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/13 11:42:32 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,5 @@ t_vec3	*get_intersections(t_rt *rt, t_vec3 dir, t_vec3 cam2cyl);
 bool	is_height_range(t_rt *rt, t_vec3 *intersections);
 bool	discriminant_cylinder(t_rt *rt, t_vec3 screen_vec);
 void	draw_cylinder(t_rt *rt);
-
+t_object *seach_nearest_obj(t_rt *rt, double x, double y);
 #endif
