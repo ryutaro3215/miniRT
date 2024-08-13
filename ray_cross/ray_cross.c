@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/13 13:27:34 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/13 17:07:04 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,9 +204,9 @@ void draw_object(t_rt *rt)
             if(nearest_obj->type == SPHERE)
             {
                 draw_sphere(rt,x,y,nearest_obj);
+                // draw_plane(rt,x,y,nearest_obj);
                 
             }
-            // draw_plane(rt,x,y);
             x++;
         }
         x = 0;

@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:29:27 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 17:08:05 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/13 17:02:17 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,4 +126,9 @@ bool	is_normal_vec3(char *str)
 		flag = false;
 	ft_free_2d_array(splited_line);
 	return (flag);
+}
+
+t_vec3 vec3_reflect(t_vec3 v, t_vec3 n) {
+    double dot = vec3_dot(v, n);
+    return vec3_sub(vec3_mul(n, 2 * dot), v);
 }

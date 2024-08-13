@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:08:42 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/13 12:01:53 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/13 16:41:09 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,26 @@ double calc_pl_distance(t_object *object, t_vec3 screen_vec, t_camera *camera)
 	return (molecule / denominator);
 }
 
-static double calc_distance(t_object *obj, t_vec3 screen_vec, t_camera *camera)
+// double calc_cy_distance(t_object *object, t_vec3 screen_vec, t_camera *camera)
+// {
+//     	double	a;
+// 	double	b;
+// 	double	c;
+// 	double	d;
+// 	t_vec3	*intersections;
+//     t_vec3    dir;
+//     t_vec3    cam2cyl;
+
+//     dir = vec3_norm(vec3_sub(screen_vec, *camera->view_point));
+//     cam2cyl = vec3_sub(*camera->view_point, *object->center);
+// 	a = vec3_dot(dir, dir) - pow(vec3_dot(dir, *object->axic_vec), 2);
+// 	b = 2 * (vec3_dot(dir, cam2cyl) - vec3_dot(dir, *object->axic_vec)
+// 			* vec3_dot(*object->axic_vec, cam2cyl));
+// 	c = vec3_dot(cam2cyl, cam2cyl) - pow(vec3_dot(*object->axic_vec, cam2cyl), 2)
+// 		- object->diameter / 2 * object->diameter / 2;
+// 	d = b * b - 4 * a * c;
+// }
+double calc_distance(t_object *obj, t_vec3 screen_vec, t_camera *camera)
 {
     if(obj->type == SPHERE)
         return (calc_sp_distance(obj, screen_vec, camera));

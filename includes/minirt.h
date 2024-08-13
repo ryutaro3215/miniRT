@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 23:43:13 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/13 13:27:12 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/13 17:04:41 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <stdbool.h>
 # include "../minilibx-linux/mlx.h"
 # include "../libft/includes/libft.h"
-
 typedef struct	s_vec3
 {
 	double	x;
@@ -145,8 +144,7 @@ t_vec3	vec3_norm(t_vec3 a);
 void	set_vec3(char *str, t_vec3 *vec);
 bool	is_vec3(char *str);
 bool	is_normal_vec3(char *str);
-
-int phong_calc(t_scene *scene, t_vec3 dir_vec,t_object *nearest_obj);
+t_vec3 vec3_reflect(t_vec3 v, t_vec3 n);
 //It is definition of drawing
 void	my_mlx_pixel_put(t_rt *rt, int x, int y, int color);
 double calc_t(t_scene *scene, t_vec3 screen_vec, t_object *nearest_obj);
