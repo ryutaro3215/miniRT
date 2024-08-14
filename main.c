@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 00:30:07 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/11 00:03:34 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/13 17:34:22 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,13 @@ int	main(int argc, char **argv)
     t_object *head;
     head = rt->scene->object;
 	if (rt->scene == NULL)
-		printf("Error\n");
+		printf("Error\n"); 
 	else
 		print_scene(rt->scene);
     rt->scene->object = head;
 	/* draw_plane(rt); */ 
 	 draw_object(rt); 
-	/* draw_cylinder(rt); */
+	//  draw_cylinder(rt); 
 	/* draw_sphere(rt); */ 
 	 mlx_put_image_to_window(rt->mlx, rt->mlx_win, rt->img, 0, 0); 
 	 hook_event(rt); 
