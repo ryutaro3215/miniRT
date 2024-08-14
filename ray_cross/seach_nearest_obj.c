@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:08:42 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/14 18:00:50 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/14 20:18:23 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,8 @@ double calc_distance(t_object *obj, t_vec3 screen_vec, t_camera *camera)
         return (calc_sp_distance(obj, screen_vec, camera));
     else if(obj->type == PLANE)
         return(calc_pl_distance(obj, screen_vec, camera));
-    // else if(obj->type == CYLINDER)
-    //     return(calc_cy_distance(obj, screen_vec, camera));
+    else if(obj->type == CYLINDER)
+        return(calc_cy_distance(obj, screen_vec, camera));
     return 0;
 }
 
