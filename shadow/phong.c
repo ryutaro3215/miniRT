@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/13 20:01:50 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/17 18:36:22 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ int phong_calc(t_scene *scene, t_vec3 screen_vec, t_object *nearest_obj)
     double spec = pow(fmax(vec3_dot(view_vec, reflect_vec), 0.0), shininess) * scene->light->bright_ratio * ks;
     if(vec3_dot(view_vec, reflect_vec)<0)
         spec = 0;
+    // if(is_shadow(scene, t, dir_vec))
+    // {
+    //     diff = 0;
+    //     spec = 0;
+    // }
     double brightness = amb + diff + spec; 
     int color_r = (int)(fmin(nearest_obj->rgb->r * brightness , 1.0) * 255);
     int color_g = (int)(fmin(nearest_obj->rgb->g * brightness , 1.0) * 255);

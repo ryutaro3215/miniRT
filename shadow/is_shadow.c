@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 12:36:45 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/17 17:31:58 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/17 17:49:42 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,10 @@ bool is_shadow(t_scene *scene ,double t, t_vec3 dir_vec)
 
     while(object)
     {
-        double distance = calc(t, object, start, l);
+        double distance = get_d(t, object, start, l);
         if(distance > 0 && distance < light_dist)
             return true;
+        object = object->next;
     }
     return false;
 }
