@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/18 22:33:20 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/18 22:45:58 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	draw_plane(t_rt *rt, double x,double y, t_object *nearest_obj)
         my_mlx_pixel_put(rt, x, y, 0x000000);
 }
 
-t_vec3	*get_intersections(t_rt *rt, t_vec3 dir, t_vec3 cam2cyl)
+t_vec3	*get_intersections(t_rt *rt, t_vec3 dir, t_vec3 cam2cyl, t_object *object)
 {
 	double	a;
 	double	b;
@@ -100,11 +100,11 @@ t_vec3	*get_intersections(t_rt *rt, t_vec3 dir, t_vec3 cam2cyl)
 	double	d;
 	t_vec3	*intersections;
 
-	a = vec3_dot(dir, dir) - pow(vec3_dot(dir, *rt->scene->object->axic_vec), 2);
-	b = 2 * (vec3_dot(dir, cam2cyl) - vec3_dot(dir, *rt->scene->object->axic_vec)
-			* vec3_dot(*rt->scene->object->axic_vec, cam2cyl));
-	c = vec3_dot(cam2cyl, cam2cyl) - pow(vec3_dot(*rt->scene->object->axic_vec, cam2cyl), 2)
-		- rt->scene->object->diameter / 2 * rt->scene->object->diameter / 2;
+	a = vec3_dot(dir, dir) - pow(vec3_dot(dir, *object->axic_vec), 2);
+	b = 2 * (vec3_dot(dir, cam2cyl) - vec3_dot(dir, *object->axic_vec)
+			* vec3_dot(*object->axic_vec, cam2cyl));
+	c = vec3_dot(cam2cyl, cam2cyl) - pow(vec3_dot(*object->axic_vec, cam2cyl), 2)
+		- object->diameter / 2 * object->diameter / 2;
 	d = b * b - 4 * a * c;
 	if (d < 0)
 		return (NULL);
@@ -118,7 +118,7 @@ t_vec3	*get_intersections(t_rt *rt, t_vec3 dir, t_vec3 cam2cyl)
 	return (intersections);
 }
 
-bool	is_height_range(t_rt *rt, t_vec3 *intersections)
+bool	is_height_range(t_rt *rt, t_vec3 *intersections, t_object *object)
 {
 	bool	is_intersect_p1;
 	bool	is_intersect_p2;
@@ -127,10 +127,10 @@ bool	is_height_range(t_rt *rt, t_vec3 *intersections)
 	t_vec3	cyl_bottom;
 
 	cyl_top = vec3_add(*rt->scene->camera->view_point, 
-			vec3_mul(*rt->scene->object->axic_vec, rt->scene->object->height / 2));
+			vec3_mul(*object->axic_vec, object->height / 2));
 	cyl_bottom = vec3_sub(*rt->scene->camera->view_point, 
-			vec3_mul(*rt->scene->object->axic_vec, rt->scene->object->height / 2));
-	axic = *rt->scene->object->axic_vec;
+			vec3_mul(*object->axic_vec, object->height / 2));
+	axic = *object->axic_vec;
 	is_intersect_p1 = vec3_dot(vec3_sub(intersections[0], cyl_bottom), axic) >= 0 &&
 		vec3_dot(vec3_sub(intersections[0], cyl_top), axic) <= 0;
 	is_intersect_p2 = vec3_dot(vec3_sub(intersections[1], cyl_bottom), axic) >= 0 &&
@@ -141,7 +141,7 @@ bool	is_height_range(t_rt *rt, t_vec3 *intersections)
 		return (false);
 }
 
-bool	discriminant_cylinder(t_rt *rt, t_vec3 screen_vec)
+bool	discriminant_cylinder(t_rt *rt, t_vec3 screen_vec, t_object *object)
 {
 	t_vec3	dir;
 	t_vec3	cam2cyl;
@@ -149,11 +149,11 @@ bool	discriminant_cylinder(t_rt *rt, t_vec3 screen_vec)
 	bool	flag;
 	
 	dir = vec3_norm(vec3_sub(screen_vec, *rt->scene->camera->view_point));
-	cam2cyl = vec3_sub(*rt->scene->camera->view_point, *rt->scene->object->center);
-	intersections = get_intersections(rt, dir, cam2cyl);
+	cam2cyl = vec3_sub(*rt->scene->camera->view_point, *object->center);
+	intersections = get_intersections(rt, dir, cam2cyl, object);
 	if (intersections == NULL)
 		return (false);
-	flag = is_height_range(rt, intersections);
+	flag = is_height_range(rt, intersections,object);
 	free(intersections);
 	if (flag == true)
 		return (true);
@@ -167,7 +167,7 @@ void	draw_cylinder(t_rt *rt,double x, double y, t_object *nearest_obj)
 	bool	is_drawable;
 
     screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
-    is_drawable = discriminant_cylinder(rt, screen_vec);
+    is_drawable = discriminant_cylinder(rt, screen_vec,nearest_obj);
     if (is_drawable == true)
         my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj));
         // my_mlx_pixel_put(rt, x, y, int_to_hex_color(nearest_obj->rgb));
