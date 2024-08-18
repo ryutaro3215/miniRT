@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:08:42 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/18 00:36:23 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/18 22:32:28 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ double calc_pl_distance(t_object *object, t_vec3 dir, t_vec3 *source_point)
 	double	molecule;
 
 	cam2pl = vec3_sub(*source_point, *object->p_in_the_plane);
-	denominator = -(vec3_dot(dir, *object->normal_vec));
+	denominator = (vec3_dot(vec3_mul(dir,-1), *object->normal_vec));
 	if (denominator == 0)
 		return (-1);
 	molecule = vec3_dot(cam2pl, *object->normal_vec);

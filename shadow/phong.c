@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/18 12:17:31 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/18 16:26:40 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,13 @@ int phong_calc(t_scene *scene, t_vec3 screen_vec, t_object *nearest_obj)
         normal = vec3_norm(vec3_sub(intersection, *nearest_obj->center));
     if(nearest_obj->type == PLANE)
         normal = *nearest_obj->normal_vec;
+    if(nearest_obj->type == CYLINDER)
+    {
+        t_vec3 cylinder_axis = vec3_norm(*nearest_obj->axic_vec); // 円柱の軸（通常は単位ベクトルとして定義）
+        t_vec3 intersection_to_center = vec3_sub(intersection, *nearest_obj->center);
+        t_vec3 projection_on_axis = vec3_mul(cylinder_axis, vec3_dot(intersection_to_center, cylinder_axis));
+        normal = vec3_norm(vec3_sub(intersection_to_center, projection_on_axis));
+    }
     t_vec3 light_vec = vec3_norm(vec3_sub(*scene->light->light_point, intersection));
     t_vec3 view_vec = vec3_norm(vec3_sub(*scene->camera->view_point, intersection));
     t_vec3 reflect_vec = vec3_reflect(vec3_mul(light_vec, -1), normal);

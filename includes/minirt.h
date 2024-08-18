@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 23:43:13 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/18 00:44:41 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/18 22:33:28 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,5 @@ bool	is_normal_vec3(char *str);
 t_vec3 vec3_reflect(t_vec3 v, t_vec3 n);
 //It is definition of drawing
 void	my_mlx_pixel_put(t_rt *rt, int x, int y, int color);
-double calc_t(t_scene *scene, t_vec3 screen_vec, t_object *nearest_obj);
 
 #endif
