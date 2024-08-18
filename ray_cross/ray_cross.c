@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/18 12:47:05 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/18 13:06:45 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,18 @@ double	cross_ray_plane(t_object *object, t_vec3 screen_vec, t_camera *camera)
 	molecule = vec3_dot(cam2pl, *object->normal_vec);
 	return (molecule / denominator);
 }
+bool judge_denominator(t_vec3 screen_vec,t_camera *camera,t_object *object)
+{
+    	t_vec3	dir;
+	double	denominator;
 
+	dir = vec3_norm(vec3_sub(screen_vec, *camera->view_point)); 
+	denominator = -(vec3_dot(dir, *object->normal_vec));
+    if(denominator < 0)
+        return true;
+    else
+        return false;
+}
 void	draw_plane(t_rt *rt, double x,double y, t_object *nearest_obj)
 {
 	t_vec3	screen_vec;
@@ -87,9 +98,8 @@ void	draw_plane(t_rt *rt, double x,double y, t_object *nearest_obj)
 	t = 0;
     screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
     t = cross_ray_plane(nearest_obj, screen_vec,rt->scene->camera);
-    if(t == -2)
-        *nearest_obj->normal_vec = vec3_mul(*nearest_obj->normal_vec, -1);
-        
+    if(judge_denominator(screen_vec,rt->scene->camera,nearest_obj))
+        *nearest_obj->normal_vec = vec3_mul(*nearest_obj->normal_vec,-1);
     if (t > 0)
         my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj));
         // my_mlx_pixel_put(rt, x, y, int_to_hex_color(nearest_obj->rgb));
