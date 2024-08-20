@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:08:42 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/18 22:32:28 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/19 20:17:41 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,13 @@ double calc_cy_distance(t_object *object, t_vec3 dir, t_vec3 *source_point)
 		free(intersections);
         return (-1);
 	}
+    t_vec3 center2inner = vec3_sub(intersections[1],*object->center);
+    // t_vec3 center2outer = vec3_sub(intersections[0],*object->center);
+    
+    // double h_outer = vec3_dot(center2outer, *object->axic_vec);
+    double h_inner = vec3_dot(center2inner, *object->axic_vec);
 	distance = vec3_mag(vec3_sub(*source_point, intersections[0]));
-	if (distance > vec3_mag(vec3_sub(*source_point, intersections[1])))
+	if (h_inner>= 0 && h_inner <= object->height)
 		distance = vec3_mag(vec3_sub(*source_point, intersections[1]));
     free(intersections);
 	return (distance);
