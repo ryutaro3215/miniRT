@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:08:42 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/19 20:17:41 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/21 19:16:49 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,19 @@ double calc_sp_distance(t_object *object, t_vec3 dir, t_vec3 *source_point)
     double	a;
     double	b;
     double	c;
+	double	t1;
+	double	t2;
     sph2source = vec3_sub(*source_point, *object->center);
     a = vec3_dot(dir, dir);
     b = 2 * vec3_dot(sph2source, dir);
     c = vec3_dot(sph2source, sph2source) - (object->diameter * object->diameter);
     if(b * b - 4 * a * c < 0)
         return -1;
-    return ((-b+sqrt(b * b - 4 * a * c))/(2.0 * a));
+	t1 = (-b + sqrt(b * b - 4 * a * c)) / (2 * a);
+	t2 = (-b - sqrt(b * b - 4 * a * c)) / (2 * a);
+	if (t1 < t2)
+		return (t1);
+	return (t2);
 }
 // TODO　うまく描画されない・・？
 double calc_pl_distance(t_object *object, t_vec3 dir, t_vec3 *source_point)

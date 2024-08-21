@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/21 17:45:24 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/21 18:14:02 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ void	draw_sphere(t_rt *rt, double x, double y, t_object *nearest_obj)
     }
     else
         my_mlx_pixel_put(rt, x, y, 0x000000);
-	
-	
 }
 
 double	cross_ray_plane(t_object *object, t_vec3 screen_vec, t_camera *camera)
