@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:28:27 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 22:33:32 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/19 20:43:16 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,7 @@ bool	get_cylinder(char **splited_line, t_scene *scene)
 	cylinder->rgb = (t_rgb *)malloc(sizeof(t_rgb));
 	cylinder->diameter = ft_atof(splited_line[3]);
 	cylinder->height = ft_atof(splited_line[4]);
+    cylinder->normal_vec = (t_vec3 *)malloc(sizeof(t_vec3));
 	set_vec3(splited_line[1], cylinder->center);
 	set_vec3(splited_line[2], cylinder->axic_vec);
 	set_rgb(splited_line[5], cylinder->rgb);
