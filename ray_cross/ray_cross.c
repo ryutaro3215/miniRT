@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/21 17:40:52 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:14:02 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,10 +158,10 @@ bool	discriminant_cylinder(t_rt *rt, t_vec3 screen_vec, t_object *object)
     double h_outer = vec3_dot(center2outer, *object->axic_vec);
     double h_inner = vec3_dot(center2inner, *object->axic_vec);
    if (h_inner >= 0 && h_inner <= object->height)
-{
-    t_vec3 projection_on_axis_inner = vec3_mul(*object->axic_vec, h_inner);
-    *object->normal_vec = vec3_norm(vec3_sub(center2inner, projection_on_axis_inner));
-}
+    {
+        t_vec3 projection_on_axis_inner = vec3_mul(*object->axic_vec, h_inner);
+        *object->normal_vec = vec3_norm(vec3_sub(center2inner, projection_on_axis_inner));
+    }
 else if (h_outer >= 0 && h_outer <= object->height)
 {
     t_vec3 projection_on_axis_outer = vec3_mul(*object->axic_vec, h_outer);

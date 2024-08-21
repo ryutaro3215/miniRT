@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/21 17:35:19 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/21 18:11:09 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int phong_calc(t_scene *scene, t_vec3 screen_vec, t_object *nearest_obj)
     t_vec3 normal;
     //正規化による方向ベクトルの算出
     if(nearest_obj->type == SPHERE){
-                normal = vec3_norm(vec3_sub(intersection, *nearest_obj->center));
+            normal = vec3_norm(vec3_sub(intersection, *nearest_obj->center));
     }
     if(nearest_obj->type == PLANE)
         normal = *nearest_obj->normal_vec;
@@ -42,14 +42,16 @@ int phong_calc(t_scene *scene, t_vec3 screen_vec, t_object *nearest_obj)
     t_vec3 light_vec = vec3_norm(vec3_sub(*scene->light->light_point, intersection));
     t_vec3 view_vec = vec3_norm(vec3_sub(*scene->camera->view_point, intersection));
     t_vec3 reflect_vec = vec3_reflect(vec3_mul(light_vec, -1), normal);
-
+    // normal = vec3_mul(normal, -1);
+    // reflect_vec = vec3_mul(reflect_vec, -1);
     double amb = scene->ambi_light->ratio * ka ;
 
     double diff = vec3_dot(normal, light_vec) * scene->light->bright_ratio * kd;
     if(vec3_dot(normal, light_vec)<0)
         diff = 0;
 
-    double spec = pow(fmax(vec3_dot(view_vec, reflect_vec), 0.0), shininess) * scene->light->bright_ratio * ks;
+    // double spec = pow(fmax(vec3_dot(view_vec, reflect_vec), 0.0), shininess) * scene->light->bright_ratio * ks;
+    double spec = pow(vec3_dot(view_vec, reflect_vec), shininess) * scene->light->bright_ratio * ks;
     if(vec3_dot(view_vec, reflect_vec)<0)
         spec = 0;
     if(is_shadow(scene, t, dir_vec))
