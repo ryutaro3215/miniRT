@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/19 20:54:37 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/21 17:35:19 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,15 @@ int phong_calc(t_scene *scene, t_vec3 screen_vec, t_object *nearest_obj)
     t_vec3 intersection = vec3_add(*scene->camera->view_point, vec3_mul(dir_vec, t));
     t_vec3 normal;
     //正規化による方向ベクトルの算出
-    if(nearest_obj->type == SPHERE)
-        normal = vec3_norm(vec3_sub(intersection, *nearest_obj->center));
+    if(nearest_obj->type == SPHERE){
+                normal = vec3_norm(vec3_sub(intersection, *nearest_obj->center));
+    }
     if(nearest_obj->type == PLANE)
         normal = *nearest_obj->normal_vec;
     if(nearest_obj->type == CYLINDER)
     {
         normal = *nearest_obj->normal_vec;
+        // normal = vec3_norm(vec3_sub(intersection, *nearest_obj->center));
         // t_vec3 cylinder_axis = vec3_norm(*nearest_obj->axic_vec); // 円柱の軸（通常は単位ベクトルとして定義）
         // t_vec3 intersection_to_center = vec3_sub(intersection, *nearest_obj->center);
         // t_vec3 projection_on_axis = vec3_mul(cylinder_axis, vec3_dot(intersection_to_center, cylinder_axis));
