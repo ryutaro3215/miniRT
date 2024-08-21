@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/21 18:11:09 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/21 19:08:12 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 int phong_calc(t_scene *scene, t_vec3 screen_vec, t_object *nearest_obj)
 {
     //ここの係数関係どうすれば、、？
-    double ka=1.0;
+    double ka=0.8;
     double kd=0.8;
     double ks=0.8;
     int shininess = 10;
@@ -39,20 +39,20 @@ int phong_calc(t_scene *scene, t_vec3 screen_vec, t_object *nearest_obj)
         // t_vec3 projection_on_axis = vec3_mul(cylinder_axis, vec3_dot(intersection_to_center, cylinder_axis));
         // normal = vec3_norm(vec3_sub(intersection_to_center, projection_on_axis));
     }
-    t_vec3 light_vec = vec3_norm(vec3_sub(*scene->light->light_point, intersection));
-    t_vec3 view_vec = vec3_norm(vec3_sub(*scene->camera->view_point, intersection));
-    t_vec3 reflect_vec = vec3_reflect(vec3_mul(light_vec, -1), normal);
+    t_vec3 light_vec = vec3_norm(vec3_sub(*scene->light->light_point,intersection));
+    t_vec3 view_vec = vec3_norm(vec3_sub(intersection, *scene->camera->view_point));
+    t_vec3 reflect_vec = vec3_reflect(vec3_mul(light_vec, 0), normal);
     // normal = vec3_mul(normal, -1);
     // reflect_vec = vec3_mul(reflect_vec, -1);
     double amb = scene->ambi_light->ratio * ka ;
 
     double diff = vec3_dot(normal, light_vec) * scene->light->bright_ratio * kd;
-    if(vec3_dot(normal, light_vec)<0)
+    if(vec3_dot(normal, light_vec) <= 0)
         diff = 0;
 
     // double spec = pow(fmax(vec3_dot(view_vec, reflect_vec), 0.0), shininess) * scene->light->bright_ratio * ks;
     double spec = pow(vec3_dot(view_vec, reflect_vec), shininess) * scene->light->bright_ratio * ks;
-    if(vec3_dot(view_vec, reflect_vec)<0)
+    if(vec3_dot(view_vec, reflect_vec) < 0)
         spec = 0;
     if(is_shadow(scene, t, dir_vec))
     {
@@ -61,6 +61,8 @@ int phong_calc(t_scene *scene, t_vec3 screen_vec, t_object *nearest_obj)
     }
     // printf("amb:%f, diff:%f, spec:%f\n", amb, diff, spec);
     double brightness = amb + diff + spec; 
+    /* (void)spec; */
+    /* double brightness = amb + diff; */
     int color_r = (int)(fmin(nearest_obj->rgb->r * brightness , 1.0) * 255);
     int color_g = (int)(fmin(nearest_obj->rgb->g * brightness , 1.0) * 255);
     int color_b = (int)(fmin(nearest_obj->rgb->b * brightness , 1.0) * 255);
