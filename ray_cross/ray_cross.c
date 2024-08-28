@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/21 18:14:02 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/08/26 23:54:07 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	draw_sphere(t_rt *rt, double x, double y, t_object *nearest_obj)
     if (d >= 0)
     {
         // my_mlx_pixel_put(rt, x, y, int_to_hex_color(rt->scene->sphere->rgb));
-        my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj));
+        my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj,rt));
     }
     else
         my_mlx_pixel_put(rt, x, y, 0x000000);
@@ -84,7 +84,7 @@ void	draw_plane(t_rt *rt, double x,double y, t_object *nearest_obj)
     if(judge_denominator(screen_vec,rt->scene->camera,nearest_obj))
         *nearest_obj->normal_vec = vec3_mul(*nearest_obj->normal_vec,-1);
     if (t >= 0)
-        my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj));
+        my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj,rt));
         // my_mlx_pixel_put(rt, x, y, int_to_hex_color(nearest_obj->rgb));
     else
         my_mlx_pixel_put(rt, x, y, 0x000000);
@@ -101,6 +101,7 @@ t_vec3	*get_intersections(t_rt *rt, t_vec3 dir, t_vec3 cam2cyl, t_object *object
 	a = vec3_dot(dir, dir) - pow(vec3_dot(dir, *object->axic_vec), 2);
 	b = 2 * (vec3_dot(dir, cam2cyl) - vec3_dot(dir, *object->axic_vec)
 			* vec3_dot(*object->axic_vec, cam2cyl));
+
 	c = vec3_dot(cam2cyl, cam2cyl) - pow(vec3_dot(*object->axic_vec, cam2cyl), 2)
 		- object->diameter / 2 * object->diameter / 2;
 	d = b * b - 4 * a * c;
@@ -160,13 +161,16 @@ bool	discriminant_cylinder(t_rt *rt, t_vec3 screen_vec, t_object *object)
    if (h_inner >= 0 && h_inner <= object->height)
     {
         t_vec3 projection_on_axis_inner = vec3_mul(*object->axic_vec, h_inner);
-        *object->normal_vec = vec3_norm(vec3_sub(center2inner, projection_on_axis_inner));
+        *object->normal_vec = vec3_norm(vec3_sub(projection_on_axis_inner,center2inner));
+ 
     }
 else if (h_outer >= 0 && h_outer <= object->height)
 {
     t_vec3 projection_on_axis_outer = vec3_mul(*object->axic_vec, h_outer);
     *object->normal_vec = vec3_norm(vec3_sub(center2outer, projection_on_axis_outer));
+
 }
+
 
 	free(intersections);
 	if (flag == true)
@@ -184,7 +188,7 @@ void	draw_cylinder(t_rt *rt,double x, double y, t_object *nearest_obj)
     is_drawable = discriminant_cylinder(rt, screen_vec,nearest_obj);
     // printf("%f\n",nearest_obj->normal_vec->x);
     if (is_drawable == true)
-        my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj));
+        my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj,rt));
         // my_mlx_pixel_put(rt, x, y, int_to_hex_color(nearest_obj->rgb));
     else
         my_mlx_pixel_put(rt, x, y, 0x000000);
