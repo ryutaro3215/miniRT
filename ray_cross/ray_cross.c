@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/26 23:54:07 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/29 14:59:35 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,31 +152,29 @@ bool	discriminant_cylinder(t_rt *rt, t_vec3 screen_vec, t_object *object)
 	intersections = get_intersections(rt, dir, cam2cyl, object);
 	if (intersections == NULL)
 		return (false);
-	flag = is_height_range(rt, intersections,object);
+	// flag = is_height_range(rt, intersections,object);
      t_vec3 center2inner = vec3_sub(intersections[1],*object->center);
     t_vec3 center2outer = vec3_sub(intersections[0],*object->center);
     
     double h_outer = vec3_dot(center2outer, *object->axic_vec);
     double h_inner = vec3_dot(center2inner, *object->axic_vec);
-   if (h_inner >= 0 && h_inner <= object->height)
+   if  ( h_outer>=0 && h_outer <= object->height)
     {
-        t_vec3 projection_on_axis_inner = vec3_mul(*object->axic_vec, h_inner);
-        *object->normal_vec = vec3_norm(vec3_sub(projection_on_axis_inner,center2inner));
+        flag = true;
+        // t_vec3 projection_on_axis_inner = vec3_mul(*object->axic_vec, h_inner);
+        // *object->normal_vec = vec3_norm(vec3_sub(projection_on_axis_inner,center2inner));
  
     }
-else if (h_outer >= 0 && h_outer <= object->height)
+else if ( h_inner>=0 &&  h_inner <= object->height)
 {
-    t_vec3 projection_on_axis_outer = vec3_mul(*object->axic_vec, h_outer);
-    *object->normal_vec = vec3_norm(vec3_sub(center2outer, projection_on_axis_outer));
-
+    flag = true;
+    // t_vec3 projection_on_axis_outer = vec3_mul(*object->axic_vec, h_outer);
+    // *object->normal_vec = vec3_norm(vec3_sub(center2outer, projection_on_axis_outer));
 }
-
-
+else
+    flag = false;
 	free(intersections);
-	if (flag == true)
-		return (true);
-	else
-		return (false);
+    return (flag);
 }
 
 void	draw_cylinder(t_rt *rt,double x, double y, t_object *nearest_obj)
@@ -186,7 +184,9 @@ void	draw_cylinder(t_rt *rt,double x, double y, t_object *nearest_obj)
 
     screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
     is_drawable = discriminant_cylinder(rt, screen_vec,nearest_obj);
+    // is_drawable = calc_cy_distance(nearest_obj, screen_vec, rt->scene->camera->view_point);
     // printf("%f\n",nearest_obj->normal_vec->x);
+    // if(is_drawable >= 0)
     if (is_drawable == true)
         my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj,rt));
         // my_mlx_pixel_put(rt, x, y, int_to_hex_color(nearest_obj->rgb));
