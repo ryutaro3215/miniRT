@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:08:42 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/31 18:20:13 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/31 20:57:51 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,21 @@ double calc_pl_distance(t_object *object, t_vec3 dir, t_vec3 *source_point)
 	return (molecule / denominator);
 }
 
+double calc_cy_d(t_object *obj, t_vec3 dir, t_vec3 *source_point)
+{
+    double	a;
+	double	b;
+	double	c;
+    a = vec3_mag(vec3_cross(dir, *obj->axic_vec));
+    a*=a;
+     b = 2 * vec3_dot(vec3_cross(dir, *obj->axic_vec), vec3_cross(vec3_sub(*source_point, *obj->center), *obj->axic_vec));
 
+     c = vec3_mag(vec3_cross(vec3_sub(*source_point, *obj->center),  *obj->axic_vec));
+	c = c * c - (obj->diameter/2) *(obj->diameter/2);
+
+	return b * b - 4 * a * c;
+
+}
 double  calc_cy_t(t_object *obj, t_vec3 dir,  int flag,t_vec3 *source_point)
 {
     double	a;
@@ -70,28 +84,11 @@ double  calc_cy_t(t_object *obj, t_vec3 dir,  int flag,t_vec3 *source_point)
     
     return (-b - sqrt(d)) / (2 * a);
 }
-t_vec3  *calc_cy_intersections(t_object *obj, t_vec3 dir, t_vec3 cam2cy, t_vec3 *source_point)
+t_vec3  *calc_cy_intersections(t_object *obj, t_vec3 dir, t_vec3 *source_point)
 {
-    double	a;
-	double	b;
-	double	c;
 	double	d;
 	t_vec3	*intersections;
-
-	// a = vec3_dot(dir, dir) - pow(vec3_dot(dir, *obj->axic_vec), 2);
-	// b = 2 * (vec3_dot(dir, cam2cy) - vec3_dot(dir, *obj->axic_vec)
-	// 		* vec3_dot(*obj->axic_vec, cam2cy));
-
-	// c = vec3_dot(cam2cy, cam2cy) - pow(vec3_dot(*obj->axic_vec, cam2cy), 2)
-	// 	- obj->diameter / 2 * obj->diameter / 2;
-    a = vec3_mag(vec3_cross(dir, *obj->axic_vec));
-    a*=a;
-     b = 2 * vec3_dot(vec3_cross(dir, *obj->axic_vec), vec3_cross(vec3_sub(*source_point, *obj->center), *obj->axic_vec));
-     c = vec3_mag(vec3_cross(vec3_sub(*source_point, *obj->center),  *obj->axic_vec));
-	c = c * c - (obj->diameter/2) *(obj->diameter/2);
-    if(cam2cy.x == 0 && cam2cy.y == 0 && cam2cy.z == 0)
-        ;
-	d = b * b - 4 * a * c;
+	d = calc_cy_d(obj, dir, source_point);
 	if (d < 0)
 		return (NULL);
 	intersections = (t_vec3 *)malloc(sizeof(t_vec3) * 2);
@@ -105,29 +102,21 @@ t_vec3  *calc_cy_intersections(t_object *obj, t_vec3 dir, t_vec3 cam2cy, t_vec3 
 double calc_cy_distance(t_object *object, t_vec3 dir, t_vec3 *source_point)
 {
 
-    t_vec3  cam2cy;
     t_vec3  *intersections;
-    // bool    flag;
+    double h_outer;
+    double h_inner;
     double  distance;
 
-    cam2cy = vec3_sub(*source_point, *object->center);
-    intersections = calc_cy_intersections(object, dir, cam2cy, source_point);
+    intersections = calc_cy_intersections(object, dir, source_point);
     if (intersections == NULL)
         return (-1);
-
-    t_vec3 center2inner = vec3_sub(intersections[1],*object->center);
-    t_vec3 center2outer = vec3_sub(intersections[0],*object->center);
-
-    double h_outer = vec3_dot(center2outer, *object->axic_vec);
-    double h_inner = vec3_dot(center2inner, *object->axic_vec);
+    h_outer = vec3_dot(vec3_sub(intersections[0],*object->center), *object->axic_vec);
+    h_inner = vec3_dot(vec3_sub(intersections[1],*object->center), *object->axic_vec);
     printf("h_outer:%f, h_inner:%f\n", h_outer, h_inner);
-	// distance = vec3_mag(vec3_sub(*source_point, intersections[0]));
 	if (h_outer >= 0 && h_outer <= object->height)
         distance = calc_cy_t(object, dir,  0,source_point);
-        	// distance = vec3_mag(vec3_sub(*source_point, intersections[0]));
     else if(h_inner>= 0 && h_inner <= object->height)
 		distance = calc_cy_t(object, dir,  1,source_point);
-        	// distance = vec3_mag(vec3_sub(*source_point, intersections[1]));
     else
         distance = -1;
     free(intersections);

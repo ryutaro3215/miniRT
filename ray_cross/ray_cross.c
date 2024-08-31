@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/31 18:21:35 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/31 21:10:26 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	draw_sphere(t_rt *rt, double x, double y, t_object *nearest_obj)
     if (d >= 0)
     {
         // my_mlx_pixel_put(rt, x, y, int_to_hex_color(rt->scene->sphere->rgb));
-        my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj,rt));
+        my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj));
     }
     else
         my_mlx_pixel_put(rt, x, y, 0x000000);
@@ -84,7 +84,7 @@ void	draw_plane(t_rt *rt, double x,double y, t_object *nearest_obj)
     if(judge_denominator(screen_vec,rt->scene->camera,nearest_obj))
         *nearest_obj->normal_vec = vec3_mul(*nearest_obj->normal_vec,-1);
     if (t >= 0)
-        my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj,rt));
+        my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj));
         // my_mlx_pixel_put(rt, x, y, int_to_hex_color(nearest_obj->rgb));
     else
         my_mlx_pixel_put(rt, x, y, 0x000000);
@@ -163,7 +163,7 @@ void	draw_cylinder(t_rt *rt,double x, double y, t_object *nearest_obj)
     is_drawable = discriminant_cylinder(rt, screen_vec,nearest_obj);
 
     if (is_drawable == true)
-        my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj,rt));
+        my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj));
         // my_mlx_pixel_put(rt, x, y, int_to_hex_color(nearest_obj->rgb));
     else
         my_mlx_pixel_put(rt, x, y, 0x000000);

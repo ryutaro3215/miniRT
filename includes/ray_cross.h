@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:24:39 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/26 20:17:04 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/31 20:48:18 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,6 @@ bool	discriminant_cylinder(t_rt *rt, t_vec3 screen_vec, t_object *object);
 void	draw_cylinder(t_rt *rt, double x, double y, t_object *nearest_obj);
 t_object *seach_nearest_obj(t_rt *rt, double x, double y);
 double calc_distance(t_object *obj, t_vec3 screen_vec, t_vec3 *source_point);
-t_vec3  *calc_cy_intersections(t_object *obj, t_vec3 dir, t_vec3 cam2cy, t_vec3 *source_point);
+t_vec3  *calc_cy_intersections(t_object *obj, t_vec3 dir, t_vec3 *source_point);
 double calc_cy_distance(t_object *object, t_vec3 dir, t_vec3 *source_point);
 #endif
