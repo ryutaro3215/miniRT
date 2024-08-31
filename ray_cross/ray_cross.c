@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/29 14:59:35 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/31 15:34:11 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,16 +160,16 @@ bool	discriminant_cylinder(t_rt *rt, t_vec3 screen_vec, t_object *object)
     double h_inner = vec3_dot(center2inner, *object->axic_vec);
    if  ( h_outer>=0 && h_outer <= object->height)
     {
-        flag = true;
-        // t_vec3 projection_on_axis_inner = vec3_mul(*object->axic_vec, h_inner);
-        // *object->normal_vec = vec3_norm(vec3_sub(projection_on_axis_inner,center2inner));
+    flag = true;
+    t_vec3 projection_on_axis_outer = vec3_mul(*object->axic_vec, h_outer);
+    *object->normal_vec = vec3_norm(vec3_sub(center2outer, projection_on_axis_outer));
  
     }
 else if ( h_inner>=0 &&  h_inner <= object->height)
 {
-    flag = true;
-    // t_vec3 projection_on_axis_outer = vec3_mul(*object->axic_vec, h_outer);
-    // *object->normal_vec = vec3_norm(vec3_sub(center2outer, projection_on_axis_outer));
+        flag = true;
+        t_vec3 projection_on_axis_inner = vec3_mul(*object->axic_vec, h_inner);
+        *object->normal_vec = vec3_norm(vec3_sub(projection_on_axis_inner,center2inner));
 }
 else
     flag = false;
