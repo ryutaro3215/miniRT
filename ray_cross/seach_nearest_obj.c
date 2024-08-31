@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:08:42 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/31 20:57:51 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/31 21:16:34 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ double calc_cy_distance(t_object *object, t_vec3 dir, t_vec3 *source_point)
         return (-1);
     h_outer = vec3_dot(vec3_sub(intersections[0],*object->center), *object->axic_vec);
     h_inner = vec3_dot(vec3_sub(intersections[1],*object->center), *object->axic_vec);
-    printf("h_outer:%f, h_inner:%f\n", h_outer, h_inner);
+    // printf("h_outer:%f, h_inner:%f\n", h_outer, h_inner);
 	if (h_outer >= 0 && h_outer <= object->height)
         distance = calc_cy_t(object, dir,  0,source_point);
     else if(h_inner>= 0 && h_inner <= object->height)

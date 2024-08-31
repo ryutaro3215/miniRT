@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:16:29 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 22:15:05 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/09/01 00:05:51 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	free_light(t_light *light)
 {
 	free(light->light_point);
 	free(light->rgb);
+    free(light->factor);
 	free(light);
 }
 
