@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/31 16:32:50 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/31 18:21:35 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,28 +117,6 @@ t_vec3	*get_intersections(t_rt *rt, t_vec3 dir, t_vec3 cam2cyl, t_object *object
 	return (intersections);
 }
 
-bool	is_height_range(t_rt *rt, t_vec3 *intersections, t_object *object)
-{
-	bool	is_intersect_p1;
-	bool	is_intersect_p2;
-	t_vec3	axic;
-	t_vec3	cyl_top;
-	t_vec3	cyl_bottom;
-
-	cyl_top = vec3_add(*rt->scene->camera->view_point, 
-			vec3_mul(*object->axic_vec, object->height / 2));
-	cyl_bottom = vec3_sub(*rt->scene->camera->view_point, 
-			vec3_mul(*object->axic_vec, object->height / 2));
-	axic = *object->axic_vec;
-	is_intersect_p1 = vec3_dot(vec3_sub(intersections[0], cyl_bottom), axic) >= 0 &&
-		vec3_dot(vec3_sub(intersections[0], cyl_top), axic) <= 0;
-	is_intersect_p2 = vec3_dot(vec3_sub(intersections[1], cyl_bottom), axic) >= 0 &&
-		vec3_dot(vec3_sub(intersections[1], cyl_top), axic) <= 0;
-	if ( is_intersect_p1|| is_intersect_p2)
-		return (true);
-	else
-		return (false);
-}
 
 bool	discriminant_cylinder(t_rt *rt, t_vec3 screen_vec, t_object *object)
 {
@@ -152,7 +130,6 @@ bool	discriminant_cylinder(t_rt *rt, t_vec3 screen_vec, t_object *object)
 	intersections = get_intersections(rt, dir, cam2cyl, object);
 	if (intersections == NULL)
 		return (false);
-	// flag = is_height_range(rt, intersections,object);
      t_vec3 center2inner = vec3_sub(intersections[1],*object->center);
     t_vec3 center2outer = vec3_sub(intersections[0],*object->center);
     

@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:28:27 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/19 20:43:16 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/31 18:10:06 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,14 @@ bool	get_light(char **splited_line, t_scene *scene)
 	light = (t_light *)malloc(sizeof(t_light));
 	light->light_point = (t_vec3 *)malloc(sizeof(t_vec3));
 	light->rgb = (t_rgb *)malloc(sizeof(t_rgb));
+    light->factor = (t_factor *)malloc(sizeof(t_factor));
 	set_vec3(splited_line[1], light->light_point);
 	set_rgb(splited_line[3], light->rgb);
 	light->bright_ratio = ft_atof(splited_line[2]);
+    light->factor->ka = 0.8;
+    light->factor->kd = 0.8;
+    light->factor->ks = 0.8;
+    light->factor->shininess = 10;
 	scene->light = light;
 	return (true);
 }

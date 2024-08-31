@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/31 15:58:33 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/31 18:14:38 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 // TODO　centerを使わないやり方にリファクタする
 int phong_calc(t_scene *scene, t_vec3 screen_vec, t_object *nearest_obj, t_rt *rt)
 {
-    //ここの係数関係どうすれば、、？
-    double ka=0.8;
-    double kd=0.8;
-    double ks=0.8;
-    int shininess = 10;
     t_vec3 dir_vec = vec3_norm(vec3_sub(screen_vec, *scene->camera->view_point));
     double t = calc_distance(nearest_obj, dir_vec, scene->camera->view_point);
     t_vec3 intersection = vec3_add(*scene->camera->view_point, vec3_mul(dir_vec, t));
@@ -27,9 +22,8 @@ int phong_calc(t_scene *scene, t_vec3 screen_vec, t_object *nearest_obj, t_rt *r
     if(rt)
     ;
     //正規化による方向ベクトルの算出
-    if(nearest_obj->type == SPHERE){
+    if(nearest_obj->type == SPHERE)
             normal = vec3_norm(vec3_sub(intersection, *nearest_obj->center));
-    }
     if(nearest_obj->type == PLANE)
         normal = *nearest_obj->normal_vec;
     if(nearest_obj->type == CYLINDER)
@@ -37,18 +31,18 @@ int phong_calc(t_scene *scene, t_vec3 screen_vec, t_object *nearest_obj, t_rt *r
         // printf("intersection:%f,%f,%f\n", intersection.x, intersection.y, intersection.z);
     t_vec3 light_vec = vec3_norm(vec3_sub(*scene->light->light_point,intersection));
     t_vec3 view_vec = vec3_norm(vec3_sub(intersection, *scene->camera->view_point));
-    t_vec3 reflect_vec = vec3_reflect(vec3_mul(light_vec, -1), normal);
+    
     // normal = vec3_mul(normal, -1);
     // reflect_vec = vec3_mul(reflect_vec, -1);
-    double amb = scene->ambi_light->ratio * ka ;
+    double amb = scene->ambi_light->ratio * scene->light->factor->ka;
 
-    double diff = vec3_dot(normal, light_vec) * scene->light->bright_ratio * kd;
+    double diff = vec3_dot(normal, light_vec) * scene->light->bright_ratio * scene->light->factor->kd;
     if(vec3_dot(normal, light_vec) <= 0)
         diff = 0;
 
-    double spec = pow(vec3_dot(view_vec, reflect_vec), shininess) * scene->light->bright_ratio * ks;
+    double spec = pow(vec3_dot(view_vec, vec3_reflect(vec3_mul(light_vec, -1), normal)), scene->light->factor->shininess) * scene->light->bright_ratio * scene->light->factor->ks;
     
-    if(vec3_dot(view_vec, reflect_vec) < 0)
+    if(vec3_dot(view_vec, vec3_reflect(vec3_mul(light_vec, -1), normal)) < 0)
         spec = 0;
     if(is_shadow(scene, t, dir_vec))
     {

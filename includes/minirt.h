@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 23:43:13 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/18 22:33:28 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/31 18:10:32 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,21 @@ typedef struct	s_camera
 	int		view_degree;
 }			t_camera;
 
+typedef struct s_factor{
+    double	ka;
+    double	kd;
+    double	ks;
+    int		shininess;
+}	t_factor;
+
 typedef struct	s_light
 {
 	t_vec3	*light_point;
 	float	bright_ratio;
 	t_rgb	*rgb;
+    t_factor    *factor;
 }			t_light;
+
 
 // typedef struct	s_sphere
 // {

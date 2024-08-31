@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:08:42 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/31 14:26:20 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/31 18:20:13 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,33 +50,7 @@ double calc_pl_distance(t_object *object, t_vec3 dir, t_vec3 *source_point)
 }
 
 
-
-
-
-bool    calc_cy_height(t_object *object, t_vec3 *intersections, t_vec3 *source_point)
-{
-    bool	is_intersect_p1;
-	bool	is_intersect_p2;
-	t_vec3	axic;
-	t_vec3	cyl_top;
-	t_vec3	cyl_bottom;
-
-	cyl_top = vec3_add(*source_point, 
-			vec3_mul(*object->axic_vec, object->height / 2));
-	cyl_bottom = vec3_sub(*source_point,
-			vec3_mul(*object->axic_vec, object->height / 2));
-	axic = *object->axic_vec;
-	is_intersect_p1 = vec3_dot(vec3_sub(intersections[0], cyl_bottom), axic) >= 0 &&
-		vec3_dot(vec3_sub(intersections[0], cyl_top), axic) <= 0;
-	is_intersect_p2 = vec3_dot(vec3_sub(intersections[1], cyl_bottom), axic) >= 0 &&
-		vec3_dot(vec3_sub(intersections[1], cyl_top), axic) <= 0;
-	if ( is_intersect_p1|| is_intersect_p2)
-		return (true);
-	else
-		return (false);
-}
-
-double  calc_cy_t2(t_object *obj, t_vec3 dir, t_vec3 cam2cy, int flag,t_vec3 *source_point)
+double  calc_cy_t(t_object *obj, t_vec3 dir,  int flag,t_vec3 *source_point)
 {
     double	a;
 	double	b;
@@ -88,8 +62,7 @@ double  calc_cy_t2(t_object *obj, t_vec3 dir, t_vec3 cam2cy, int flag,t_vec3 *so
 
      c = vec3_mag(vec3_cross(vec3_sub(*source_point, *obj->center),  *obj->axic_vec));
 	c = c * c - (obj->diameter/2) *(obj->diameter/2);
-     if(cam2cy.x == 0 && cam2cy.y == 0 && cam2cy.z == 0)
-        ;
+
 	d = b * b - 4 * a * c;
 
     if(flag == 1)
@@ -124,10 +97,9 @@ t_vec3  *calc_cy_intersections(t_object *obj, t_vec3 dir, t_vec3 cam2cy, t_vec3 
 	intersections = (t_vec3 *)malloc(sizeof(t_vec3) * 2);
 	if (intersections == NULL)
 		return (NULL);
-	intersections[0] = vec3_add(*source_point, 
-			vec3_mul(dir, ((-b - sqrt(d)) / (2 * a))));
-	intersections[1] = vec3_add(*source_point,
-			vec3_mul(dir, ((-b + sqrt(d)) / (2 * a))));
+
+    intersections[0] = vec3_add(*source_point,vec3_mul(dir,calc_cy_t(obj, dir, 0,source_point)));
+	intersections[1] = vec3_add(*source_point,vec3_mul(dir,calc_cy_t(obj, dir, 1,source_point)));
 	return (intersections);
 }
 double calc_cy_distance(t_object *object, t_vec3 dir, t_vec3 *source_point)
@@ -142,12 +114,7 @@ double calc_cy_distance(t_object *object, t_vec3 dir, t_vec3 *source_point)
     intersections = calc_cy_intersections(object, dir, cam2cy, source_point);
     if (intersections == NULL)
         return (-1);
-    // flag = calc_cy_height(object, intersections, source_point);
-    // if (flag == false)
-	// {
-	// 	free(intersections);
-    //     return (-1);
-	// }
+
     t_vec3 center2inner = vec3_sub(intersections[1],*object->center);
     t_vec3 center2outer = vec3_sub(intersections[0],*object->center);
 
@@ -156,10 +123,10 @@ double calc_cy_distance(t_object *object, t_vec3 dir, t_vec3 *source_point)
     printf("h_outer:%f, h_inner:%f\n", h_outer, h_inner);
 	// distance = vec3_mag(vec3_sub(*source_point, intersections[0]));
 	if (h_outer >= 0 && h_outer <= object->height)
-        distance = calc_cy_t2(object, dir, vec3_sub(*source_point, *object->center), 0,source_point);
+        distance = calc_cy_t(object, dir,  0,source_point);
         	// distance = vec3_mag(vec3_sub(*source_point, intersections[0]));
     else if(h_inner>= 0 && h_inner <= object->height)
-		distance = calc_cy_t2(object, dir, vec3_sub(*source_point, *object->center), 1,source_point);
+		distance = calc_cy_t(object, dir,  1,source_point);
         	// distance = vec3_mag(vec3_sub(*source_point, intersections[1]));
     else
         distance = -1;
