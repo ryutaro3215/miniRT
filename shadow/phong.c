@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/29 11:31:02 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/31 14:28:38 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,22 +100,22 @@ int phong_calc(t_scene *scene, t_vec3 screen_vec, t_object *nearest_obj, t_rt *r
         // if (intersection_height > rt->height)
         // printf("height:%f\n", nearest_obj->height);
         // printf("inner:%f, outer:%f\n", intersection_height_inner, intersection_height_outer);
-        if( intersection_height_outer <= nearest_obj->height)
+        if( intersection_height_outer>=0&& intersection_height_outer <= nearest_obj->height)
         {
             //   vertical_vec = vec3_add(*nearest_obj->center,
             // vec3_mul(*nearest_obj->axic_vec, intersection_height_inner));
+            normal = vec3_norm(vec3_sub(center2intersection_outer, vec3_mul(*nearest_obj->axic_vec, intersection_height_outer)));
             // printf("inner\n");
-            normal = vec3_norm(vec3_sub(vec3_mul(*nearest_obj->axic_vec,intersection_height_inner), center2intersection_inner));
             intersection = intersection_inner;
             // t = inner_t;
             t = vec3_mag(vec3_sub(*scene->camera->view_point, intersection_inner));
         }
-        else if(intersection_height_inner <= nearest_obj->height)
+        else if( intersection_height_inner>=0 && intersection_height_inner <= nearest_obj->height)
         {
         //   vertical_vec = vec3_add(*nearest_obj->center,
         //         vec3_mul(*nearest_obj->axic_vec, intersection_height_outer));
             // printf("outer\n");
-            normal = vec3_norm(vec3_sub(center2intersection_outer, vec3_mul(*nearest_obj->axic_vec, intersection_height_outer)));
+            normal = vec3_norm(vec3_sub(vec3_mul(*nearest_obj->axic_vec,intersection_height_inner), center2intersection_inner));
             intersection = intersection_outer;
             // t = outer_t;
             t = vec3_mag(vec3_sub(*scene->camera->view_point, intersection_outer));
