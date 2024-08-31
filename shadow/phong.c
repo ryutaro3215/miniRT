@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/31 15:42:53 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/08/31 15:58:33 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,6 @@ int phong_calc(t_scene *scene, t_vec3 screen_vec, t_object *nearest_obj, t_rt *r
     if(vec3_dot(normal, light_vec) <= 0)
         diff = 0;
 
-    // double spec = pow(fmax(vec3_dot(view_vec, reflect_vec), 0.0), shininess) * scene->light->bright_ratio * ks;
-    // printf("reflect_vec:%f,%f,%f\n", reflect_vec.x, reflect_vec.y, reflect_vec.z);
-    // printf("light_vec:%f,%f,%f\n", light_vec.x, light_vec.y, light_vec.z);
-    // printf("view_vec:%f,%f,%f\n", view_vec.x, view_vec.y, view_vec.z);
     double spec = pow(vec3_dot(view_vec, reflect_vec), shininess) * scene->light->bright_ratio * ks;
     
     if(vec3_dot(view_vec, reflect_vec) < 0)
