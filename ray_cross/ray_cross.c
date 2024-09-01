@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/31 21:10:26 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/01 12:32:30 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,7 @@ void	draw_sphere(t_rt *rt, double x, double y, t_object *nearest_obj)
     screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
     d = discriminant(rt, screen_vec,nearest_obj);
     if (d >= 0)
-    {
-        // my_mlx_pixel_put(rt, x, y, int_to_hex_color(rt->scene->sphere->rgb));
         my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj));
-    }
     else
         my_mlx_pixel_put(rt, x, y, 0x000000);
 }
@@ -85,7 +82,6 @@ void	draw_plane(t_rt *rt, double x,double y, t_object *nearest_obj)
         *nearest_obj->normal_vec = vec3_mul(*nearest_obj->normal_vec,-1);
     if (t >= 0)
         my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj));
-        // my_mlx_pixel_put(rt, x, y, int_to_hex_color(nearest_obj->rgb));
     else
         my_mlx_pixel_put(rt, x, y, 0x000000);
 }
@@ -137,10 +133,9 @@ bool	discriminant_cylinder(t_rt *rt, t_vec3 screen_vec, t_object *object)
     double h_inner = vec3_dot(center2inner, *object->axic_vec);
    if( h_outer>=0 && h_outer <= object->height)
     {
-    flag = true;
-    t_vec3 projection_on_axis_outer = vec3_mul(*object->axic_vec, h_outer);
-    *object->normal_vec = vec3_norm(vec3_sub(center2outer, projection_on_axis_outer));
- 
+        flag = true;
+        t_vec3 projection_on_axis_outer = vec3_mul(*object->axic_vec, h_outer);
+        *object->normal_vec = vec3_norm(vec3_sub(center2outer, projection_on_axis_outer));
     }
     else if ( h_inner>=0 &&  h_inner <= object->height)
     {
@@ -164,7 +159,6 @@ void	draw_cylinder(t_rt *rt,double x, double y, t_object *nearest_obj)
 
     if (is_drawable == true)
         my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj));
-        // my_mlx_pixel_put(rt, x, y, int_to_hex_color(nearest_obj->rgb));
     else
         my_mlx_pixel_put(rt, x, y, 0x000000);
 }

@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/31 21:10:33 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/01 12:25:17 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ int color_calc(t_object *nearest_obj, double brightness)
 int phong_calc(t_scene *scene, t_vec3 screen_vec, t_object *nearest_obj)
 {
     t_vec3 dir_vec = vec3_norm(vec3_sub(screen_vec, *scene->camera->view_point));
-    double t = calc_distance(nearest_obj, dir_vec, scene->camera->view_point);
-    t_vec3 intersection = vec3_add(*scene->camera->view_point, vec3_mul(dir_vec, t));
+    t_vec3 intersection = vec3_add(*scene->camera->view_point, vec3_mul(dir_vec, calc_distance(nearest_obj, dir_vec, scene->camera->view_point)));
     t_vec3 normal;
     //正規化による方向ベクトルの算出
     if(nearest_obj->type == SPHERE)
@@ -51,7 +50,7 @@ int phong_calc(t_scene *scene, t_vec3 screen_vec, t_object *nearest_obj)
     
     if(vec3_dot(view_vec, vec3_reflect(vec3_mul(light_vec, -1), normal)) < 0)
         spec = 0;
-    if(is_shadow(scene, t, dir_vec))
+    if(is_shadow(scene, nearest_obj, dir_vec))
     {
         diff = 0;
         spec = 0;
