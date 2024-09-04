@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 16:42:17 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/09/01 12:24:30 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/03 00:51:48 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 # define SHADOW_H
 
 #include "minirt.h"
-#include "ray_cross.h"
 
 bool  is_shadow(t_scene *scene ,t_object *nearest_obj, t_vec3 dir_vec);
-int phong_calc(t_scene *scene, t_vec3 dir_vec,t_object *nearest_obj);
+int phong_calc(t_rt *rt, t_vec3 dir_vec,t_object *nearest_obj);
 #endif

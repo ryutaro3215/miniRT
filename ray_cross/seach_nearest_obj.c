@@ -6,48 +6,13 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:08:42 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/08/31 21:16:34 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/04 19:19:29 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ray_cross.h"
 
-double calc_sp_distance(t_object *object, t_vec3 dir, t_vec3 *source_point)
-{
-    
-    t_vec3	sph2source;
-    double	a;
-    double	b;
-    double	c;
-	double	t1;
-	double	t2;
-    sph2source = vec3_sub(*source_point, *object->center);
-    a = vec3_dot(dir, dir);
-    b = 2 * vec3_dot(sph2source, dir);
-    c = vec3_dot(sph2source, sph2source) - (object->diameter * object->diameter);
-    if(b * b - 4 * a * c < 0)
-        return -1;
-	t1 = (-b + sqrt(b * b - 4 * a * c)) / (2 * a);
-	t2 = (-b - sqrt(b * b - 4 * a * c)) / (2 * a);
-	if (t1 < t2)
-		return (t1);
-	return (t2);
-}
 // TODO　うまく描画されない・・？
-double calc_pl_distance(t_object *object, t_vec3 dir, t_vec3 *source_point)
-{
-    
-	t_vec3	cam2pl;
-	double	denominator;
-	double	molecule;
-
-	cam2pl = vec3_sub(*source_point, *object->p_in_the_plane);
-	denominator = (vec3_dot(vec3_mul(dir,-1), *object->normal_vec));
-	if (denominator == 0)
-		return (-1);
-	molecule = vec3_dot(cam2pl, *object->normal_vec);
-	return (molecule / denominator);
-}
 
 double calc_cy_d(t_object *obj, t_vec3 dir, t_vec3 *source_point)
 {
@@ -122,6 +87,38 @@ double calc_cy_distance(t_object *object, t_vec3 dir, t_vec3 *source_point)
     free(intersections);
 	return (distance);
 }
+double calc_sp_distance(t_object *object, t_vec3 dir, t_vec3 *source_point)
+{
+    
+    t_vec3	sph2source;
+    double	a;
+    double	b;
+    double	c;
+	double	t;
+    sph2source = vec3_sub(*source_point, *object->center);
+    a = vec3_dot(dir, dir);
+    b = 2 * vec3_dot(sph2source, dir);
+    c = vec3_dot(sph2source, sph2source) - (object->diameter * object->diameter);
+    if(b * b - 4 * a * c < 0)
+        return -1;
+	t = (-b - sqrt(b * b - 4 * a * c)) / (2 * a);
+	return (t);
+}
+
+double calc_pl_distance(t_object *object, t_vec3 dir, t_vec3 *source_point)
+{
+    
+	t_vec3	cam2pl;
+	double	denominator;
+	double	molecule;
+
+	cam2pl = vec3_sub(*source_point, *object->p_in_the_plane);
+	denominator = (vec3_dot(vec3_mul(dir,-1), *object->normal_vec));
+	if (denominator == 0)
+		return (-1);
+	molecule = vec3_dot(cam2pl, *object->normal_vec);
+	return (molecule / denominator);
+}
 
 double calc_distance(t_object *obj, t_vec3 dir, t_vec3 *source_point)
 {
@@ -142,11 +139,20 @@ t_object *seach_nearest_obj(t_rt *rt, double x, double y)
     double      distance;
     double      min_distance;
     t_vec3      dir;
+	t_vec3	esx;
+	t_vec3	esy;
+    t_vec3  dsc;
+
+	esx.z = -(rt->scene->camera->nr_vec->z) / sqrt(rt->scene->camera->nr_vec->x * rt->scene->camera->nr_vec->x + rt->scene->camera->nr_vec->z * rt->scene->camera->nr_vec->z);
+	esx.y = 0;
+	esx.x = rt->scene->camera->nr_vec->z / sqrt(rt->scene->camera->nr_vec->x * rt->scene->camera->nr_vec->x + rt->scene->camera->nr_vec->z * rt->scene->camera->nr_vec->z);
+	esy = vec3_cross(*rt->scene->camera->nr_vec, esx);
+	dsc = vec3_mul(*rt->scene->camera->nr_vec, (double)rt->width / (2 * tan((float)rt->scene->camera->view_degree / 2)));
+    screen_vec = vec3_add(vec3_mul(esx, (x - (double)rt->width / 2)), vec3_mul(esy, ((double)rt->height / 2 - y)));
+	dir = vec3_norm(vec3_add(screen_vec, dsc));
     min_distance = DISTANCE_MAX;
-    screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
     obj = rt->scene->object;
     nearest_obj = obj;
-    dir = vec3_norm(vec3_sub(screen_vec, *rt->scene->camera->view_point));
     // 各オブジェクトについて距離を計算し、最小のものをnearest_objに格納しています
     while(obj)
     {

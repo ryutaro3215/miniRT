@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 18:29:27 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/13 17:02:17 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/03 00:32:23 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ t_vec3	vec3_add(t_vec3 a, t_vec3 b)
 	t_vec3	vec;
 	vec.x = a.x + b.x;
 	vec.y = a.y + b.y;
-	vec.z = a.z + b.z;
-	return (vec);
+	vec.z = a.z + b.z; return (vec);
 }
 
 t_vec3	vec3_sub(t_vec3 a, t_vec3 b)
