@@ -6,85 +6,12 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/09/01 12:32:30 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/04 19:36:28 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ray_cross.h"
 #include "../includes/color.h"
-
-double	discriminant(t_rt *rt, t_vec3 screen_vec, t_object *object)
-{
-	t_vec3	dir;
-	t_vec3	cam2sph;
-	double	a;
-	double	b;
-	double	c;
-	dir = vec3_norm(vec3_sub(screen_vec, *rt->scene->camera->view_point));
-	cam2sph = vec3_sub(*rt->scene->camera->view_point, *object->center);
-	a = vec3_dot(dir, dir);
-	b = 2 * vec3_dot(cam2sph, dir);
-	c = vec3_dot(cam2sph, cam2sph) - (object->diameter * object->diameter);
-	return (b * b - 4 * a * c);
-}
-
-void	draw_sphere(t_rt *rt, double x, double y, t_object *nearest_obj)
-{
-	t_vec3	screen_vec;
-	double	d;
-
-	d = 0;
-
-    screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
-    d = discriminant(rt, screen_vec,nearest_obj);
-    if (d >= 0)
-        my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj));
-    else
-        my_mlx_pixel_put(rt, x, y, 0x000000);
-}
-
-double	cross_ray_plane(t_object *object, t_vec3 screen_vec, t_camera *camera)
-{
-	t_vec3	dir;
-	t_vec3	cam2pl;
-	double	denominator;
-	double	molecule;
-
-	dir = vec3_norm(vec3_sub(screen_vec, *camera->view_point)); 
-	cam2pl = vec3_sub(*camera->view_point, *object->p_in_the_plane);
-	denominator = (vec3_dot(vec3_mul(dir,-1), *object->normal_vec));
-	if (denominator == 0)
-		return (-1);
-	molecule = vec3_dot(cam2pl, *object->normal_vec);
-	return (molecule / denominator);
-}
-bool judge_denominator(t_vec3 screen_vec,t_camera *camera,t_object *object)
-{
-    	t_vec3	dir;
-	double	denominator;
-
-	dir = vec3_norm(vec3_sub(screen_vec, *camera->view_point)); 
-	denominator = -(vec3_dot(dir, *object->normal_vec));
-    if(denominator < 0)
-        return true;
-    else
-        return false;
-}
-void	draw_plane(t_rt *rt, double x,double y, t_object *nearest_obj)
-{
-	t_vec3	screen_vec;
-	double	t;
-
-	t = 0;
-    screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
-    t = cross_ray_plane(nearest_obj, screen_vec,rt->scene->camera);
-    if(judge_denominator(screen_vec,rt->scene->camera,nearest_obj))
-        *nearest_obj->normal_vec = vec3_mul(*nearest_obj->normal_vec,-1);
-    if (t >= 0)
-        my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj));
-    else
-        my_mlx_pixel_put(rt, x, y, 0x000000);
-}
 
 t_vec3	*get_intersections(t_rt *rt, t_vec3 dir, t_vec3 cam2cyl, t_object *object)
 {
@@ -119,9 +46,11 @@ bool	discriminant_cylinder(t_rt *rt, t_vec3 screen_vec, t_object *object)
 	t_vec3	dir;
 	t_vec3	cam2cyl;
 	t_vec3	*intersections;
-	bool	flag;
-	
-	dir = vec3_norm(vec3_sub(screen_vec, *rt->scene->camera->view_point));
+	bool	flag;	
+	t_vec3	dsc;
+
+	dsc = vec3_mul(*rt->scene->camera->nr_vec, (double)rt->width / (2 * tan((float)rt->scene->camera->view_degree / 2)));
+	dir = vec3_norm(vec3_add(screen_vec, dsc));
 	cam2cyl = vec3_sub(*rt->scene->camera->view_point, *object->center);
 	intersections = get_intersections(rt, dir, cam2cyl, object);
 	if (intersections == NULL)
@@ -153,12 +82,107 @@ void	draw_cylinder(t_rt *rt,double x, double y, t_object *nearest_obj)
 {
 	t_vec3	screen_vec;
 	bool	is_drawable;
+	t_vec3	esx;
+	t_vec3	esy;
 
-    screen_vec = vec3_init(2 * x / rt->width - 1.0, 2 * y / rt->height - 1.0, 0);
+	esx.z = -(rt->scene->camera->nr_vec->z) / sqrt(rt->scene->camera->nr_vec->x * rt->scene->camera->nr_vec->x + rt->scene->camera->nr_vec->z * rt->scene->camera->nr_vec->z);
+	esx.y = 0;
+	esx.x = rt->scene->camera->nr_vec->z / sqrt(rt->scene->camera->nr_vec->x * rt->scene->camera->nr_vec->x + rt->scene->camera->nr_vec->z * rt->scene->camera->nr_vec->z);
+	esy = vec3_cross(*rt->scene->camera->nr_vec, esx);
+    screen_vec = vec3_add(vec3_mul(esx, (x - (double)rt->width / 2)), vec3_mul(esy, ((double)rt->height / 2 - y)));
     is_drawable = discriminant_cylinder(rt, screen_vec,nearest_obj);
 
     if (is_drawable == true)
-        my_mlx_pixel_put(rt, x, y, phong_calc(rt->scene, screen_vec,nearest_obj));
+        my_mlx_pixel_put(rt, x, y, phong_calc(rt, screen_vec,nearest_obj));
+    else
+        my_mlx_pixel_put(rt, x, y, 0x000000);
+}
+
+double	discriminant(t_rt *rt, t_vec3 screen_vec, t_object *object)
+{
+	t_vec3	dir;
+	t_vec3	cam2sph;
+	double	a;
+	double	b;
+	double	c;
+	t_vec3	dsc;
+
+	dsc = vec3_mul(*rt->scene->camera->nr_vec, (double)rt->width / (2 * tan((float)rt->scene->camera->view_degree / 2)));
+	dir = vec3_norm(vec3_add(screen_vec, dsc));
+	cam2sph = vec3_sub(*rt->scene->camera->view_point, *object->center);
+	a = vec3_dot(dir, dir);
+	b = 2 * vec3_dot(cam2sph, dir);
+	c = vec3_dot(cam2sph, cam2sph) - (object->diameter * object->diameter);
+	return (b * b - 4 * a * c);
+}
+
+void	draw_sphere(t_rt *rt, double x, double y, t_object *nearest_obj)
+{
+	t_vec3	screen_vec;
+	double	d;
+	t_vec3	esx;
+	t_vec3	esy;
+
+	esx.z = -(rt->scene->camera->nr_vec->z) / sqrt(rt->scene->camera->nr_vec->x * rt->scene->camera->nr_vec->x + rt->scene->camera->nr_vec->z * rt->scene->camera->nr_vec->z);
+	esx.y = 0;
+	esx.x = rt->scene->camera->nr_vec->z / sqrt(rt->scene->camera->nr_vec->x * rt->scene->camera->nr_vec->x + rt->scene->camera->nr_vec->z * rt->scene->camera->nr_vec->z);
+	esy = vec3_cross(*rt->scene->camera->nr_vec, esx);
+	d = 0;
+
+    screen_vec = vec3_add(vec3_mul(esx, (x - (double)rt->width / 2)), vec3_mul(esy, ((double)rt->height / 2 - y)));
+    d = discriminant(rt, screen_vec,nearest_obj);
+    if (d >= 0)
+        my_mlx_pixel_put(rt, x, y, phong_calc(rt, screen_vec,nearest_obj));
+    else
+        my_mlx_pixel_put(rt, x, y, 0x000000);
+}
+
+double	cross_ray_plane(t_object *object, t_vec3 screen_vec, t_rt *rt)
+{
+	t_vec3	dir;
+	t_vec3	cam2pl;
+	t_vec3	dsc;
+	double	denominator;
+	double	molecule;
+
+	dsc = vec3_mul(*rt->scene->camera->nr_vec, (double)rt->width / (2 * tan((float)rt->scene->camera->view_degree / 2)));
+	dir = vec3_norm(vec3_add(screen_vec, dsc));
+	cam2pl = vec3_sub(*rt->scene->camera->view_point, *object->p_in_the_plane);
+	denominator = (vec3_dot(vec3_mul(dir,-1), *object->normal_vec));
+	if (denominator == 0)
+		return (-1);
+	molecule = vec3_dot(cam2pl, *object->normal_vec);
+	return (molecule / denominator);
+}
+bool judge_denominator(t_vec3 screen_vec,t_camera *camera,t_object *object)
+{
+    t_vec3	dir;
+	double	denominator;
+
+	dir = vec3_norm(vec3_sub(screen_vec, *camera->view_point)); 
+	denominator = -(vec3_dot(dir, *object->normal_vec));
+    if(denominator < 0)
+        return true;
+    else
+        return false;
+}
+void	draw_plane(t_rt *rt, double x,double y, t_object *nearest_obj)
+{
+	t_vec3	screen_vec;
+	double	t;
+	t_vec3	esx;
+	t_vec3	esy;
+
+	esx.z = -(rt->scene->camera->nr_vec->z) / sqrt(rt->scene->camera->nr_vec->x * rt->scene->camera->nr_vec->x + rt->scene->camera->nr_vec->z * rt->scene->camera->nr_vec->z);
+	esx.y = 0;
+	esx.x = rt->scene->camera->nr_vec->z / sqrt(rt->scene->camera->nr_vec->x * rt->scene->camera->nr_vec->x + rt->scene->camera->nr_vec->z * rt->scene->camera->nr_vec->z);
+	esy = vec3_cross(*rt->scene->camera->nr_vec, esx);
+    screen_vec = vec3_add(vec3_mul(esx, (x - (double)rt->width / 2)), vec3_mul(esy, ((double)rt->height / 2 - y)));
+    t = cross_ray_plane(nearest_obj, screen_vec,rt);
+    if(judge_denominator(screen_vec,rt->scene->camera,nearest_obj))
+        *nearest_obj->normal_vec = vec3_mul(*nearest_obj->normal_vec,-1);
+    if (t >= 0)
+        my_mlx_pixel_put(rt, x, y, phong_calc(rt, screen_vec,nearest_obj));
     else
         my_mlx_pixel_put(rt, x, y, 0x000000);
 }

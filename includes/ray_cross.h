@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:24:39 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/31 20:48:18 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/04 19:27:11 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define RAY_CROSS_H
 
 # include "minirt.h"
-#include "shadow.h"
+# include "shadow.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -27,7 +27,7 @@ void	draw_sphere(t_rt *rt,double x, double y, t_object *nearest_obj);
 double	discriminant(t_rt *rt, t_vec3 screen_vec, t_object *object);
 void	draw_plane(t_rt *rt, double x, double y, t_object *nearest_obj);
 void   draw_object(t_rt *rt);
-double	cross_ray_plane(t_object *object, t_vec3 screen_vec, t_camera *camera);
+double	cross_ray_plane(t_object *object, t_vec3 screen_vec, t_rt *rt);
 t_vec3	*get_intersections(t_rt *rt, t_vec3 dir, t_vec3 cam2cyl, t_object *object);
 bool	is_height_range(t_rt *rt, t_vec3 *intersections, t_object *object);
 bool	discriminant_cylinder(t_rt *rt, t_vec3 screen_vec, t_object *object);
