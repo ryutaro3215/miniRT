@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:08:42 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/09/04 19:19:29 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/09/05 14:10:21 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ t_object *seach_nearest_obj(t_rt *rt, double x, double y)
 	esx.x = rt->scene->camera->nr_vec->z / sqrt(rt->scene->camera->nr_vec->x * rt->scene->camera->nr_vec->x + rt->scene->camera->nr_vec->z * rt->scene->camera->nr_vec->z);
 	esy = vec3_cross(*rt->scene->camera->nr_vec, esx);
 	dsc = vec3_mul(*rt->scene->camera->nr_vec, (double)rt->width / (2 * tan((float)rt->scene->camera->view_degree / 2)));
-    screen_vec = vec3_add(vec3_mul(esx, (x - (double)rt->width / 2)), vec3_mul(esy, ((double)rt->height / 2 - y)));
+    screen_vec = vec3_add(vec3_mul(esx, (x - (double)rt->width / 2)), vec3_mul(esy, (y - (double)rt->height / 2)));
 	dir = vec3_norm(vec3_add(screen_vec, dsc));
     min_distance = DISTANCE_MAX;
     obj = rt->scene->object;

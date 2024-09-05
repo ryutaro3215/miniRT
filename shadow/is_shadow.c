@@ -6,12 +6,13 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/04 12:36:45 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/09/01 12:23:59 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/04 21:52:59 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../includes/shadow.h"
+#include "../includes/ray_cross.h"
 // TODO なぜか関数が消えていたので再度実装する必要あり
 bool is_shadow(t_scene *scene ,t_object *nearest_obj, t_vec3 dir_vec)
 {

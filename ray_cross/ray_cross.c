@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/09/04 19:36:28 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/09/05 14:11:27 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	draw_cylinder(t_rt *rt,double x, double y, t_object *nearest_obj)
 	esx.y = 0;
 	esx.x = rt->scene->camera->nr_vec->z / sqrt(rt->scene->camera->nr_vec->x * rt->scene->camera->nr_vec->x + rt->scene->camera->nr_vec->z * rt->scene->camera->nr_vec->z);
 	esy = vec3_cross(*rt->scene->camera->nr_vec, esx);
-    screen_vec = vec3_add(vec3_mul(esx, (x - (double)rt->width / 2)), vec3_mul(esy, ((double)rt->height / 2 - y)));
+    screen_vec = vec3_add(vec3_mul(esx, (x - (double)rt->width / 2)), vec3_mul(esy, (y - (double)rt->height / 2)));
     is_drawable = discriminant_cylinder(rt, screen_vec,nearest_obj);
 
     if (is_drawable == true)
@@ -129,7 +129,7 @@ void	draw_sphere(t_rt *rt, double x, double y, t_object *nearest_obj)
 	esy = vec3_cross(*rt->scene->camera->nr_vec, esx);
 	d = 0;
 
-    screen_vec = vec3_add(vec3_mul(esx, (x - (double)rt->width / 2)), vec3_mul(esy, ((double)rt->height / 2 - y)));
+    screen_vec = vec3_add(vec3_mul(esx, (x - (double)rt->width / 2)), vec3_mul(esy, (y - (double)rt->height / 2)));
     d = discriminant(rt, screen_vec,nearest_obj);
     if (d >= 0)
         my_mlx_pixel_put(rt, x, y, phong_calc(rt, screen_vec,nearest_obj));
@@ -177,7 +177,7 @@ void	draw_plane(t_rt *rt, double x,double y, t_object *nearest_obj)
 	esx.y = 0;
 	esx.x = rt->scene->camera->nr_vec->z / sqrt(rt->scene->camera->nr_vec->x * rt->scene->camera->nr_vec->x + rt->scene->camera->nr_vec->z * rt->scene->camera->nr_vec->z);
 	esy = vec3_cross(*rt->scene->camera->nr_vec, esx);
-    screen_vec = vec3_add(vec3_mul(esx, (x - (double)rt->width / 2)), vec3_mul(esy, ((double)rt->height / 2 - y)));
+    screen_vec = vec3_add(vec3_mul(esx, (x - (double)rt->width / 2)), vec3_mul(esy, (y - (double)rt->height / 2)));
     t = cross_ray_plane(nearest_obj, screen_vec,rt);
     if(judge_denominator(screen_vec,rt->scene->camera,nearest_obj))
         *nearest_obj->normal_vec = vec3_mul(*nearest_obj->normal_vec,-1);
