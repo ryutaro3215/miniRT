@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:28:27 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/31 18:10:06 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/05 14:15:16 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ bool	check_camera_param(char **splited_line)
 		return (false);
 	if (is_vec3(splited_line[1]) == false)
 		flag = false;
-	if (is_vec3(splited_line[2]) == false || is_normal_vec3(splited_line[2]) == false)
+	if (is_vec3(splited_line[2]) == false)
 		flag = false;
 	if (is_num(splited_line[3]) == false || ft_atoi(splited_line[3]) <= 0
 			|| ft_atoi(splited_line[3]) >= 180)
@@ -179,8 +179,8 @@ bool	check_plane_param(char **splited_line)
 		return (false);
 	if (is_vec3(splited_line[1]) == false)
 		flag = false;
-	if (is_normal_vec3(splited_line[2]) == false)
-		flag = false;
+	/* if (is_normal_vec3(splited_line[2]) == false) */
+	/* 	flag = false; */
 	if (check_color_range(splited_line[3]) == false)
 		flag = false;
 	return (flag);
@@ -214,8 +214,8 @@ bool	check_cylinder_param(char **splited_line)
 		return (false);
 	if (is_vec3(splited_line[1]) == false)
 		flag = false;
-	if (is_normal_vec3(splited_line[2]) == false)
-		flag = false;
+	/* if (is_normal_vec3(splited_line[2]) == false) */
+	/* 	flag = false; */
 	if ((is_point_num(splited_line[3]) == false || ft_atof(splited_line[3]) <= 0)
 			|| (is_point_num(splited_line[4]) == false || ft_atof(splited_line[4]) <= 0))
 		flag = false;
