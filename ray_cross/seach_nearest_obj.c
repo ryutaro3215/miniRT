@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:08:42 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/09/05 14:10:21 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/09/14 17:24:03 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,21 +135,22 @@ t_object *seach_nearest_obj(t_rt *rt, double x, double y)
 {
     t_object    *nearest_obj;
     t_object    *obj;
-    t_vec3     screen_vec;
     double      distance;
     double      min_distance;
-    t_vec3      dir;
-	t_vec3	esx;
-	t_vec3	esy;
-    t_vec3  dsc;
-
-	esx.z = -(rt->scene->camera->nr_vec->z) / sqrt(rt->scene->camera->nr_vec->x * rt->scene->camera->nr_vec->x + rt->scene->camera->nr_vec->z * rt->scene->camera->nr_vec->z);
+    double d = rt->width / 2 / tan((rt->scene->camera->view_degree / 2)/(180 * 3.14159265358979323846));
+    t_vec3 cam_center = vec3_mul(*rt->scene->camera->nr_vec, d);
+    
+    t_vec3 esx; 
+	esx.x = cam_center.z / sqrt(cam_center.z * cam_center.z + cam_center.x * cam_center.x);
 	esx.y = 0;
-	esx.x = rt->scene->camera->nr_vec->z / sqrt(rt->scene->camera->nr_vec->x * rt->scene->camera->nr_vec->x + rt->scene->camera->nr_vec->z * rt->scene->camera->nr_vec->z);
-	esy = vec3_cross(*rt->scene->camera->nr_vec, esx);
-	dsc = vec3_mul(*rt->scene->camera->nr_vec, (double)rt->width / (2 * tan((float)rt->scene->camera->view_degree / 2)));
-    screen_vec = vec3_add(vec3_mul(esx, (x - (double)rt->width / 2)), vec3_mul(esy, (y - (double)rt->height / 2)));
-	dir = vec3_norm(vec3_add(screen_vec, dsc));
+	esx.z = -cam_center.x / sqrt(cam_center.z * cam_center.z + cam_center.x * cam_center.x);
+	t_vec3 esy;
+    esy = vec3_norm(vec3_cross(vec3_mul(cam_center, -1),esx));
+    double sw = x - (rt->width - 1) / 2;
+    double sh = (rt->height - 1) / 2 - y;
+    t_vec3 xx = vec3_mul(esx,  x - (rt->width - 1) / 2);
+    t_vec3 yy = vec3_mul(esy, (rt->height - 1) / 2 - y);
+    t_vec3 dir = vec3_norm(vec3_add(cam_center, vec3_add(xx, yy)));
     min_distance = DISTANCE_MAX;
     obj = rt->scene->object;
     nearest_obj = obj;

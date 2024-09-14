@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/09/03 01:32:35 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/09/14 16:23:47 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ int color_calc(t_object *nearest_obj, double brightness)
 
 
 // TODO　centerを使わないやり方にリファクタする
-int phong_calc(t_rt *rt, t_vec3 screen_vec, t_object *nearest_obj)
+int phong_calc(t_rt *rt, t_vec3 dir_vec, t_object *nearest_obj)
 {
-	t_vec3  dsc = vec3_mul(*rt->scene->camera->nr_vec, (double)rt->width / (2 * tan((float)rt->scene->camera->view_degree / 2)));
-    t_vec3 dir_vec = vec3_norm(vec3_add(screen_vec, dsc));
+	// t_vec3  dsc = vec3_mul(*rt->scene->camera->nr_vec, (double)rt->width / (2 * tan((float)rt->scene->camera->view_degree / 2)));
+    // t_vec3 dir_vec = vec3_norm(vec3_add(screen_vec, dsc));
     t_vec3 intersection = vec3_add(*rt->scene->camera->view_point, vec3_mul(dir_vec, calc_distance(nearest_obj, dir_vec, rt->scene->camera->view_point)));
     t_vec3 normal;
     //正規化による方向ベクトルの算出
