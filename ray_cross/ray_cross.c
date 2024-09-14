@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/09/14 17:23:17 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/14 17:27:20 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ void	draw_cylinder(t_rt *rt,double x, double y, t_object *nearest_obj)
     t_vec3 xx = vec3_mul(esx,  x - (rt->width - 1) / 2);
     t_vec3 yy = vec3_mul(esy, (rt->height - 1) / 2 - y);
     t_vec3 dir = vec3_norm(vec3_add(cam_center, vec3_add(xx, yy)));
-    // screen_vec = vec3_add(vec3_mul(esx, (x - (double)rt->width / 2)), vec3_mul(esy, (y - (double)rt->height / 2)));
     is_drawable = discriminant_cylinder(rt, dir,nearest_obj);
 
     if (is_drawable == true)
@@ -118,19 +117,16 @@ void	draw_sphere(t_rt *rt, double x, double y, t_object *nearest_obj)
         double d1 = rt->width / 2 / tan((rt->scene->camera->view_degree / 2)/(180 * 3.14159265358979323846));
     t_vec3 cam_center = vec3_mul(*rt->scene->camera->nr_vec, d1);
     
-    	t_vec3 esx;  // x軸と並行なベクトル(スクリーンの世界)
+    	t_vec3 esx;
 	esx.x = cam_center.z / sqrt(cam_center.z * cam_center.z + cam_center.x * cam_center.x);
 	esx.y = 0;
 	esx.z = -cam_center.x / sqrt(cam_center.z * cam_center.z + cam_center.x * cam_center.x);
 	t_vec3 esy;
-    // esy = vec3_norm(vec3_cross(esx, vec3_mul(cam_center, -1)));
     esy = vec3_norm(vec3_cross(vec3_mul(cam_center, -1),esx));
     t_vec3 xx = vec3_mul(esx,  x - (rt->width - 1) / 2);
     t_vec3 yy = vec3_mul(esy, (rt->height - 1) / 2 - y);
     t_vec3 dir = vec3_norm(vec3_add(cam_center, vec3_add(xx, yy)));
 	d = 0;
-
-    // screen_vec = vec3_add(vec3_mul(esx, (x - (double)rt->width / 2)), vec3_mul(esy, (y - (double)rt->height / 2)));
     d = discriminant(rt, dir,nearest_obj);
     if (d >= 0)
         my_mlx_pixel_put(rt, x, y, phong_calc(rt, dir,nearest_obj));
@@ -157,31 +153,20 @@ double	cross_ray_plane(t_object *object, t_vec3 dir, t_rt *rt)
 }
 bool judge_denominator(t_vec3 dir,t_camera *camera,t_object *object)
 {
-    // t_vec3	dir;
 	double	denominator;
 if(camera)
 ;
-	// dir = vec3_norm(vec3_sub(screen_vec, *camera->view_point)); 
 	denominator = -(vec3_dot(dir, *object->normal_vec));
     if(denominator < 0)
         return true;
     else
         return false;
 }
+
 void	draw_plane(t_rt *rt, double x,double y, t_object *nearest_obj)
 {
-	// t_vec3	screen_vec;
 	double	t;
-	// t_vec3	esx;
-	// t_vec3	esy;
-
-	// esx.z = -(rt->scene->camera->nr_vec->z) / sqrt(rt->scene->camera->nr_vec->x * rt->scene->camera->nr_vec->x + rt->scene->camera->nr_vec->z * rt->scene->camera->nr_vec->z);
-	// esx.y = 0;
-	// esx.x = rt->scene->camera->nr_vec->z / sqrt(rt->scene->camera->nr_vec->x * rt->scene->camera->nr_vec->x + rt->scene->camera->nr_vec->z * rt->scene->camera->nr_vec->z);
-	// esy = vec3_cross(*rt->scene->camera->nr_vec, esx);
-    // screen_vec = vec3_add(vec3_mul(esx, (x - (double)rt->width / 2)), vec3_mul(esy, (y - (double)rt->height / 2)));
-
-        double d = rt->width / 2 / tan((rt->scene->camera->view_degree / 2)/(180 * 3.14159265358979323846));
+    double d = rt->width / 2 / tan((rt->scene->camera->view_degree / 2)/(180 * 3.14159265358979323846));
     t_vec3 cam_center = vec3_mul(*rt->scene->camera->nr_vec, d);
     
     	t_vec3 esx;  // x軸と並行なベクトル(スクリーンの世界)
@@ -189,7 +174,6 @@ void	draw_plane(t_rt *rt, double x,double y, t_object *nearest_obj)
 	esx.y = 0;
 	esx.z = -cam_center.x / sqrt(cam_center.z * cam_center.z + cam_center.x * cam_center.x);
 	t_vec3 esy;
-    // esy = vec3_norm(vec3_cross(esx, vec3_mul(cam_center, -1)));
     esy = vec3_norm(vec3_cross(vec3_mul(cam_center, -1),esx));
     double sw = x - (rt->width - 1) / 2;  // [-2/w ~ 2/w]
     double sh = (rt->height - 1) / 2 - y;
