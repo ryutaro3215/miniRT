@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/09/14 16:23:47 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/14 17:30:33 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int phong_calc(t_rt *rt, t_vec3 dir_vec, t_object *nearest_obj)
         normal = *nearest_obj->normal_vec;
     if(nearest_obj->type == CYLINDER)
         normal = *nearest_obj->normal_vec;
-        // printf("intersection:%f,%f,%f\n", intersection.x, intersection.y, intersection.z);
     t_vec3 light_vec = vec3_norm(vec3_sub(*rt->scene->light->light_point,intersection));
     t_vec3 view_vec = vec3_norm(vec3_sub(intersection, *rt->scene->camera->view_point));
     

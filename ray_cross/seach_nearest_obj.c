@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 23:08:42 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/09/14 17:24:03 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/14 17:30:09 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ double calc_cy_distance(t_object *object, t_vec3 dir, t_vec3 *source_point)
         return (-1);
     h_outer = vec3_dot(vec3_sub(intersections[0],*object->center), *object->axic_vec);
     h_inner = vec3_dot(vec3_sub(intersections[1],*object->center), *object->axic_vec);
-    // printf("h_outer:%f, h_inner:%f\n", h_outer, h_inner);
 	if (h_outer >= 0 && h_outer <= object->height)
         distance = calc_cy_t(object, dir,  0,source_point);
     else if(h_inner>= 0 && h_inner <= object->height)
@@ -154,7 +153,6 @@ t_object *seach_nearest_obj(t_rt *rt, double x, double y)
     min_distance = DISTANCE_MAX;
     obj = rt->scene->object;
     nearest_obj = obj;
-    // 各オブジェクトについて距離を計算し、最小のものをnearest_objに格納しています
     while(obj)
     {
         distance = calc_distance(obj, dir, rt->scene->camera->view_point);   

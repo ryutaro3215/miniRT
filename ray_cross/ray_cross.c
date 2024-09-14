@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/09/14 17:27:20 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/14 17:29:20 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,14 +136,10 @@ void	draw_sphere(t_rt *rt, double x, double y, t_object *nearest_obj)
 
 double	cross_ray_plane(t_object *object, t_vec3 dir, t_rt *rt)
 {
-	// t_vec3	dir;
 	t_vec3	cam2pl;
-	// t_vec3	dsc;
 	double	denominator;
 	double	molecule;
 
-	// dsc = vec3_mul(*rt->scene->camera->nr_vec, (double)rt->width / (2 * tan((float)rt->scene->camera->view_degree / 2)));
-	// dir = vec3_norm(vec3_add(screen_vec, dsc));
 	cam2pl = vec3_sub(*rt->scene->camera->view_point, *object->p_in_the_plane);
 	denominator = (vec3_dot(vec3_mul(dir,-1), *object->normal_vec));
 	if (denominator == 0)
@@ -169,13 +165,13 @@ void	draw_plane(t_rt *rt, double x,double y, t_object *nearest_obj)
     double d = rt->width / 2 / tan((rt->scene->camera->view_degree / 2)/(180 * 3.14159265358979323846));
     t_vec3 cam_center = vec3_mul(*rt->scene->camera->nr_vec, d);
     
-    	t_vec3 esx;  // x軸と並行なベクトル(スクリーンの世界)
+    	t_vec3 esx;  
 	esx.x = cam_center.z / sqrt(cam_center.z * cam_center.z + cam_center.x * cam_center.x);
 	esx.y = 0;
 	esx.z = -cam_center.x / sqrt(cam_center.z * cam_center.z + cam_center.x * cam_center.x);
 	t_vec3 esy;
     esy = vec3_norm(vec3_cross(vec3_mul(cam_center, -1),esx));
-    double sw = x - (rt->width - 1) / 2;  // [-2/w ~ 2/w]
+    double sw = x - (rt->width - 1) / 2;  
     double sh = (rt->height - 1) / 2 - y;
     t_vec3 xx = vec3_mul(esx,  x - (rt->width - 1) / 2);
     t_vec3 yy = vec3_mul(esy, (rt->height - 1) / 2 - y);    
