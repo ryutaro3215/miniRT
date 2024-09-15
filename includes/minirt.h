@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 23:43:13 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/31 18:10:32 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/15 16:42:37 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ typedef struct	s_camera
 }			t_camera;
 
 typedef struct s_factor{
-    double	ka;
-    double	kd;
-    double	ks;
+    t_rgb	ka;
+    t_rgb	kd;
+    t_rgb	ks;
     int		shininess;
 }	t_factor;
 
