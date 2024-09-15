@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/09/15 17:20:25 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/15 17:36:13 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,7 @@ int phong_calc(t_rt *rt, t_vec3 dir_vec, t_object *nearest_obj)
     double diff_deg = vec3_dot(normal, light_vec);
     if(diff_deg < 0)
         diff_deg = 0;
-        //まだ未完成
-    double diff = color_mul_scalar(color_mul(rt->scene->light->factor->kd,light_vec),diff_deg);
+    double diff = color_mul_scalar(color_mul(rt->scene->light->factor->kd,color_mul_scalar(*rt->scene->light->rgb,rt->scene->light->bright_ratio)),diff_deg);
 
     double spec = pow(vec3_dot(view_vec, vec3_reflect(vec3_mul(light_vec, -1), normal)), rt->scene->light->factor->shininess) * rt->scene->light->bright_ratio * rt->scene->light->factor->ks;
     
