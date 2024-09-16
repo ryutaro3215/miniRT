@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/09/15 17:36:13 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/16 12:05:26 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,15 @@ t_rgb color_mul_scalar(t_rgb a, double b)
     a.b *= b;
     return check_color_is_valid(a);
 }
+t_rgb   color_init(int r, int g, int b)
+{
+    t_rgb   color;
+
+    color.r = r;
+    color.g = g;
+    color.b = b;
+    return (color);
+}
 
 // TODO　centerを使わないやり方にリファクタする
 int phong_calc(t_rt *rt, t_vec3 dir_vec, t_object *nearest_obj)
@@ -73,21 +82,26 @@ int phong_calc(t_rt *rt, t_vec3 dir_vec, t_object *nearest_obj)
         normal = *nearest_obj->normal_vec;
     t_vec3 light_vec = vec3_norm(vec3_sub(*rt->scene->light->light_point,intersection));
     t_vec3 view_vec = vec3_norm(vec3_sub(intersection, *rt->scene->camera->view_point));
-    
-    double amb = rt->scene->ambi_light->ratio * rt->scene->light->factor->ka;
+    amb =  color_mul(rt->scene->light->factor->kd ,color_mul_scalar(*rt->scene->light->rgb,rt->scene->light->bright_ratio));
+    // double amb = rt->scene->ambi_light->ratio * rt->scene->light->factor->ka;
     double diff_deg = vec3_dot(normal, light_vec);
     if(diff_deg < 0)
         diff_deg = 0;
-    double diff = color_mul_scalar(color_mul(rt->scene->light->factor->kd,color_mul_scalar(*rt->scene->light->rgb,rt->scene->light->bright_ratio)),diff_deg);
 
-    double spec = pow(vec3_dot(view_vec, vec3_reflect(vec3_mul(light_vec, -1), normal)), rt->scene->light->factor->shininess) * rt->scene->light->bright_ratio * rt->scene->light->factor->ks;
+    diff = color_mul_scalar(color_mul(rt->scene->light->factor->kd,color_mul_scalar(*rt->scene->light->rgb,rt->scene->light->bright_ratio)),diff_deg);
+
+    t_vec3 v = vec3_mul(dir_vec, -1);
+    t_vec3 r = vec3_sub(vec3_mul(vec3_mul(normal, vec3_dot(normal, light_vec)), 2), light_vec);
+	spec = color_mul_scalar(color_mul( rt->scene->light->factor->ks, color_mul_scalar(*rt->scene->light->rgb,rt->scene->light->bright_ratio)), pow(vec3_dot(v, r), rt->scene->light->factor->shininess));
+
+    // double spec = pow(vec3_dot(view_vec, vec3_reflect(vec3_mul(light_vec, -1), normal)), rt->scene->light->factor->shininess) * rt->scene->light->bright_ratio * rt->scene->light->factor->ks;
     
     if(vec3_dot(view_vec, vec3_reflect(vec3_mul(light_vec, -1), normal)) < 0)
-        spec = 0;
+        spec = color_init(0,0,0);
     if(is_shadow(rt->scene, nearest_obj, dir_vec))
     {
-        diff = 0;
-        spec = 0;
+        diff = color_init(0,0,0);
+        spec = color_init(0,0,0);
     }
     return color_calc(nearest_obj, amb + diff + spec);
 }
