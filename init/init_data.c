@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:28:27 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/09/15 16:53:30 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/18 23:28:09 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ bool	check_light_param(char **splited_line)
 		flag = false;
 	return (flag);
 }
-t_rgb   color_init(int r, int g, int b)
+t_rgb   color_init(double r, double g, double b)
 {
     t_rgb   color;
 
@@ -121,7 +121,7 @@ bool	get_light(char **splited_line, t_scene *scene)
 	light->bright_ratio = ft_atof(splited_line[2]);
     light->factor->ka = color_init(1,1,1);
     light->factor->kd = color_init(0.8,0.8,0.8);
-    light->factor->ks = color_init(0.8,0.8,0.8);
+    light->factor->ks = color_init(0.3,0.3,0.3);
     light->factor->shininess = 10;
 	scene->light = light;
 	return (true);
