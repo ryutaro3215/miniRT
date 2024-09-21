@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:23:25 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 18:19:42 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/09/21 11:16:30 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void	set_rgb(char *str, t_rgb *rgb)
 	char	**str_rgb;
 
 	str_rgb = ft_split(str, ',');
-	rgb->r = get_color(str_rgb[0]);
-	rgb->g = get_color(str_rgb[1]);
+	rgb->r = get_color(str_rgb[0])<<16;
+	rgb->g = get_color(str_rgb[1])<<8;
 	rgb->b = get_color(str_rgb[2]);
 }
 

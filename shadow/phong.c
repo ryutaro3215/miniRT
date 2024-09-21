@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/09/18 23:33:01 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/21 11:57:22 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,32 @@
 
 t_rgb check_color_is_valid(t_rgb a)
 {
-    printf("a.r:%u,a.g:%u,a.b:%u\n",a.r,a.g,a.b);
-    if(a.r > 1)
-        a.r = 1;
-    if(a.r < 0)
-        a.r = 0;
-    if(a.g > 1)
-        a.g = 1;
-    if(a.g < 0)
-        a.g = 0;
-    if(a.b > 1)
-        a.b = 1;
-    if(a.b < 0)
-        a.b = 0;
+    // printf("a.r:%u,a.g:%u,a.b:%u\n",a.r,a.g,a.b);
+    if(a.r > 1.0)
+        a.r = 1.0;
+    if(a.r < 0.0)
+        a.r = 0.0;
+    if(a.g > 1.0)
+        a.g = 1.0;
+    if(a.g < 0.0)
+        a.g = 0.0;
+    if(a.b > 1.0)
+        a.b = 1.0;
+    if(a.b < 0.0)
+        a.b = 0.0;
     return a;
 }
-int color_calc(t_object *nearest_obj, double brightness)
-{
-    // int color_r = (int)(fmin(nearest_obj->rgb->r * brightness , 1.0) * 255);
-    // int color_g = (int)(fmin(nearest_obj->rgb->g * brightness , 1.0) * 255);
-    // int color_b = (int)(fmin(nearest_obj->rgb->b * brightness , 1.0) * 255);
-    if(brightness < 0)
-        brightness = 0;
-    int color = (nearest_obj->rgb->r << 16) | (nearest_obj->rgb->b  << 8) | nearest_obj->rgb->b ;
+// int color_calc(t_object *nearest_obj, double brightness)
+// {
+//     // int color_r = (int)(fmin(nearest_obj->rgb->r * brightness , 1.0) * 255);
+//     // int color_g = (int)(fmin(nearest_obj->rgb->g * brightness , 1.0) * 255);
+//     // int color_b = (int)(fmin(nearest_obj->rgb->b * brightness , 1.0) * 255);
+//     if(brightness < 0)
+//         brightness = 0;
+//     int color = (nearest_obj->rgb->r << 16) | (nearest_obj->rgb->b  << 8) | nearest_obj->rgb->b ;
     
-    return color;
-}
+//     return color;
+// }
 t_rgb   color_init2(double r, double g, double b)
 {
     t_rgb   color;
@@ -76,7 +76,7 @@ t_rgb color_add(t_rgb a, t_rgb b)
 t_rgb nearest_objs_color(t_object *nearest_obj)
 {
     t_rgb color;    
-    int colorhex = (nearest_obj->rgb->r << 16) | (nearest_obj->rgb->b  << 8) | nearest_obj->rgb->b ;
+    int colorhex = nearest_obj->rgb->r | nearest_obj->rgb->b | nearest_obj->rgb->b ;
     double red = (double)(colorhex >> 16 & 0xff) / 255;
 	double green = (double)(colorhex >> 8 & 0xff) / 255;
 	double blue = (double)(colorhex & 0xff) / 255;

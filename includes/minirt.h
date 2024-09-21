@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 23:43:13 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/09/15 16:42:37 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/21 12:05:31 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ typedef struct	s_vec3
 
 typedef struct	s_rgb
 {
-	unsigned int	r;
-	unsigned int	g;
-	unsigned int	b;
+	double	r;
+	double	g;
+	double	b;
+    uint32_t color;
 }			t_rgb;
 
 typedef struct	s_ambi_light
