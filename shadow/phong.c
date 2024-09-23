@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/09/21 11:57:22 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/23 20:06:11 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,13 @@ t_rgb color_add(t_rgb a, t_rgb b)
 t_rgb nearest_objs_color(t_object *nearest_obj)
 {
     t_rgb color;    
-    int colorhex = nearest_obj->rgb->r | nearest_obj->rgb->b | nearest_obj->rgb->b ;
-    double red = (double)(colorhex >> 16 & 0xff) / 255;
-	double green = (double)(colorhex >> 8 & 0xff) / 255;
-	double blue = (double)(colorhex & 0xff) / 255;
+    // int colorhex = nearest_obj->rgb->r | nearest_obj->rgb->b | nearest_obj->rgb->b ;
+    // double red = (double)(colorhex >> 16 & 0xff) / 255;
+	// double green = (double)(colorhex >> 8 & 0xff) / 255;
+	// double blue = (double)(colorhex & 0xff) / 255;
+    double red = nearest_obj->rgb->r/255;
+    double green = nearest_obj->rgb->g/255;
+    double blue = nearest_obj->rgb->b/255;
     color = check_color_is_valid(color_init2(red,green,blue));
     
     return color;
@@ -134,9 +137,9 @@ int phong_calc(t_rt *rt, t_vec3 dir_vec, t_object *nearest_obj)
     
     if(vec3_dot(v,r) < 0)
         spec = color_init2(0.0,0.0,0.0);
-    // printf("amb.r:%u,amb.g:%u,amb.b:%u\n",amb.r,amb.g,amb.b);
-    // printf("diff.r:%u,diff.g:%u,diff.b:%u\n",diff.r,diff.g,diff.b);
-    // printf("spec.r:%u,spec.g:%u,spec.b:%u\n",spec.r,spec.g,spec.b);
+    printf("amb.r:%f,amb.g:%f,amb.b:%f\n",amb.r,amb.g,amb.b);
+    printf("diff.r:%f,diff.g:%f,diff.b:%f\n",diff.r,diff.g,diff.b);
+    printf("spec.r:%f,spec.g:%f,spec.b:%f\n",spec.r,spec.g,spec.b);
     if(is_shadow(rt->scene, nearest_obj, dir_vec))
     {
         diff = color_init2(0.0,0.0,0.0);
