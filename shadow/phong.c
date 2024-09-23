@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/09/23 20:06:11 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/23 22:40:51 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,26 +80,48 @@ t_rgb nearest_objs_color(t_object *nearest_obj)
     // double red = (double)(colorhex >> 16 & 0xff) / 255;
 	// double green = (double)(colorhex >> 8 & 0xff) / 255;
 	// double blue = (double)(colorhex & 0xff) / 255;
-    double red = nearest_obj->rgb->r/255;
-    double green = nearest_obj->rgb->g/255;
-    double blue = nearest_obj->rgb->b/255;
+    double red = nearest_obj->rgb->r/255.0;
+    double green = nearest_obj->rgb->g/255.0;
+    double blue = nearest_obj->rgb->b/255.0;
+    // double red = nearest_obj->rgb->r;
+    // double green = nearest_obj->rgb->g;
+    // double blue = nearest_obj->rgb->b;
     color = check_color_is_valid(color_init2(red,green,blue));
     
     return color;
 }
-
+t_rgb get_light_color(t_rt *rt)
+{
+    t_rgb color;
+    double red = rt->scene->light->rgb->r/255.0;
+    double green = rt->scene->light->rgb->g/255.0;
+    double blue = rt->scene->light->rgb->b/255.0;
+    color = check_color_is_valid(color_init2(red,green,blue));
+    return color;
+}
+t_rgb get_ambi_light_color(t_rt *rt)
+{
+    t_rgb color;
+    double red = rt->scene->ambi_light->rgb->r/255.0;
+    double green = rt->scene->ambi_light->rgb->g/255.0;
+    double blue = rt->scene->ambi_light->rgb->b/255.0;
+    color = check_color_is_valid(color_init2(red,green,blue));
+    return color;
+}
 uint32_t color_ans(int r,int g , int b){
     	uint32_t	color;
 
-	color = 0;
-	color |= b;
-	color |= g << 8;
-	color |= r << 16;
+	// color = 0;
+	// color |= b;
+	// color |= g << 8;
+	// color |= r << 16;
+    color = (r << 16) | (g  << 8) | b ;
 	return (color);
 }
 
 uint32_t color2hex(t_rgb color)
 {
+    // return (color_ans(color.r,color.g,color.b));
     return (color_ans(color.r*255,color.g*255,color.b*255));
 }
 // TODO　centerを使わないやり方にリファクタする
@@ -123,16 +145,19 @@ int phong_calc(t_rt *rt, t_vec3 dir_vec, t_object *nearest_obj)
     // t_vec3 view_vec = vec3_norm(vec3_sub(intersection, *rt->scene->camera->view_point));
     t_rgb obj_color;
     obj_color = nearest_objs_color(nearest_obj);
-    amb =  color_mul(obj_color ,color_mul_scalar(*rt->scene->light->rgb,rt->scene->light->bright_ratio));
+    t_rgb light_color;
+    light_color = get_light_color(rt);
+    amb =  color_mul(obj_color ,color_mul_scalar(get_ambi_light_color(rt),rt->scene->ambi_light->ratio));
     // double amb = rt->scene->ambi_light->ratio * rt->scene->light->factor->ka;
     double diff_deg = vec3_dot(normal, light_vec);
     if(diff_deg < 0)
         diff_deg = 0;
-    diff = color_mul_scalar(color_mul(obj_color,color_mul_scalar(*rt->scene->light->rgb,rt->scene->light->bright_ratio)),diff_deg);
+    diff = color_mul_scalar(color_mul(obj_color,color_mul_scalar(light_color,rt->scene->light->bright_ratio)),diff_deg);
 
     t_vec3 v = vec3_mul(dir_vec, -1);
     t_vec3 r = vec3_sub(vec3_mul(vec3_mul(normal, vec3_dot(normal, light_vec)), 2), light_vec);
-	spec = color_mul_scalar(color_mul( rt->scene->light->factor->ks, color_mul_scalar(*rt->scene->light->rgb,rt->scene->light->bright_ratio)), pow(vec3_dot(v, r), rt->scene->light->factor->shininess));
+	spec = color_mul_scalar(color_mul( rt->scene->light->factor->ks, color_mul_scalar(light_color,rt->scene->light->bright_ratio)), pow(vec3_dot(v, r), rt->scene->light->factor->shininess));
+	// spec = color_mul_scalar(color_mul( rt->scene->light->factor->ks, rt->scene->light->bright_ratio), pow(vec3_dot(v, r), rt->scene->light->factor->shininess));
     // double spec = pow(vec3_dot(view_vec, vec3_reflect(vec3_mul(light_vec, -1), normal)), rt->scene->light->factor->shininess) * rt->scene->light->bright_ratio * rt->scene->light->factor->ks;
     
     if(vec3_dot(v,r) < 0)
