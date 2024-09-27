@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:23:25 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/09/22 23:46:48 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/27 11:50:43 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	set_rgb(char *str, t_rgb *rgb)
 	str_rgb = ft_split(str, ',');
 	rgb->r = get_color(str_rgb[0]);
 	rgb->g = get_color(str_rgb[1]);
-    printf("hello\n");
 	rgb->b = get_color(str_rgb[2]);
 }
 

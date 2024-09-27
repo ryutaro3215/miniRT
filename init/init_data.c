@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:28:27 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/09/23 21:56:59 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/24 23:08:50 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ bool	get_light(char **splited_line, t_scene *scene)
 	scene->light = light;
 	return (true);
 }
+
 
 t_object	*init_object()
 {

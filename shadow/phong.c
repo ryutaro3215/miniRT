@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/09/23 22:40:51 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/27 11:51:26 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,6 @@ t_rgb check_color_is_valid(t_rgb a)
         a.b = 0.0;
     return a;
 }
-// int color_calc(t_object *nearest_obj, double brightness)
-// {
-//     // int color_r = (int)(fmin(nearest_obj->rgb->r * brightness , 1.0) * 255);
-//     // int color_g = (int)(fmin(nearest_obj->rgb->g * brightness , 1.0) * 255);
-//     // int color_b = (int)(fmin(nearest_obj->rgb->b * brightness , 1.0) * 255);
-//     if(brightness < 0)
-//         brightness = 0;
-//     int color = (nearest_obj->rgb->r << 16) | (nearest_obj->rgb->b  << 8) | nearest_obj->rgb->b ;
-    
-//     return color;
-// }
 t_rgb   color_init2(double r, double g, double b)
 {
     t_rgb   color;
@@ -111,11 +100,11 @@ t_rgb get_ambi_light_color(t_rt *rt)
 uint32_t color_ans(int r,int g , int b){
     	uint32_t	color;
 
-	// color = 0;
-	// color |= b;
-	// color |= g << 8;
-	// color |= r << 16;
-    color = (r << 16) | (g  << 8) | b ;
+	color = 0;
+	color |= b;
+	color |= g << 8;
+	color |= r << 16;
+    // color = (r << 16) | (g  << 8) | b ;
 	return (color);
 }
 
@@ -143,8 +132,12 @@ int phong_calc(t_rt *rt, t_vec3 dir_vec, t_object *nearest_obj)
         normal = *nearest_obj->normal_vec;
     t_vec3 light_vec = vec3_norm(vec3_sub(*rt->scene->light->light_point,intersection));
     // t_vec3 view_vec = vec3_norm(vec3_sub(intersection, *rt->scene->camera->view_point));
+    // if(nearest_obj->type == SPHERE)
+        // printf("nearest_obj->r : %f, nearest")
     t_rgb obj_color;
     obj_color = nearest_objs_color(nearest_obj);
+    // printf("obj_color.r:%f,obj_color.g:%f,obj_color.b:%f\n",obj_color.r,obj_color.g,obj_color.b);
+        // printf("nearest_obj->type:%d\n",nearest_obj->type);
     t_rgb light_color;
     light_color = get_light_color(rt);
     amb =  color_mul(obj_color ,color_mul_scalar(get_ambi_light_color(rt),rt->scene->ambi_light->ratio));
@@ -162,9 +155,9 @@ int phong_calc(t_rt *rt, t_vec3 dir_vec, t_object *nearest_obj)
     
     if(vec3_dot(v,r) < 0)
         spec = color_init2(0.0,0.0,0.0);
-    printf("amb.r:%f,amb.g:%f,amb.b:%f\n",amb.r,amb.g,amb.b);
-    printf("diff.r:%f,diff.g:%f,diff.b:%f\n",diff.r,diff.g,diff.b);
-    printf("spec.r:%f,spec.g:%f,spec.b:%f\n",spec.r,spec.g,spec.b);
+    // printf("amb.r:%f,amb.g:%f,amb.b:%f\n",amb.r,amb.g,amb.b);
+    // printf("diff.r:%f,diff.g:%f,diff.b:%f\n",diff.r,diff.g,diff.b);
+    // printf("spec.r:%f,spec.g:%f,spec.b:%f\n",spec.r,spec.g,spec.b);
     if(is_shadow(rt->scene, nearest_obj, dir_vec))
     {
         diff = color_init2(0.0,0.0,0.0);
