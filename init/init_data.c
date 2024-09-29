@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:28:27 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/09/24 23:08:50 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/29 16:43:24 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ bool	get_light(char **splited_line, t_scene *scene)
 	set_vec3(splited_line[1], light->light_point);
 	set_rgb(splited_line[3], light->rgb);
 	light->bright_ratio = ft_atof(splited_line[2]);
-    light->factor->ka = color_init(1,1,1);
+    light->factor->ka = color_init(0.6,0.6,0.6);
     light->factor->kd = color_init(0.8,0.8,0.8);
     light->factor->ks = color_init(0.9,0.9,0.9);
     light->factor->shininess = 10;
