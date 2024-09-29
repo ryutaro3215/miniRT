@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/09/29 09:22:40 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/29 16:39:30 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,32 +69,41 @@ t_rgb nearest_objs_color(t_object *nearest_obj)
     // double red = (double)(colorhex >> 16 & 0xff) / 255;
 	// double green = (double)(colorhex >> 8 & 0xff) / 255;
 	// double blue = (double)(colorhex & 0xff) / 255;
-    double red = nearest_obj->rgb->r/255.0;
-    double green = nearest_obj->rgb->g/255.0;
-    double blue = nearest_obj->rgb->b/255.0;
-    // double red = nearest_obj->rgb->r;
-    // double green = nearest_obj->rgb->g;
-    // double blue = nearest_obj->rgb->b;
-    color = check_color_is_valid(color_init2(red,green,blue));
+    // double red = nearest_obj->rgb->r/255.0;
+    // double green = nearest_obj->rgb->g/255.0;
+    // double blue = nearest_obj->rgb->b/255.0;
+    double red = nearest_obj->rgb->r;
+    double green = nearest_obj->rgb->g;
+    double blue = nearest_obj->rgb->b;
+    color = color_init2(red,green,blue);
+    // color = check_color_is_valid(color_init2(red,green,blue));
     
     return color;
 }
 t_rgb get_light_color(t_rt *rt)
 {
     t_rgb color;
-    double red = rt->scene->light->rgb->r/255.0;
-    double green = rt->scene->light->rgb->g/255.0;
-    double blue = rt->scene->light->rgb->b/255.0;
-    color = check_color_is_valid(color_init2(red,green,blue));
+    // double red = rt->scene->light->rgb->r/255.0;
+    // double green = rt->scene->light->rgb->g/255.0;
+    // double blue = rt->scene->light->rgb->b/255.0;
+    double red = rt->scene->light->rgb->r;
+    double green = rt->scene->light->rgb->g;
+    double blue = rt->scene->light->rgb->b;
+    color = color_init2(red,green,blue);
+    // color = check_color_is_valid(color_init2(red,green,blue));
     return color;
 }
 t_rgb get_ambi_light_color(t_rt *rt)
 {
     t_rgb color;
-    double red = rt->scene->ambi_light->rgb->r/255.0;
-    double green = rt->scene->ambi_light->rgb->g/255.0;
-    double blue = rt->scene->ambi_light->rgb->b/255.0;
-    color = check_color_is_valid(color_init2(red,green,blue));
+    // double red = rt->scene->ambi_light->rgb->r/255.0;
+    // double green = rt->scene->ambi_light->rgb->g/255.0;
+    // double blue = rt->scene->ambi_light->rgb->b/255.0;
+    double red = rt->scene->ambi_light->rgb->r;
+    double green = rt->scene->ambi_light->rgb->g;
+    double blue = rt->scene->ambi_light->rgb->b;
+    color = color_init2(red,green,blue);
+    // color = check_color_is_valid(color_init2(red,green,blue));
     return color;
 }
 uint32_t color_ans(int r,int g , int b){
@@ -110,15 +119,15 @@ uint32_t color_ans(int r,int g , int b){
 
 uint32_t color2hex(t_rgb color)
 {
+    printf("color.r:%f,color.g:%f,color.b:%f\n",color.r*255,color.g*255,color.b*255);
     // return (color_ans(color.r,color.g,color.b));
-    // printf("color.r:%f,color.g:%f,color.b:%f\n",color.r*255,color.g*255,color.b*255);
     return (color_ans(color.r*255,color.g*255,color.b*255));
 }
-// TODO　centerを使わないやり方にリファクタする
 int phong_calc(t_rt *rt, t_vec3 dir_vec, t_object *nearest_obj)
 {
 	// t_vec3  dsc = vec3_mul(*rt->scene->camera->nr_vec, (double)rt->width / (2 * tan((float)rt->scene->camera->view_degree / 2)));
     // t_vec3 dir_vec = vec3_norm(vec3_add(screen_vec, dsc));
+    //TODO intersection計算があっているか見直す
     t_vec3 intersection = vec3_add(*rt->scene->camera->view_point, vec3_mul(dir_vec, calc_distance(nearest_obj, dir_vec, rt->scene->camera->view_point)));
     t_vec3 normal;
     t_rgb diff;
@@ -149,9 +158,9 @@ int phong_calc(t_rt *rt, t_vec3 dir_vec, t_object *nearest_obj)
         diff_deg = 0;
     diff = color_mul_scalar(color_mul(obj_color,color_mul_scalar(light_color,rt->scene->light->bright_ratio)),diff_deg);
     // t_rgb test = color_mul(obj_color,color_mul_scalar(light_color,rt->scene->light->bright_ratio));
-    t_rgb test2 = color_mul_scalar(light_color,rt->scene->light->bright_ratio);
+    // t_rgb test2 = color_mul_scalar(light_color,rt->scene->light->bright_ratio);
     // printf("test.r:%f,test.g:%f,test.b:%f\n",test.r,test.g,test.b);
-    printf("test2.r:%f,test2.g:%f,test2.b:%f\n",test2.r,test2.g,test2.b);
+    // printf("test2.r:%f,test2.g:%f,test2.b:%f\n",test2.r,test2.g,test2.b);
     // printf("diff.r:%f,diff.g:%f,diff.b:%f\n",diff.r,diff.g,diff.b);
     // printf("obj_color.r:%f,obj_color.g:%f,obj_color.b:%f\n",obj_color.r,obj_color.g,obj_color.b);
 
