@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/09/27 11:51:26 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/29 09:22:40 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ t_rgb get_ambi_light_color(t_rt *rt)
 }
 uint32_t color_ans(int r,int g , int b){
     	uint32_t	color;
-
+    // printf("r:%d,g:%d,b:%d\n",r,g,b);
 	color = 0;
 	color |= b;
 	color |= g << 8;
@@ -111,6 +111,7 @@ uint32_t color_ans(int r,int g , int b){
 uint32_t color2hex(t_rgb color)
 {
     // return (color_ans(color.r,color.g,color.b));
+    // printf("color.r:%f,color.g:%f,color.b:%f\n",color.r*255,color.g*255,color.b*255);
     return (color_ans(color.r*255,color.g*255,color.b*255));
 }
 // TODO　centerを使わないやり方にリファクタする
@@ -136,16 +137,23 @@ int phong_calc(t_rt *rt, t_vec3 dir_vec, t_object *nearest_obj)
         // printf("nearest_obj->r : %f, nearest")
     t_rgb obj_color;
     obj_color = nearest_objs_color(nearest_obj);
-    // printf("obj_color.r:%f,obj_color.g:%f,obj_color.b:%f\n",obj_color.r,obj_color.g,obj_color.b);
         // printf("nearest_obj->type:%d\n",nearest_obj->type);
     t_rgb light_color;
     light_color = get_light_color(rt);
+    // printf("light_color.r:%f,light_color.g:%f,light_color.b:%f\n",light_color.r,light_color.g,light_color.b);
     amb =  color_mul(obj_color ,color_mul_scalar(get_ambi_light_color(rt),rt->scene->ambi_light->ratio));
     // double amb = rt->scene->ambi_light->ratio * rt->scene->light->factor->ka;
     double diff_deg = vec3_dot(normal, light_vec);
+    // printf("diff_deg:%f\n",diff_deg);
     if(diff_deg < 0)
         diff_deg = 0;
     diff = color_mul_scalar(color_mul(obj_color,color_mul_scalar(light_color,rt->scene->light->bright_ratio)),diff_deg);
+    // t_rgb test = color_mul(obj_color,color_mul_scalar(light_color,rt->scene->light->bright_ratio));
+    t_rgb test2 = color_mul_scalar(light_color,rt->scene->light->bright_ratio);
+    // printf("test.r:%f,test.g:%f,test.b:%f\n",test.r,test.g,test.b);
+    printf("test2.r:%f,test2.g:%f,test2.b:%f\n",test2.r,test2.g,test2.b);
+    // printf("diff.r:%f,diff.g:%f,diff.b:%f\n",diff.r,diff.g,diff.b);
+    // printf("obj_color.r:%f,obj_color.g:%f,obj_color.b:%f\n",obj_color.r,obj_color.g,obj_color.b);
 
     t_vec3 v = vec3_mul(dir_vec, -1);
     t_vec3 r = vec3_sub(vec3_mul(vec3_mul(normal, vec3_dot(normal, light_vec)), 2), light_vec);
@@ -163,5 +171,9 @@ int phong_calc(t_rt *rt, t_vec3 dir_vec, t_object *nearest_obj)
         diff = color_init2(0.0,0.0,0.0);
         spec = color_init2(0.0,0.0,0.0);
     }
+    // t_rgb amb_color = color_add(spec,diff);
+    // t_rgb color = color_add(amb,color_add(diff,spec));
+    // printf("color.r:%f,color.g:%f,color.b:%f\n",color.r,color.g,color.b);
+    // printf("amb_color.r:%f,amb_color.g:%f,amb_color.b:%f\n",amb_color.r,amb_color.g,amb_color.b);
     return color2hex(color_add(amb,color_add(diff,spec)));
 }
