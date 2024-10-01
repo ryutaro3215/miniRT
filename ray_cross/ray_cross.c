@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/09/29 20:11:36 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/29 20:58:04 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,10 @@ void	draw_sphere(t_rt *rt, double x, double y, t_object *nearest_obj)
     if (d >= 0)
         my_mlx_pixel_put(rt, x, y, phong_calc(rt, dir,nearest_obj));
     else
+    {
+        printf("d:%f\n",d);
         my_mlx_pixel_put(rt, x, y, 0x000000);
+    }
 }
 
 double	cross_ray_plane(t_object *object, t_vec3 dir, t_rt *rt)

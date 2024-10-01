@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/09/29 16:39:30 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/30 21:51:24 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,9 @@ int phong_calc(t_rt *rt, t_vec3 dir_vec, t_object *nearest_obj)
 	// t_vec3  dsc = vec3_mul(*rt->scene->camera->nr_vec, (double)rt->width / (2 * tan((float)rt->scene->camera->view_degree / 2)));
     // t_vec3 dir_vec = vec3_norm(vec3_add(screen_vec, dsc));
     //TODO intersection計算があっているか見直す
-    t_vec3 intersection = vec3_add(*rt->scene->camera->view_point, vec3_mul(dir_vec, calc_distance(nearest_obj, dir_vec, rt->scene->camera->view_point)));
+    // t_vec3 intersection = vec3_add(*rt->scene->camera->view_point, vec3_mul(dir_vec, calc_distance(nearest_obj, dir_vec, rt->scene->camera->view_point)));
+     double t = calc_distance(nearest_obj, dir_vec, rt->scene->camera->view_point);
+    t_vec3 intersection = vec3_add(*rt->scene->camera->view_point, vec3_mul(dir_vec, t));
     t_vec3 normal;
     t_rgb diff;
     t_rgb spec;
