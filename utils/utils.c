@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:16:29 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/09/01 00:05:51 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/23 20:05:51 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ void	print_scene(t_scene *scene)
 	{
 	printf("ambilight\n");
 	printf("ratio: %f\n", scene->ambi_light->ratio);
-	printf("rgb: %d %d %d\n", scene->ambi_light->rgb->r, 
+	printf("rgb: %f %f %f\n", scene->ambi_light->rgb->r, 
 			scene->ambi_light->rgb->g, scene->ambi_light->rgb->b);
 	printf("-----------------------------\n");
 	}
@@ -197,7 +197,7 @@ void	print_scene(t_scene *scene)
 		printf("light_point: %f %f %f\n", scene->light->light_point->x,
 				scene->light->light_point->y, scene->light->light_point->z);
 		printf("bright_ratio: %f\n", scene->light->bright_ratio);
-		printf("rgb: %d %d %d\n", scene->light->rgb->r, scene->light->rgb->g,
+		printf("rgb: %f %f %f\n", scene->light->rgb->r, scene->light->rgb->g,
 				scene->light->rgb->b);
 		printf("-----------------------------\n");
 	}
@@ -210,14 +210,14 @@ void	print_scene(t_scene *scene)
 			printf("sphere\n");
 			printf("center: %f %f %f\n", scene->object->center->x, scene->object->center->y, scene->object->center->z);
 			printf("diameter: %f\n", scene->object->diameter);
-			printf("rgb: %d %d %d\n", scene->object->rgb->r, scene->object->rgb->g, scene->object->rgb->b);
+			printf("rgb: %f %f %f\n", scene->object->rgb->r, scene->object->rgb->g, scene->object->rgb->b);
 		}
 		if (scene->object->type == PLANE)
 		{
 			printf("plane\n");
 			printf("p_in_the_plane: %f %f %f\n", scene->object->p_in_the_plane->x, scene->object->p_in_the_plane->y, scene->object->p_in_the_plane->z);
 			printf("normal_vec: %f %f %f\n", scene->object->normal_vec->x, scene->object->normal_vec->y, scene->object->normal_vec->z);
-			printf("rgb: %d %d %d\n", scene->object->rgb->r, scene->object->rgb->g, scene->object->rgb->b);
+			printf("rgb: %f %f %f\n", scene->object->rgb->r, scene->object->rgb->g, scene->object->rgb->b);
 		}
 		if (scene->object->type == CYLINDER)
 		{
@@ -226,7 +226,7 @@ void	print_scene(t_scene *scene)
 			printf("axic_vec: %f %f %f\n", scene->object->axic_vec->x, scene->object->axic_vec->y, scene->object->axic_vec->z);
 			printf("diameter: %f\n", scene->object->diameter);
 			printf("height: %f\n", scene->object->height);
-			printf("rgb: %d %d %d\n", scene->object->rgb->r, scene->object->rgb->g, scene->object->rgb->b);
+			printf("rgb: %f %f %f\n", scene->object->rgb->r, scene->object->rgb->g, scene->object->rgb->b);
 		}
 		scene->object = scene->object->next;
 	}

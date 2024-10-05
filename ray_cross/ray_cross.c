@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/09/14 17:36:45 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/10/02 21:54:51 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ void	draw_sphere(t_rt *rt, double x, double y, t_object *nearest_obj)
 	double	d;
         double d1 = rt->width / 2 / tan((rt->scene->camera->view_degree / 2)/(180 * 3.14159265358979323846));
     t_vec3 cam_center = vec3_mul(*rt->scene->camera->nr_vec, d1);
-    
     	t_vec3 esx;
 	esx.x = cam_center.z / sqrt(cam_center.z * cam_center.z + cam_center.x * cam_center.x);
 	esx.y = 0;
@@ -131,7 +130,10 @@ void	draw_sphere(t_rt *rt, double x, double y, t_object *nearest_obj)
     if (d >= 0)
         my_mlx_pixel_put(rt, x, y, phong_calc(rt, dir,nearest_obj));
     else
+    {
+        printf("d:%f\n",d);
         my_mlx_pixel_put(rt, x, y, 0x000000);
+    }
 }
 
 double	cross_ray_plane(t_object *object, t_vec3 dir, t_rt *rt)

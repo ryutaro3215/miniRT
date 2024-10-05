@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:18:31 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 16:14:42 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/09/16 20:48:06 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,4 @@ bool	get_light(char **splited_line,t_scene *scene);
 bool	get_sphere(char **splited_line,t_scene *scene);
 bool	get_plane(char **splited_line,t_scene *scene);
 bool	get_cylinder(char **splited_line,t_scene *scene);
-
 #endif

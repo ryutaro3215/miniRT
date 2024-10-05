@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 23:43:13 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/31 18:10:32 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/09/23 20:04:58 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ typedef struct	s_vec3
 
 typedef struct	s_rgb
 {
-	unsigned int	r;
-	unsigned int	g;
-	unsigned int	b;
+	double	r;
+	double	g;
+	double	b;
 }			t_rgb;
 
 typedef struct	s_ambi_light
@@ -49,9 +49,9 @@ typedef struct	s_camera
 }			t_camera;
 
 typedef struct s_factor{
-    double	ka;
-    double	kd;
-    double	ks;
+    t_rgb	ka;
+    t_rgb	kd;
+    t_rgb	ks;
     int		shininess;
 }	t_factor;
 

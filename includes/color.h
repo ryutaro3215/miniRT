@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 11:16:35 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/10 16:41:36 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/09/21 12:56:31 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 bool		check_color_range(char *rgb);
 bool			check_color(int	color);
-unsigned int	get_color(char *str);
+double	get_color(char *str);
 void			set_rgb(char *str, t_rgb *rgb);
 unsigned int	int_to_hex_color(t_rgb *rgb);
 
