@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/02 21:54:51 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/10/05 15:23:23 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ double	cross_ray_plane(t_object *object, t_vec3 dir, t_rt *rt)
 	molecule = vec3_dot(cam2pl, *object->normal_vec);
 	return (molecule / denominator);
 }
+
 bool judge_denominator(t_vec3 dir,t_camera *camera,t_object *object)
 {
 	double	denominator;
@@ -167,7 +168,7 @@ void	draw_plane(t_rt *rt, double x,double y, t_object *nearest_obj)
     double d = rt->width / 2 / tan((rt->scene->camera->view_degree / 2)/(180 * 3.14159265358979323846));
     t_vec3 cam_center = vec3_mul(*rt->scene->camera->nr_vec, d);
     
-    	t_vec3 esx;  
+    	t_vec3 esx;
 	esx.x = cam_center.z / sqrt(cam_center.z * cam_center.z + cam_center.x * cam_center.x);
 	esx.y = 0;
 	esx.z = -cam_center.x / sqrt(cam_center.z * cam_center.z + cam_center.x * cam_center.x);

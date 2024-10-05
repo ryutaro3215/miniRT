@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:16:29 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/09/23 20:05:51 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/10/05 23:18:37 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,83 +69,6 @@ bool	is_point_num(char *str)
 			return (false);
 	}
 	return (true);
-}
-
-
-void	free_ambi_light(t_ambi_light *ambi_light)
-{
-	free(ambi_light->rgb);
-	free(ambi_light);
-}
-
-void	free_camera(t_camera *camera)
-{
-	free(camera->view_point);
-	free(camera->nr_vec);
-	free(camera);
-}
-
-void	free_light(t_light *light)
-{
-	free(light->light_point);
-	free(light->rgb);
-    free(light->factor);
-	free(light);
-}
-
-void	free_sphere(t_object *sphere)
-{
-	free(sphere->center);
-	free(sphere->rgb);
-	free(sphere);
-}
-
-void	free_plane(t_object *plane)
-{
-	free(plane->p_in_the_plane);
-	free(plane->normal_vec);
-	free(plane->rgb);
-	free(plane);
-}
-
-void	free_cylinder(t_object *cylinder)
-{
-	free(cylinder->center);
-	free(cylinder->axic_vec);
-	free(cylinder->rgb);
-	free(cylinder);
-}
-
-void	free_object(t_object *object)
-{
-	t_object	*tmp;
-
-	while (object != NULL)
-	{
-		tmp = object->next;
-		if (object->type == SPHERE)
-			free_sphere(object);
-		else if (object->type == PLANE)
-			free_plane(object);
-		else if (object->type == CYLINDER)
-			free_cylinder(object);
-		else
-			;
-		object = tmp;
-	}
-}
-
-void	free_scene(t_scene *scene)
-{
-	if (scene->ambi_light != NULL)
-		free_ambi_light(scene->ambi_light);
-	if (scene->camera != NULL)
-		free_camera(scene->camera);
-	if (scene->light != NULL)
-		free_light(scene->light);
-	if (scene->object != NULL)
-		free_object(scene->object);
-	free(scene);
 }
 
 size_t	ft_2d_array_len(char **array)

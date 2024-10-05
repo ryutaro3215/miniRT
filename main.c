@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 00:30:07 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/08/13 17:34:22 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/10/05 23:16:20 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "includes/utils.h"
 # include "includes/hook.h"
 # include "includes/ray_cross.h"
+# include "includes/utils.h"
 
 void	my_mlx_pixel_put(t_rt *rt, int x, int y, int color)
 {
@@ -24,6 +25,7 @@ void	my_mlx_pixel_put(t_rt *rt, int x, int y, int color)
 	dst = rt->addr + (y * rt->line_len + x * (rt->bpp / 8));
 	*(unsigned int *)dst = color;
 }
+
 
 int	main(int argc, char **argv)
 {
@@ -46,13 +48,11 @@ int	main(int argc, char **argv)
 	else
 		print_scene(rt->scene);
     rt->scene->object = head;
-	/* draw_plane(rt); */ 
-	 draw_object(rt); 
-	//  draw_cylinder(rt); 
-	/* draw_sphere(rt); */ 
-	 mlx_put_image_to_window(rt->mlx, rt->mlx_win, rt->img, 0, 0); 
-	 hook_event(rt); 
-	 mlx_loop(rt->mlx); 
+	draw_object(rt); 
+	mlx_put_image_to_window(rt->mlx, rt->mlx_win, rt->img, 0, 0); 
+	hook_event(rt); 
+	mlx_loop(rt->mlx); 
 	system("leaks minirt"); 
+	free_env(rt);
 	return (0);
 }
