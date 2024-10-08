@@ -6,7 +6,7 @@
 /*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 23:25:54 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/05 23:25:56 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/09 01:22:05 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,22 +50,14 @@ void	free_object(t_object *object)
 			free_plane(object);
 		else if (object->type == CYLINDER)
 			free_cylinder(object);
-		else
-			;
 		object = tmp;
 	}
 }
 
 void	free_scene(t_scene *scene)
 {
-	int	i;
-	t_object *tmp;
-
-	i = 0;
 	free_ambi(scene->ambi_light);
 	free_camera(scene->camera);
 	free_light(scene->light);
 	free_object(scene->object);
 }
-
-
