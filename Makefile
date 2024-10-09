@@ -3,7 +3,7 @@ CFLAG = -Wall -Wextra -Werror -fsanitize=address
 DEBUG_CFLAG = -Wall -Wextra -Werror -fsanitize=address -g
 NAME = minirt 
 DEBUG_NAME = minirt_debug
-SRC = main.c check_file.c color.c hook.c init_data.c utils.c vec_culc.c phong.c ray_cross.c seach_nearest_obj.c is_shadow.c
+SRC = main.c check_file.c color.c hook.c init_data.c utils.c vec_culc.c phong.c ray_cross.c seach_nearest_obj.c is_shadow.c color_utils.c calc_color.c
 OBJDIR = objs
 DEBUG_OBJDIR = debug_objs
 OBJ = $(SRC:%.c=$(OBJDIR)/%.o)
