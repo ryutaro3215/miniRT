@@ -6,12 +6,12 @@
 /*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 22:34:57 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/07/24 10:29:00 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/09 17:06:57 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../includes/check_file.h"
-# include "../includes/minirt.h"
+#include "../includes/check_file.h"
+#include "../includes/minirt.h"
 
 bool	check_extension(char *file_name, char *extension)
 {
