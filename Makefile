@@ -3,7 +3,9 @@ CFLAG = -Wall -Wextra -Werror -fsanitize=address
 DEBUG_CFLAG = -Wall -Wextra -Werror -fsanitize=address -g
 NAME = minirt 
 DEBUG_NAME = minirt_debug
-SRC = main.c check_file.c color.c hook.c init_data.c utils.c vec_culc.c phong.c ray_cross.c search_nearest_obj.c is_shadow.c sphere.c plane.c cylinder.c cylinder_utils.c free_env.c free_scene.c
+SRC = main.c check_file.c color.c hook.c init_data.c utils.c vec_culc.c phong.c ray_cross.c search_nearest_obj.c is_shadow.c \
+	sphere.c plane.c cylinder.c cylinder_utils.c free_env.c free_scene.c init_camera.c init_cylinder.c init_light.c init_plane.c \
+		init_scene.c init_sphere.c vec_culc2.c vec_culc3.c
 OBJDIR = objs
 DEBUG_OBJDIR = debug_objs
 OBJ = $(SRC:%.c=$(OBJDIR)/%.o)

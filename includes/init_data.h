@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:18:31 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/09/16 20:48:06 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/10/09 17:55:46 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,22 @@
 # include "../libft/includes/libft.h"
 # include "../includes/minirt.h"
 
-
-
-int	count_2d_array(char **array);
-t_rt	*make_data_structure();
-t_scene	*parse_file(char *file_name, t_scene *scene);
-t_scene	*init_scene();
-t_object	*init_object();
-bool	get_env(char *line, t_scene *scene);
-bool	get_object(char **splited_line, t_scene *scene);
+char		**get_splited_line(char *line);
+char		*trim_newline(char *line);
+int			count_2d_array(char **array);
+t_rt		*make_data_structure(void);
+t_scene		*parse_file(char *file_name, t_scene *scene);
+t_scene		*init_scene(void);
+t_object	*init_object(void);
+bool		get_env(char *line, t_scene *scene);
+bool		get_object(char **splited_line, t_scene *scene);
 t_object	*get_last_object(t_object *object);
-bool	check_ambi_param(char **splited_line);
-bool	get_ambi_light(char **splited_line,t_scene *scene);
-bool	get_camera(char **splited_line,t_scene *scene);
-bool	get_light(char **splited_line,t_scene *scene);
-bool	get_sphere(char **splited_line,t_scene *scene);
-bool	get_plane(char **splited_line,t_scene *scene);
-bool	get_cylinder(char **splited_line,t_scene *scene);
+bool		check_ambi_param(char **splited_line);
+bool		get_ambi_light(char **splited_line, t_scene *scene);
+bool		get_camera(char **splited_line, t_scene *scene);
+bool		get_light(char **splited_line, t_scene *scene);
+bool		get_sphere(char **splited_line, t_scene *scene);
+bool		get_plane(char **splited_line, t_scene *scene);
+bool		get_cylinder(char **splited_line, t_scene *scene);
+
 #endif
