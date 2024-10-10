@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 00:30:07 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/10 18:04:40 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/10 19:36:08 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ int	main(int argc, char **argv)
 	rt->scene = scene;
 	if (rt->scene == NULL)
 		return (printf("Error\n"), 1);
-	/* else */
-		/* print_scene(rt->scene); */
 	head = rt->scene->object;
 	rt->scene->object = head;
 	draw_object(rt);
