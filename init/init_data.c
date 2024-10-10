@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:28:27 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/10 17:47:41 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/10 18:10:41 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ t_scene	*parse_file(char *file_name, t_scene *scene)
 		}
 		free(line);
 	}
-	if (scene->camera == NULL && scene->object == NULL
-		&& scene->ambi_light == NULL && scene->light == NULL)
+	if (scene->camera == NULL || scene->object == NULL
+		|| scene->ambi_light == NULL || scene->light == NULL)
 		return (NULL);
 	return (scene);
 }

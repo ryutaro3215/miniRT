@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 00:30:07 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/10 17:48:09 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/10 18:04:40 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	my_mlx_pixel_put(t_rt *rt, int x, int y, int color)
 
 int	main(int argc, char **argv)
 {
-	t_rt	*rt;
-	t_scene	*scene;
-	t_object *head;
+	t_rt		*rt;
+	t_scene		*scene;
+	t_object	*head;
 
 	if (argc != 2 || !check_file(argv[1]))
 	{
@@ -38,20 +38,18 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	rt = make_data_structure();
-	scene = init_scene();
-	scene = parse_file(argv[1], scene);
+	scene = parse_file(argv[1], init_scene());
 	rt->scene = scene;
-	head = rt->scene->object;
 	if (rt->scene == NULL)
-		printf("Error\n"); 
-	else
-		print_scene(rt->scene);
+		return (printf("Error\n"), 1);
+	/* else */
+		/* print_scene(rt->scene); */
+	head = rt->scene->object;
 	rt->scene->object = head;
-	draw_object(rt); 
-	mlx_put_image_to_window(rt->mlx, rt->mlx_win, rt->img, 0, 0); 
-	hook_event(rt); 
-	mlx_loop(rt->mlx); 
-	system("leaks minirt"); 
+	draw_object(rt);
+	mlx_put_image_to_window(rt->mlx, rt->mlx_win, rt->img, 0, 0);
+	hook_event(rt);
+	mlx_loop(rt->mlx);
 	free_env(rt);
 	return (0);
 }
