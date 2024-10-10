@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:28:27 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/09 17:50:44 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/10 17:47:41 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ t_rt	*make_data_structure(void)
 	t_rt	*rt;
 
 	rt = (t_rt *)malloc(sizeof(t_rt));
-	rt->width = 1000;
-	rt->height = 1000;
+	rt->width = 2000;
+	rt->height = 2000;
 	rt->mlx = mlx_init();
 	rt->mlx_win = mlx_new_window(rt->mlx, rt->width, rt->height, "miniRT");
 	rt->img = mlx_new_image(rt->mlx, rt->width, rt->height);

@@ -6,17 +6,17 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 00:30:07 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/05 23:16:20 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/10 17:48:09 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "includes/minirt.h"
-# include "includes/init_data.h"
-# include "includes/check_file.h"
-# include "includes/utils.h"
-# include "includes/hook.h"
-# include "includes/ray_cross.h"
-# include "includes/utils.h"
+#include "includes/minirt.h"
+#include "includes/init_data.h"
+#include "includes/check_file.h"
+#include "includes/utils.h"
+#include "includes/hook.h"
+#include "includes/ray_cross.h"
+#include "includes/utils.h"
 
 void	my_mlx_pixel_put(t_rt *rt, int x, int y, int color)
 {
@@ -26,11 +26,11 @@ void	my_mlx_pixel_put(t_rt *rt, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-
 int	main(int argc, char **argv)
 {
 	t_rt	*rt;
 	t_scene	*scene;
+	t_object *head;
 
 	if (argc != 2 || !check_file(argv[1]))
 	{
@@ -41,13 +41,12 @@ int	main(int argc, char **argv)
 	scene = init_scene();
 	scene = parse_file(argv[1], scene);
 	rt->scene = scene;
-    t_object *head;
-    head = rt->scene->object;
+	head = rt->scene->object;
 	if (rt->scene == NULL)
 		printf("Error\n"); 
 	else
 		print_scene(rt->scene);
-    rt->scene->object = head;
+	rt->scene->object = head;
 	draw_object(rt); 
 	mlx_put_image_to_window(rt->mlx, rt->mlx_win, rt->img, 0, 0); 
 	hook_event(rt); 
