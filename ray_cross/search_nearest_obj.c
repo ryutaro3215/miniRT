@@ -6,7 +6,7 @@
 /*   By: kyoshida <kyoshida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 16:07:03 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/10 18:41:56 by kyoshida         ###   ########.fr       */
+/*   Updated: 2024/10/10 19:53:15 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ t_object	*search_nearest_obj(t_rt *rt, double x, double y)
 	t_vec3		cam_center;
 	t_vec3		dir;
 
-	if(rt->scene->camera->view_degree / 2 == 90.0)
-		return NULL;
+	if (rt->scene->camera->view_degree / 2 == 90.0)
+		return (NULL);
 	d = rt->width / 2 / tan((rt->scene->camera->view_degree / 2)
 			/ (180 * 3.14159265358979323846));
 	cam_center = vec3_mul(*rt->scene->camera->nr_vec, d);
