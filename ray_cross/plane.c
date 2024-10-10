@@ -6,7 +6,7 @@
 /*   By: kyoshida <kyoshida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 23:52:24 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/10 19:47:42 by kyoshida         ###   ########.fr       */
+/*   Updated: 2024/10/10 19:51:39 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,9 @@ void	draw_plane(t_rt *rt, double x, double y, t_object *nearest_obj)
 	double	distance;
 	t_vec3	cam_center;
 	t_vec3	dir;
-	if(rt->scene->camera->view_degree / 2 == 90.0)
-		return;
+
+	if (rt->scene->camera->view_degree / 2 == 90.0)
+		return ;
 	distance = rt->width / 2 / (tan(rt->scene->camera->view_degree / 2)
 			/ (180 * 3.14159265358979323846));
 	cam_center = vec3_mul(*rt->scene->camera->nr_vec, distance);
