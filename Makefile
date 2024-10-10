@@ -16,6 +16,7 @@ MLX_DIR = minilibx-linux
 MLX = mlx
 INCLUDE = -I $(LIBFT_DIR) -I $(MLX_DIR) -I includes -I /usr/X11R6/include
 LIBRARY = -L$(LIBFT_DIR) -l$(LIBFT) -L$(MLX_DIR) -l$(MLX) -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit
+# LIBRARY = -L$(LIBFT_DIR) -l$(LIBFT) -L$(MLX_DIR) -l$(MLX) -L/usr/lib -lXext -lX11
 
 vpath %.c check_file color hook init utils vec ray_cross shadow
 

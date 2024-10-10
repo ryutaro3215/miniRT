@@ -6,7 +6,7 @@
 /*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 18:40:27 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/07/24 10:30:19 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/10 15:50:26 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <limits.h>
 # include <stdarg.h>
 # include <fcntl.h>
+# include <stdint.h>
 
 typedef struct s_list
 {

@@ -6,12 +6,12 @@
 /*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 23:21:23 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/05 23:24:25 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/10 15:39:11 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../includes/minirt.h"
-# include "../includes/utils.h"
+#include "../includes/minirt.h"
+#include "../includes/utils.h"
 
 void	free_ambi(t_ambi_light *ambi)
 {
@@ -41,4 +41,3 @@ void	free_env(t_rt *rt)
 	free(rt->mlx);
 	free_scene(rt->scene);
 }
-
