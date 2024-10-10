@@ -3,15 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   ray_cross.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
+/*   By: kyoshida <kyoshida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 18:23:33 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/09 01:24:42 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/10 19:31:17 by kyoshida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ray_cross.h"
 #include "../includes/color.h"
+
+void  cam_is_valid(t_rt *rt, t_vec3 *esx, t_vec3 *esy)
+{
+	if(rt->scene->camera->nr_vec->x == 0 &&rt->scene->camera->nr_vec->y!=0 && rt->scene->camera->nr_vec->z == 0)
+	{
+		if(rt->scene->camera->nr_vec->y > 0)
+		{
+			*esx = vec3_init(-1, 0, 0);
+			*esy = vec3_init(0, 0, -1);
+		}
+		else
+		{
+			*esx = vec3_init(1, 0, 0);
+			*esy = vec3_init(0, 0, 1);
+		}
+	}
+}
 
 t_vec3	get_dir(t_rt *rt, double x, double y, t_vec3 cam_center)
 {
@@ -27,6 +44,8 @@ t_vec3	get_dir(t_rt *rt, double x, double y, t_vec3 cam_center)
 	esx.z = -cam_center.x
 		/ sqrt(cam_center.z * cam_center.z + cam_center.x * cam_center.x);
 	esy = vec3_norm(vec3_cross(vec3_mul(cam_center, -1), esx));
+	cam_is_valid(rt, &esx, &esy);
+
 	xx = vec3_mul(esx, x - (rt->width - 1) / 2);
 	yy = vec3_mul(esy, (rt->height - 1) / 2 - y);
 	dir = vec3_norm(vec3_add(cam_center, vec3_add(xx, yy)));
@@ -47,6 +66,7 @@ void	draw_object(t_rt *rt)
 		{
 			nearest_obj = NULL;
 			nearest_obj = search_nearest_obj(rt, x, y);
+
 			if (nearest_obj->type == SPHERE)
 				draw_sphere(rt, x, y, nearest_obj);
 			else if (nearest_obj->type == PLANE)

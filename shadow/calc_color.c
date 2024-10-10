@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calc_color.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
+/*   By: kyoshida <kyoshida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 13:07:11 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/10/10 18:28:10 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/10 19:43:14 by kyoshida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

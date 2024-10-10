@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kyoshida <kyoshida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 23:53:22 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/09 00:42:53 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/10 18:41:47 by kyoshida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	draw_sphere(t_rt *rt, double x, double y, t_object *nearest_obj)
 	t_vec3	cam_center;
 	t_vec3	dir;
 
+	if(rt->scene->camera->view_degree / 2 == 90.0)
+		return;
 	distance = rt->width / 2 / tan((rt->scene->camera->view_degree / 2)
 			/ (180 * 3.14159265358979323846));
 	cam_center = vec3_mul(*rt->scene->camera->nr_vec, distance);
@@ -43,7 +45,7 @@ void	draw_sphere(t_rt *rt, double x, double y, t_object *nearest_obj)
 		my_mlx_pixel_put(rt, x, y, phong_calc(rt, dir, nearest_obj));
 	else
 	{
-		printf("d:%f\n", demoninator);
+		// printf("d:%f\n", demoninator);
 		my_mlx_pixel_put(rt, x, y, 0x000000);
 	}
 }
