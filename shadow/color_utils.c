@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 20:00:10 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/10/08 20:01:48 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/10/10 12:16:51 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,6 @@ t_rgb color_add(t_rgb a, t_rgb b)
 uint32_t color_ans(int r,int g , int b)
 {
     	uint32_t	color;
-    // printf("r:%d,g:%d,b:%d\n",r,g,b);
-	color = 0;
-	color |= b;
-	color |= g << 8;
-	color |= r << 16;
-    // color = (r << 16) | (g  << 8) | b ;
+    color = (r << 16) | (g  << 8) | b ;
 	return (color);
 }

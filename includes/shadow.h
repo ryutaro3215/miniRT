@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 16:42:17 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/10/09 13:08:05 by yoshidakazu      ###   ########.fr       */
+/*   Updated: 2024/10/09 23:34:00 by yoshidakazu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,7 @@ t_rgb check_color_is_valid(t_rgb a);
 t_rgb nearest_objs_color(t_object *nearest_obj);
 t_rgb get_light_color(t_rt *rt);
 t_rgb get_ambi_light_color(t_rt *rt);
+t_rgb calc_diffuse( t_vec3 normal, t_vec3 light_vec, t_rt *rt, t_object *nearest_obj);
+t_rgb calc_specular(t_vec3 normal, t_vec3 light_vec, t_vec3 dir_vec, t_rt *rt);
+t_rgb calc_ambient(t_rt *rt, t_object *nearest_obj);
 #endif
