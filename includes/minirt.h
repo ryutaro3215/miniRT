@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 23:43:13 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/09 00:46:40 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/10 15:49:31 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include <stdbool.h>
+# include <stdint.h>
 # include "../minilibx-linux/mlx.h"
 # include "../libft/includes/libft.h"
 
@@ -65,29 +66,6 @@ typedef struct s_light
 	t_factor	*factor;
 }			t_light;
 
-// typedef struct	s_sphere
-// {
-// 	t_vec3	*center;
-// 	float	diameter;
-// 	t_rgb	*rgb;
-// }		t_sphere;
-
-// typedef struct	s_plane
-// {
-// 	t_vec3	*p_in_the_plane;
-// 	t_vec3	*normal_vec;
-// 	t_rgb	*rgb;
-// }		t_plane;
-
-// typedef struct	s_cylinder
-// {
-// 	t_vec3	*cylinder_center;
-// 	t_vec3	*axic_vec;
-// 	t_rgb	*rgb;
-// 	float	diameter;
-// 	float	height;
-// }		t_cylinder;
-
 enum e_object_type
 {
 	AMBIENT_LIGHT = 1,
@@ -132,13 +110,6 @@ typedef struct s_rt
 	int		height;
 	t_scene	*scene;
 }		t_rt;
-
-// #define AMBIENT_LIGHT 1
-// #define CAMERA 2
-// #define LIGHT 3
-// #define SPHERE 4
-// #define PLANE 5
-// #define CYLINDER 6
 
 // It is definition of culculation of 3D vector.
 t_vec3	vec3_init(double x, double y, double z);

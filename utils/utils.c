@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 18:16:29 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/05 23:18:37 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/10 15:40:00 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 char	*ft_strndup(char *line, size_t n)
 {
-	char	*new_line;
+	char		*new_line;
 	size_t		i;
 
 	i = 0;
@@ -33,7 +33,7 @@ char	*ft_strndup(char *line, size_t n)
 
 bool	is_num(char *str)
 {
-	int	i;
+	int		i;
 	bool	flag;
 
 	i = 0;
@@ -59,7 +59,8 @@ bool	is_point_num(char *str)
 	i = 0;
 	if (ft_strlen(str) == 0)
 		return (false);
-	if ((str[i] == '-' || str[i] == '+') && (str[i + 1] != '.' || str[i + 1] == '\0'))
+	if ((str[i] == '-' || str[i] == '+')
+		&& (str[i + 1] != '.' || str[i + 1] == '\0'))
 		i++;
 	while (str[i] != '\0')
 	{

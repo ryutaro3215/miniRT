@@ -6,7 +6,7 @@
 /*   By: ryutaro320515 <ryutaro320515@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 13:55:08 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/04/29 00:49:18 by ryutaro3205      ###   ########.fr       */
+/*   Updated: 2024/10/10 15:53:38 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 char	*get_next_line(int fd)
 {
-	static char	*keep_string[OPEN_MAX];
+	static char	*keep_string[FOPEN_MAX];
 	char		*result_string;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || fd > OPEN_MAX)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > FOPEN_MAX)
 		return (NULL);
 	keep_string[fd] = gnl_read(fd, keep_string[fd]);
 	if (!keep_string[fd])
