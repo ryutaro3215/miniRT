@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 23:08:27 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/10/10 19:05:37 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:35:46 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ t_rgb	calc_diffuse( t_vec3 normal, t_vec3 light_vec,
 					rt->scene->light->bright_ratio)), diff_deg));
 }
 
-// 鏡面反射の計算
 t_rgb	calc_specular(t_vec3 normal, t_vec3 light_vec, t_vec3 dir_vec, t_rt *rt)
 {
 	t_vec3	v;
@@ -50,7 +49,6 @@ t_rgb	calc_specular(t_vec3 normal, t_vec3 light_vec, t_vec3 dir_vec, t_rt *rt)
 			pow(spec_deg, rt->scene->light->factor->shininess)));
 }
 
-// アンビエント光の計算
 t_rgb	calc_ambient(t_rt *rt, t_object *nearest_obj)
 {
 	t_rgb	obj_color;

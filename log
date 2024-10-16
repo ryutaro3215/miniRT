@@ -1,2 +1,0 @@
-make -C libft > /dev/null
-make -C minilibx-linux > /dev/null
