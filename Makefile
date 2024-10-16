@@ -1,7 +1,7 @@
 CC = cc
 CFLAG = -Wall -Wextra -Werror 
 DEBUG_CFLAG = -Wall -Wextra -Werror -fsanitize=address -g
-NAME = minirt 
+NAME = miniRT 
 DEBUG_NAME = minirt_debug
 SRC = main.c check_file.c color.c hook.c init_data.c utils.c vec_culc.c phong.c ray_cross.c search_nearest_obj.c is_shadow.c \
         sphere.c plane.c cylinder.c cylinder_utils.c free_env.c free_scene.c init_camera.c init_cylinder.c init_light.c init_plane.c \
