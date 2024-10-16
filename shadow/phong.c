@@ -6,7 +6,7 @@
 /*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 23:32:07 by yoshidakazu       #+#    #+#             */
-/*   Updated: 2024/10/10 19:00:35 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:35:36 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ uint32_t	color2hex(t_rgb color)
 {
 	return (color_ans(color.r * 255, color.g * 255, color.b * 255));
 }
-// 拡散反射光の計算
 
-// 法線ベクトルの取得
 t_vec3	get_normal(t_object *nearest_obj, t_vec3 intersection)
 {
 	if (nearest_obj->type == SPHERE)
@@ -45,7 +43,6 @@ t_vec3	get_normal(t_object *nearest_obj, t_vec3 intersection)
 		return (*nearest_obj->normal_vec);
 }
 
-// phong_calc 関数
 int	phong_calc(t_rt *rt, t_vec3 dir_vec, t_object *nearest_obj)
 {
 	t_vec3	intersection;

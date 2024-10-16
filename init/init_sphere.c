@@ -6,7 +6,7 @@
 /*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:40:56 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/09 17:42:08 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:35:18 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ bool	check_sphere_param(char **splited_line)
 		flag = false;
 	if (is_point_num(splited_line[2]) == false || ft_atof(splited_line[2]) <= 0)
 		flag = false;
-	printf("splited_line[3]: %s\n", splited_line[3]);
 	if (check_color_range(splited_line[3]) == false)
 		flag = false;
 	return (flag);
