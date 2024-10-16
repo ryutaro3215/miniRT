@@ -41,7 +41,7 @@ int	main(int argc, char **argv)
 	scene = parse_file(argv[1], init_scene());
 	rt->scene = scene;
 	if (rt->scene == NULL)
-		return (printf("Error\n"), 1);
+		return (free_env(rt), printf("Error\n"), 1);
 	head = rt->scene->object;
 	rt->scene->object = head;
 	draw_object(rt);

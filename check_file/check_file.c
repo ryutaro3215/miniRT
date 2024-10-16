@@ -16,8 +16,10 @@
 bool	check_extension(char *file_name, char *extension)
 {
 	char	*file_extension;
+	int		word_len;
 
-	file_extension = ft_strchr(file_name, '.');
+	word_len = ft_strlen(file_name);
+	file_extension = &file_name[word_len - 3];
 	if (!file_extension || ft_strlen(file_extension) != 3)
 		return (false);
 	if (ft_strncmp(file_extension, extension, 3) == 0)

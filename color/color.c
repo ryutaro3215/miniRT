@@ -59,6 +59,7 @@ void	set_rgb(char *str, t_rgb *rgb)
 	rgb->r = get_color(str_rgb[0]);
 	rgb->g = get_color(str_rgb[1]);
 	rgb->b = get_color(str_rgb[2]);
+	ft_free_2d_array(str_rgb);
 }
 
 unsigned int	int_to_hex_color(t_rgb *rgb)
