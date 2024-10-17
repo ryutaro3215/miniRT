@@ -6,7 +6,7 @@
 /*   By: kyoshida <kyoshida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 23:53:22 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/17 15:21:28 by kyoshida         ###   ########.fr       */
+/*   Updated: 2024/10/17 15:34:57 by kyoshida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ void	draw_sphere(t_rt *rt, double x, double y, t_object *nearest_obj)
 	demoninator = discriminant(rt, dir, nearest_obj);
 	if (demoninator >= 0)
 		my_mlx_pixel_put(rt, x, y, phong_calc(rt, dir, nearest_obj));
-	else
-		my_mlx_pixel_put(rt, x, y, 0x000000);
+
 }
 
 double	calc_sp_distance(t_object *object, t_vec3 dir, t_vec3 *source_point)
