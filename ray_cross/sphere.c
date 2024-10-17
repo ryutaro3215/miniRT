@@ -6,7 +6,7 @@
 /*   By: kyoshida <kyoshida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 23:53:22 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/10 19:53:36 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/17 15:21:28 by kyoshida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	draw_sphere(t_rt *rt, double x, double y, t_object *nearest_obj)
 	if (rt->scene->camera->view_degree / 2 == 90.0)
 		return ;
 	distance = rt->width / 2 / tan((rt->scene->camera->view_degree / 2)
-			/ (180 * 3.14159265358979323846));
+			/ (180 * M_PI));
 	cam_center = vec3_mul(*rt->scene->camera->nr_vec, distance);
 	dir = get_dir(rt, x, y, cam_center);
 	demoninator = 0;
