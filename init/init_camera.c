@@ -6,7 +6,7 @@
 /*   By: kyoshida <kyoshida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:47:18 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/20 12:14:31 by kyoshida         ###   ########.fr       */
+/*   Updated: 2024/10/20 13:43:23 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ bool	get_camera(char **splited_line, t_scene *scene)
 	t_camera	*camera;
 
 	if (check_camera_param(splited_line) == false)
+		return (false);
+	if (scene->camera != NULL)
 		return (false);
 	camera = (t_camera *)malloc(sizeof(t_camera));
 	if (camera == NULL)
