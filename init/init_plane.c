@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_plane.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kyoshida <kyoshida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:42:34 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/09 17:43:14 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/20 12:15:54 by kyoshida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,14 @@ bool	get_plane(char **splited_line, t_scene *scene)
 	if (check_plane_param(splited_line) == false)
 		return (false);
 	plane = init_object();
+	if (!plane)
+		return (false);
 	plane->type = PLANE;
 	plane->p_in_the_plane = (t_vec3 *)malloc(sizeof(t_vec3));
 	plane->normal_vec = (t_vec3 *)malloc(sizeof(t_vec3));
 	plane->rgb = (t_rgb *)malloc(sizeof(t_rgb));
+	if (!plane->p_in_the_plane || !plane->normal_vec || !plane->rgb)
+		return (false);
 	set_vec3(splited_line[1], plane->p_in_the_plane);
 	set_vec3(splited_line[2], plane->normal_vec);
 	set_rgb(splited_line[3], plane->rgb);

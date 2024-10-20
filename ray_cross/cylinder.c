@@ -6,7 +6,7 @@
 /*   By: kyoshida <kyoshida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 23:44:34 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/10 19:51:15 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/20 12:17:56 by kyoshida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,12 @@ void	draw_cylinder(t_rt *rt, double x, double y, t_object *nearest_obj)
 	if (rt->scene->camera->view_degree / 2 == 90.0)
 		return ;
 	d1 = rt->width / 2 / tan((rt->scene->camera->view_degree / 2)
-			/ (180 * 3.14159265358979323846));
+			/ (180 * M_PI));
 	cam_center = vec3_mul(*rt->scene->camera->nr_vec, d1);
 	dir = get_dir(rt, x, y, cam_center);
 	is_drawable = discriminant_cylinder(rt, dir, nearest_obj);
 	if (is_drawable == true)
 		my_mlx_pixel_put(rt, x, y, phong_calc(rt, dir, nearest_obj));
-	else
-		my_mlx_pixel_put(rt, x, y, 0x000000);
 }
 
 double	calc_cy_distance(t_object *object, t_vec3 dir, t_vec3 *source_point)
