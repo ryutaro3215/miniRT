@@ -6,7 +6,7 @@
 /*   By: kyoshida <kyoshida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:43:22 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/20 12:26:31 by kyoshida         ###   ########.fr       */
+/*   Updated: 2024/10/20 13:54:28 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ bool	check_cylinder_param(char **splited_line)
 	if (ft_2d_array_len(splited_line) != 6)
 		return (false);
 	if (is_vec3(splited_line[1]) == false)
+		flag = false;
+	if (is_vec3(splited_line[2]) == false)
 		flag = false;
 	if ((is_point_num(splited_line[3]) == false
 			|| ft_atof(splited_line[3]) <= 0)
