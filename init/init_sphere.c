@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_sphere.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kyoshida <kyoshida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:40:56 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/14 17:35:18 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/20 12:01:25 by kyoshida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,13 @@ bool	get_sphere(char **splited_line, t_scene *scene)
 	if (check_sphere_param(splited_line) == false)
 		return (false);
 	sphere = init_object();
+	if(!sphere)
+		return false;
 	sphere->type = SPHERE;
 	sphere->center = (t_vec3 *)malloc(sizeof(t_vec3));
 	sphere->rgb = (t_rgb *)malloc(sizeof(t_rgb));
+	if(!sphere->center || !sphere->rgb)
+		return false;
 	set_vec3(splited_line[1], sphere->center);
 	set_rgb(splited_line[3], sphere->rgb);
 	sphere->diameter = ft_atof(splited_line[2]);

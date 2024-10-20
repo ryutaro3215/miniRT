@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yoshidakazushi <yoshidakazushi@student.    +#+  +:+       +#+        */
+/*   By: kyoshida <kyoshida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 00:30:07 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/14 17:40:38 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/20 11:57:55 by kyoshida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	rt = make_data_structure();
+	if(!rt)
+		return (free_env(rt), printf("Error\n"), 1);
 	scene = parse_file(argv[1], init_scene());
 	rt->scene = scene;
 	if (rt->scene == NULL)

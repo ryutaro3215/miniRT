@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_cylinder.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: kyoshida <kyoshida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:43:22 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/09 17:44:56 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/20 12:04:21 by kyoshida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ bool	get_cylinder(char **splited_line, t_scene *scene)
 	cylinder->diameter = ft_atof(splited_line[3]);
 	cylinder->height = ft_atof(splited_line[4]);
 	cylinder->normal_vec = (t_vec3 *)malloc(sizeof(t_vec3));
+	if( !cylinder->type || !cylinder->axic_vec || !cylinder->rgb || !cylinder->normal_vec)
+		return false;
 	set_vec3(splited_line[1], cylinder->center);
 	set_vec3(splited_line[2], cylinder->axic_vec);
 	set_rgb(splited_line[5], cylinder->rgb);
