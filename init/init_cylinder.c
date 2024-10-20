@@ -6,7 +6,7 @@
 /*   By: kyoshida <kyoshida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:43:22 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/20 12:16:50 by kyoshida         ###   ########.fr       */
+/*   Updated: 2024/10/20 12:26:31 by kyoshida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ bool	get_cylinder(char **splited_line, t_scene *scene)
 	if (check_cylinder_param(splited_line) == false)
 		return (false);
 	cylinder = init_object();
+	if (!cylinder)
+		return (false);
 	cylinder->type = CYLINDER;
 	cylinder->center = (t_vec3 *)malloc(sizeof(t_vec3));
 	cylinder->axic_vec = (t_vec3 *)malloc(sizeof(t_vec3));
