@@ -6,7 +6,7 @@
 /*   By: rmatsuba <rmatsuba@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 23:25:54 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/09 01:22:05 by rmatsuba         ###   ########.fr       */
+/*   Updated: 2024/10/20 13:27:57 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,11 @@ void	free_object(t_object *object)
 
 void	free_scene(t_scene *scene)
 {
+	if (scene == NULL)
+		return ;
 	free_ambi(scene->ambi_light);
 	free_camera(scene->camera);
 	free_light(scene->light);
 	free_object(scene->object);
+	free(scene);
 }
