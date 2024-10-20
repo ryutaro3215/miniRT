@@ -6,7 +6,7 @@
 /*   By: kyoshida <kyoshida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:45:44 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/20 12:02:04 by kyoshida         ###   ########.fr       */
+/*   Updated: 2024/10/20 12:17:24 by kyoshida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ bool	get_ambi_light(char **splited_line, t_scene *scene)
 	if (check_ambi_param(splited_line) == false)
 		return (false);
 	ambi_light = (t_ambi_light *)malloc(sizeof(t_ambi_light));
-	if(!ambi_light)
-		return NULL;
+	if (!ambi_light)
+		return (false);
 	ambi_light->ratio = ft_atof(splited_line[1]);
 	ambi_light->rgb = (t_rgb *)malloc(sizeof(t_rgb));
-	if(!ambi_light->rgb)
-		return NULL;
+	if (!ambi_light->rgb)
+		return (false);
 	set_rgb(splited_line[2], ambi_light->rgb);
 	scene->ambi_light = ambi_light;
 	return (true);
@@ -85,13 +85,13 @@ bool	get_light(char **splited_line, t_scene *scene)
 	if (check_light_param(splited_line) == false)
 		return (false);
 	light = (t_light *)malloc(sizeof(t_light));
-	if(!light)
-		return false;
+	if (!light)
+		return (false);
 	light->light_point = (t_vec3 *)malloc(sizeof(t_vec3));
 	light->rgb = (t_rgb *)malloc(sizeof(t_rgb));
 	light->factor = (t_factor *)malloc(sizeof(t_factor));
-	if(!light->light_point || !light->rgb || !light->factor)
-		return false;
+	if (!light->light_point || !light->rgb || !light->factor)
+		return (false);
 	set_vec3(splited_line[1], light->light_point);
 	set_rgb(splited_line[3], light->rgb);
 	light->bright_ratio = ft_atof(splited_line[2]);

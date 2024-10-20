@@ -6,7 +6,7 @@
 /*   By: kyoshida <kyoshida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:49:26 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/20 11:53:23 by kyoshida         ###   ########.fr       */
+/*   Updated: 2024/10/20 12:17:39 by kyoshida         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ t_object	*init_object(void)
 	t_object	*object;
 
 	object = (t_object *)malloc(sizeof(t_object));
-	if(!object)
-		return NULL;
+	if (!object)
+		return (NULL);
 	object->type = 0;
 	object->center = NULL;
 	object->p_in_the_plane = NULL;
@@ -59,8 +59,8 @@ t_scene	*init_scene(void)
 	t_scene	*scene;
 
 	scene = (t_scene *)malloc(sizeof(t_scene));
-	if(!scene)
-		return NULL;
+	if (!scene)
+		return (NULL);
 	scene->ambi_light = NULL;
 	scene->camera = NULL;
 	scene->light = NULL;
