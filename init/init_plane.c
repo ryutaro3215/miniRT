@@ -6,7 +6,7 @@
 /*   By: kyoshida <kyoshida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:42:34 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/20 12:15:54 by kyoshida         ###   ########.fr       */
+/*   Updated: 2024/10/20 13:55:35 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ bool	check_plane_param(char **splited_line)
 	if (ft_2d_array_len(splited_line) != 4)
 		return (false);
 	if (is_vec3(splited_line[1]) == false)
+		flag = false;
+	if (is_vec3(splited_line[2]) == false)
 		flag = false;
 	if (check_color_range(splited_line[3]) == false)
 		flag = false;
