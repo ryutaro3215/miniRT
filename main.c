@@ -6,7 +6,7 @@
 /*   By: kyoshida <kyoshida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 00:30:07 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/20 12:18:26 by kyoshida         ###   ########.fr       */
+/*   Updated: 2024/10/20 13:29:51 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	my_mlx_pixel_put(t_rt *rt, int x, int y, int color)
 int	main(int argc, char **argv)
 {
 	t_rt		*rt;
-	t_scene		*scene;
 	t_object	*head;
 
 	if (argc != 2 || !check_file(argv[1]))
@@ -39,9 +38,8 @@ int	main(int argc, char **argv)
 	}
 	rt = make_data_structure();
 	if (!rt)
-		return (free_env(rt), printf("rt Error\n"), 1);
-	scene = parse_file(argv[1], init_scene());
-	rt->scene = scene;
+		return (1);
+	rt->scene = parse_file(argv[1], init_scene());
 	if (rt->scene == NULL)
 		return (free_env(rt), printf("Error\n"), 1);
 	head = rt->scene->object;

@@ -6,7 +6,7 @@
 /*   By: kyoshida <kyoshida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:28:27 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/20 12:15:15 by kyoshida         ###   ########.fr       */
+/*   Updated: 2024/10/20 13:41:31 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,14 @@ t_scene	*parse_file(char *file_name, t_scene *scene)
 		else if (get_env(line, scene) == false)
 		{
 			free(line);
+			free_scene(scene);
 			return (NULL);
 		}
 		free(line);
 	}
 	if (scene->camera == NULL || scene->object == NULL
 		|| scene->ambi_light == NULL || scene->light == NULL)
-		return (NULL);
+		return (free_scene(scene), NULL);
 	return (scene);
 }
 

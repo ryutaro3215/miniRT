@@ -6,7 +6,7 @@
 /*   By: kyoshida <kyoshida@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 17:45:44 by rmatsuba          #+#    #+#             */
-/*   Updated: 2024/10/20 12:17:24 by kyoshida         ###   ########.fr       */
+/*   Updated: 2024/10/20 13:44:32 by rmatsuba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ bool	get_ambi_light(char **splited_line, t_scene *scene)
 	t_ambi_light	*ambi_light;
 
 	if (check_ambi_param(splited_line) == false)
+		return (false);
+	if (scene->ambi_light != NULL)
 		return (false);
 	ambi_light = (t_ambi_light *)malloc(sizeof(t_ambi_light));
 	if (!ambi_light)
@@ -83,6 +85,8 @@ bool	get_light(char **splited_line, t_scene *scene)
 	t_light	*light;
 
 	if (check_light_param(splited_line) == false)
+		return (false);
+	if (scene->light != NULL)
 		return (false);
 	light = (t_light *)malloc(sizeof(t_light));
 	if (!light)
